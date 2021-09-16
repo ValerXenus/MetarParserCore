@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31402.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetarParcerCore", "MetarParcerCore.csproj", "{E347CA42-CA6B-4411-86C5-A7711A537375}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E347CA42-CA6B-4411-86C5-A7711A537375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E347CA42-CA6B-4411-86C5-A7711A537375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E347CA42-CA6B-4411-86C5-A7711A537375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E347CA42-CA6B-4411-86C5-A7711A537375}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF4094CE-D38E-41B5-BA17-76149A4FCD42}
+	EndGlobalSection
+EndGlobal
