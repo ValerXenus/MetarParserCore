@@ -1,6 +1,6 @@
-﻿using MetarParcerCore.Enums;
+﻿using MetarParserCore.Enums;
 
-namespace MetarParcerCore.Objects
+namespace MetarParserCore.Objects
 {
     /// <summary>
     /// General METAR data class
@@ -13,7 +13,7 @@ namespace MetarParcerCore.Objects
         public string Airport { get; init; }
 
         /// <summary>
-        /// Date and time by Zulu
+        /// Date and time by Zulu of the observation
         /// </summary>
         public ZuluDateTime ZuluDateTime { get; init; }
 
@@ -23,7 +23,7 @@ namespace MetarParcerCore.Objects
         public MetarModifier Modifier { get; init; }
 
         /// <summary>
-        /// Info about wind
+        /// Info about surface wind
         /// </summary>
         public WindInfo Wind { get; init; }
 
@@ -33,7 +33,7 @@ namespace MetarParcerCore.Objects
         public VisibilityInfo Visibility { get; init; }
 
         /// <summary>
-        /// Info about runway visibility
+        /// Info about runway visibility (RVR)
         /// </summary>
         public RunwayVisibilityInfo RunwayVisibility { get; init; }
 
@@ -43,7 +43,7 @@ namespace MetarParcerCore.Objects
         public SpecialConditions SpecialConditions { get; init; }
 
         /// <summary>
-        /// Info about clouds
+        /// Info about clouds (Cloud layers)
         /// </summary>
         public CloudsInfo Clouds { get; init; }
 
@@ -81,5 +81,10 @@ namespace MetarParcerCore.Objects
         /// Additional remarks (RMK)
         /// </summary>
         public string Remarks { get; init; }
+
+        /// <summary>
+        /// Set of parse errors
+        /// </summary>
+        public string[] ParseErrors { get; init; }
     }
 }

@@ -1,7 +1,7 @@
-﻿namespace MetarParcerCore.Objects
+﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Wind information
+    /// Surface wind information
     /// </summary>
     public class WindInfo
     {

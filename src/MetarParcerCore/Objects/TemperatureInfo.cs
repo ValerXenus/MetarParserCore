@@ -1,4 +1,4 @@
-﻿namespace MetarParcerCore.Objects
+﻿namespace MetarParserCore.Objects
 {
     /// <summary>
     /// Information about air temperature and dew point

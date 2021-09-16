@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace MetarParcerCore.Enums
+namespace MetarParserCore.Enums
 {
     /// <summary>
     /// Types of METAR data

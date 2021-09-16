@@ -1,6 +1,6 @@
-﻿using MetarParcerCore.Enums;
+﻿using MetarParserCore.Enums;
 
-namespace MetarParcerCore.Objects
+namespace MetarParserCore.Objects
 {
     /// <summary>
     /// Date and time of the airport by Zulu
