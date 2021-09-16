@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Horizontal visibility at the surface of the earth
+    /// Surface wind information
     /// </summary>
-    public class VisibilityInfo
+    public class SurfaceWind
     {
 
     }

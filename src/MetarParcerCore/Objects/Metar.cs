@@ -15,7 +15,12 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Date and time by Zulu of the observation
         /// </summary>
-        public ZuluDateTime ZuluDateTime { get; init; }
+        public ObservationDayTime ObservationDayTime { get; init; }
+
+        /// <summary>
+        /// Current month
+        /// </summary>
+        public Month Month { get; init; }
 
         /// <summary>
         /// METAR modifier
@@ -25,12 +30,12 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Info about surface wind
         /// </summary>
-        public WindInfo Wind { get; init; }
+        public SurfaceWind SurfaceWind { get; init; }
 
         /// <summary>
         /// Info about visibility
         /// </summary>
-        public VisibilityInfo Visibility { get; init; }
+        public HorizontalVisibility HorizontalVisibility { get; init; }
 
         /// <summary>
         /// Info about runway visibility (RVR)

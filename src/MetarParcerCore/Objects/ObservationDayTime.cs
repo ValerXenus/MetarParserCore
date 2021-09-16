@@ -5,7 +5,7 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Date and time of the airport by Zulu
     /// </summary>
-    public class ZuluDateTime
+    public class ObservationDayTime
     {
         /// <summary>
         /// Current month
