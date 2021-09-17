@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Info about visibility on the runway (RVR)
+    /// Special weather conditions
     /// </summary>
-    public class RunwayVisibilityInfo
+    public class PresentWeather
     {
 
     }

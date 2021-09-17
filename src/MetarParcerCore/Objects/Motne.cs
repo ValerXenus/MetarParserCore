@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Special weather conditions
+    /// Info about runway conditions
     /// </summary>
-    public class SpecialConditions
+    public class Motne
     {
 
     }

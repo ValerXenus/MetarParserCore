@@ -12,6 +12,7 @@ namespace MetarParserCoreTests
             var metarParser = new MetarParser();
             var airportMetar = metarParser.Parse("UWKD 291400Z 33004MPS 300V360 CAVOK 20/00 Q1019 R29/CLRD70 NOSIG RMK QFE753/1004=");
 
+            // KSME 171053Z AUTO 00000KT 1 3/4SM BR VV007
         }
     }
 }

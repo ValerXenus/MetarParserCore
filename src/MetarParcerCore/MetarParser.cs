@@ -39,7 +39,7 @@ namespace MetarParserCore
                     ParseErrors = new []{ "Raw METAR is not correct" }
                 };
 
-            var tokens = raw.Split(" ");
+            var tokens = raw.ToUpper().Split(" ");
 
 
             throw new NotImplementedException();

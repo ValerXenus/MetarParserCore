@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Additional information
+    /// Recent weather info
     /// </summary>
-    public class AdditionalInformation
+    public class RecentWeather
     {
 
     }

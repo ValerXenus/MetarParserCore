@@ -3,7 +3,7 @@
     /// <summary>
     /// Horizontal visibility at the surface of the earth
     /// </summary>
-    public class HorizontalVisibility
+    public class PrevailingVisibility
     {
 
     }

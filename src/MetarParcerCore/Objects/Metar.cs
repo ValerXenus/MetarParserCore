@@ -35,22 +35,22 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Info about visibility
         /// </summary>
-        public HorizontalVisibility HorizontalVisibility { get; init; }
+        public PrevailingVisibility PrevailingVisibility { get; init; }
 
         /// <summary>
         /// Info about runway visibility (RVR)
         /// </summary>
-        public RunwayVisibilityInfo RunwayVisibility { get; init; }
+        public RunwayVisualRange RunwayVisualRange { get; init; }
 
         /// <summary>
         /// Special weather conditions
         /// </summary>
-        public SpecialConditions SpecialConditions { get; init; }
+        public PresentWeather PresentWeather { get; init; }
 
         /// <summary>
         /// Info about clouds (Cloud layers)
         /// </summary>
-        public CloudsInfo Clouds { get; init; }
+        public CloudLayers CloudLayers { get; init; }
 
         /// <summary>
         /// Identifier of favorable weather
@@ -65,22 +65,27 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Information about air pressure
         /// </summary>
-        public AirPressureInfo AirPressure { get; init; }
+        public AltimeterSetting AltimeterSetting { get; init; }
 
         /// <summary>
-        /// Additional information
+        /// Recent weather info
         /// </summary>
-        public AdditionalInformation AdditionalInformation { get; init; }
+        public RecentWeather RecentWeather { get; init; }
 
         /// <summary>
-        /// Information about changes of weather forecast
+        /// Wind shear info
         /// </summary>
-        public WeatherForecastChanges ForecastChanges { get; init; }
+        public string[] WindShear { get; init; }
 
         /// <summary>
         /// Info about runway conditions
         /// </summary>
-        public RunwayConditions RunwayConditions { get; init; }
+        public Motne Motne { get; init; }
+
+        /// <summary>
+        /// Information about changes of weather forecast
+        /// </summary>
+        public Trend Trend { get; init; }
 
         /// <summary>
         /// Additional remarks (RMK)

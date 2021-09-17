@@ -3,7 +3,7 @@
     /// <summary>
     /// Information about air pressure
     /// </summary>
-    public class AirPressureInfo
+    public class AltimeterSetting
     {
 
     }

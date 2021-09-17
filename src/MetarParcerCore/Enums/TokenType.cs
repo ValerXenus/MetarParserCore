@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// States of reading raw METAR
-    /// Also uses as a parse stages using integer numbers
+    /// NOTE: Also uses as a parse stages using integer numbers
     /// </summary>
     public enum TokenType
     {
@@ -16,11 +16,11 @@
 
         SurfaceWind = 4,
 
-        HorizontalVisibility = 5,
+        PrevailingVisibility = 5,
 
-        RunwayVisibility = 6,
+        RunwayVisualRange = 6,
 
-        SpecialCondition = 7,
+        PresentWeather = 7,
 
         CloudLayers = 8,
 
@@ -28,14 +28,16 @@
 
         Temperature = 10,
 
-        AirPressure = 11,
+        AltimeterSetting = 11,
 
-        AdditionalInformation = 12,
+        RecentWeather = 12,
 
-        ForecastChange = 13,
+        WindShear = 13,
 
-        RunwayCondition = 14,
+        Motne = 14,
 
-        Remarks = 15
+        Trend = 15,
+
+        Remarks = 16
     }
 }

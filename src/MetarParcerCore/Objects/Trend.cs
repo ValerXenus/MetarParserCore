@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Info about runway conditions
+    /// Information about changes of weather forecast (TREND)
     /// </summary>
-    public class RunwayConditions
+    public class Trend
     {
 
     }
