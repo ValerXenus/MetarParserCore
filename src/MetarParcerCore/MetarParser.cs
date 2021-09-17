@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using MetarParserCore.Enums;
 using MetarParserCore.Objects;
+using MetarParserCore.Parsers;
 
 namespace MetarParserCore
 {
@@ -9,20 +11,6 @@ namespace MetarParserCore
     /// </summary>
     public class MetarParser
     {
-        #region Fields
-
-        /// <summary>
-        /// Current parser state
-        /// </summary>
-        private TokenType _tokenType;
-
-        #endregion
-
-        public MetarParser()
-        {
-            _tokenType = TokenType.Airport;
-        }
-
         #region Public methods
 
         /// <summary>
@@ -39,7 +27,7 @@ namespace MetarParserCore
                     ParseErrors = new []{ "Raw METAR is not correct" }
                 };
 
-            var tokens = raw.ToUpper().Split(" ");
+            var unrecognizedTokens = raw.ToUpper().Split(" ");
 
 
             throw new NotImplementedException();
@@ -65,7 +53,6 @@ namespace MetarParserCore
 
         #region Private methods
 
-        
 
         #endregion
     }

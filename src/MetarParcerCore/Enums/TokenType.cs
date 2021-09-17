@@ -24,20 +24,25 @@
 
         CloudLayers = 8,
 
-        Cavok = 9,
+        Temperature = 9,
 
-        Temperature = 10,
+        AltimeterSetting = 10,
 
-        AltimeterSetting = 11,
+        RecentWeather = 11,
 
-        RecentWeather = 12,
+        WindShear = 12,
 
-        WindShear = 13,
+        Motne = 13,
 
-        Motne = 14,
+        Trend = 14,
 
-        Trend = 15,
+        Remarks = 15,
 
-        Remarks = 16
+        Special = 99,
+
+        /// <summary>
+        /// Unrecognized or unexpected token
+        /// </summary>
+        Unexpected = 100
     }
 }

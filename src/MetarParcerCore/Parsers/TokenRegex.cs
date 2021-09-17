@@ -3,7 +3,7 @@
     /// <summary>
     /// Regular expressions for detect token type
     /// </summary>
-    public class TokenRegularExpressions
+    public class TokenRegex
     {
         public static string Airport => @"^[A-Z]{4}$";
 
