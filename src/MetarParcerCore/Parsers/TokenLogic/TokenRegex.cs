@@ -1,9 +1,9 @@
-﻿namespace MetarParserCore.Parsers
+﻿namespace MetarParserCore.Parsers.TokenLogic
 {
     /// <summary>
     /// Regular expressions for detect token type
     /// </summary>
-    public class TokenRegex
+    internal class TokenRegex
     {
         public static string Airport => @"^[A-Z]{4}$";
 

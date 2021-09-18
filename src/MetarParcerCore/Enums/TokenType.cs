@@ -2,11 +2,10 @@
 {
     /// <summary>
     /// States of reading raw METAR
-    /// NOTE: Also uses as a parse stages using integer numbers
     /// </summary>
-    public enum TokenType
+    internal enum TokenType
     {
-        None = 0,
+        Unknown = 0,
 
         Airport = 1,
 
@@ -38,11 +37,6 @@
 
         Remarks = 15,
 
-        Special = 99,
-
-        /// <summary>
-        /// Unrecognized or unexpected token
-        /// </summary>
-        Unexpected = 100
+        Special = 99
     }
 }

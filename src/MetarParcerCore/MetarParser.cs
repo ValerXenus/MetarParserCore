@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using MetarParserCore.Enums;
 using MetarParserCore.Objects;
-using MetarParserCore.Parsers;
+using MetarParserCore.Parsers.TokenLogic;
 
 namespace MetarParserCore
 {
@@ -28,7 +27,8 @@ namespace MetarParserCore
                 };
 
             var unrecognizedTokens = raw.ToUpper().Split(" ");
-
+            var recognizer = new TokenRecognizer();
+            var tokens = recognizer.RecognizeTokens(unrecognizedTokens);
 
             throw new NotImplementedException();
         }

@@ -1,11 +1,11 @@
 ﻿using MetarParserCore.Enums;
 
-namespace MetarParserCore.Parsers
+namespace MetarParserCore.Parsers.TokenLogic
 {
     /// <summary>
     /// Detected token
     /// </summary>
-    public class Token
+    internal class Token
     {
         /// <summary>
         /// Token type
