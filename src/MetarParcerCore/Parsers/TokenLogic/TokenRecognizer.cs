@@ -9,6 +9,20 @@ namespace MetarParserCore.Parsers.TokenLogic
     /// </summary>
     internal class TokenRecognizer
     {
+        #region Fields
+
+        /// <summary>
+        /// Sign if airport has been recognized
+        /// </summary>
+        private bool _isAirportRecognized;
+
+        #endregion
+
+        public TokenRecognizer()
+        {
+            _isAirportRecognized = false;
+        }
+
         #region Public methods
 
         /// <summary>
@@ -37,7 +51,8 @@ namespace MetarParserCore.Parsers.TokenLogic
                 case "METAR":
                 case "SPECI":
                     return new Token(TokenType.Special, rawToken);
-                case { } when Regex.IsMatch(rawToken, TokenRegex.Airport):
+                case { } when Regex.IsMatch(rawToken, TokenRegex.Airport) && !_isAirportRecognized:
+                    _isAirportRecognized = true;
                     return new Token(TokenType.Airport, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.ObservationDayTime):
                     return new Token(TokenType.ObservationDayTime, rawToken);
