@@ -1,4 +1,4 @@
-﻿namespace MetarParserCore.Parsers.TokenLogic
+﻿namespace MetarParserCore.TokenLogic
 {
     /// <summary>
     /// Regular expressions for detect token type

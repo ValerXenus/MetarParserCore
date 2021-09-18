@@ -1,6 +1,6 @@
 ﻿using MetarParserCore.Enums;
 
-namespace MetarParserCore.Parsers.TokenLogic
+namespace MetarParserCore.TokenLogic
 {
     /// <summary>
     /// Detected token

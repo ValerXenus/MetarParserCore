@@ -37,6 +37,6 @@
 
         Remarks = 15,
 
-        Special = 99
+        ReportType = 99
     }
 }

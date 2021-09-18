@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using MetarParserCore.Enums;
 
-namespace MetarParserCore.Parsers.TokenLogic
+namespace MetarParserCore.TokenLogic
 {
     /// <summary>
     /// Class for recognition METAR tokens
@@ -50,7 +50,7 @@ namespace MetarParserCore.Parsers.TokenLogic
             {
                 case "METAR":
                 case "SPECI":
-                    return new Token(TokenType.Special, rawToken);
+                    return new Token(TokenType.ReportType, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.Airport) && !_isAirportRecognized:
                     _isAirportRecognized = true;
                     return new Token(TokenType.Airport, rawToken);
