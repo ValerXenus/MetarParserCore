@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Information about air temperature and dew point
+    /// Info about visibility on the runway (RVR)
     /// </summary>
-    public class TemperatureInfo
+    public class RunwayVisualRange
     {
 
     }

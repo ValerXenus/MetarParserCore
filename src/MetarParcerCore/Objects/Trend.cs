@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Information about air temperature and dew point
+    /// Information about changes of weather forecast (TREND)
     /// </summary>
-    public class TemperatureInfo
+    public class Trend
     {
 
     }

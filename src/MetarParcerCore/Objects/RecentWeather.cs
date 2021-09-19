@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Information about air temperature and dew point
+    /// Recent weather info
     /// </summary>
-    public class TemperatureInfo
+    public class RecentWeather
     {
 
     }

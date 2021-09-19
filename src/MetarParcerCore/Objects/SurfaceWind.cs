@@ -1,9 +1,9 @@
 ﻿namespace MetarParserCore.Objects
 {
     /// <summary>
-    /// Information about air temperature and dew point
+    /// Surface wind information
     /// </summary>
-    public class TemperatureInfo
+    public class SurfaceWind
     {
 
     }

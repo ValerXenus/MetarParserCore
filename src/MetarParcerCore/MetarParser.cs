@@ -1,22 +1,57 @@
 ﻿using System;
-using MetarParcerCore.Enums;
+using System.Linq;
+using MetarParserCore.Enums;
+using MetarParserCore.Objects;
+using MetarParserCore.TokenLogic;
 
-namespace MetarParcerCore
+namespace MetarParserCore
 {
     /// <summary>
-    /// Main class intended for start parse process of raw METAR
+    /// General METAR parser class
     /// </summary>
     public class MetarParser
     {
+        #region Public methods
+
         /// <summary>
         /// Parse method
         /// </summary>
         /// <param name="raw">Raw METAR string</param>
         /// <param name="month">Current month</param>
-        /// <returns>True - if parse successful, False - otherwise</returns>
-        public static bool Parse(string raw, Month month)
+        /// <returns>Parsed Metar object</returns>
+        public Metar Parse(string raw, Month month = Month.None)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(raw))
+                return new Metar
+                {
+                    ParseErrors = new []{ "Raw METAR is not correct" }
+                };
+
+            var unrecognizedTokens = raw.ToUpper().Split(" ");
+            var recognizer = new TokenRecognizer();
+            var tokens = recognizer.RecognizeTokens(unrecognizedTokens);
+            var tokenGrouper = new TokenGrouper();
+            var groupedTokens = tokenGrouper.TransformToGroups(tokens);
+
+            return new Metar(groupedTokens, month);
         }
+
+        /// <summary>
+        /// Multiple parse METARS method
+        /// </summary>
+        /// <param name="raws">Array of raw METAR strings</param>
+        /// <returns>Array of parsed Metar objects</returns>
+        public Metar[] Parse(string[] raws)
+        {
+            var metars = new Metar[raws.Length];
+            for (var i = 0; i < raws.Length; i++)
+            {
+                metars[i] = Parse(raws[i]);
+            }
+
+            return metars;
+        }
+
+        #endregion
     }
 }
