@@ -1,9 +1,12 @@
-﻿using MetarParserCore.Enums;
+﻿using System.Collections.Generic;
+using MetarParserCore.Enums;
+using MetarParserCore.Extensions;
 
 namespace MetarParserCore.Objects
 {
     /// <summary>
     /// General METAR data class
+    /// NOTE: Any property can be null
     /// </summary>
     public class Metar
     {
@@ -53,11 +56,6 @@ namespace MetarParserCore.Objects
         public CloudLayers CloudLayers { get; init; }
 
         /// <summary>
-        /// Identifier of favorable weather
-        /// </summary>
-        public bool IsCavok { get; init; }
-
-        /// <summary>
         /// Information about temperature
         /// </summary>
         public TemperatureInfo Temperature { get; init; }
@@ -96,5 +94,55 @@ namespace MetarParserCore.Objects
         /// Set of parse errors
         /// </summary>
         public string[] ParseErrors { get; init; }
+
+        #region Constructors
+
+        /// <summary>
+        /// Default
+        /// </summary>
+        public Metar() { }
+
+        /// <summary>
+        /// Parser constructor
+        /// </summary>
+        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
+        /// <param name="currentMonth">Current month</param>
+        internal Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth)
+        {
+            if (groupedTokens.Count == 0)
+            {
+                ParseErrors = new[] { "Grouped tokens dictionary is empty" };
+                return;
+            }
+
+            var errors = new List<string>();
+
+            Airport = getAirportIcao(groupedTokens, errors);
+            ObservationDayTime = new ObservationDayTime(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime),
+                errors, currentMonth);
+
+        }
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Get airport ICAO code
+        /// </summary>
+        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
+        /// <param name="errors">List of parse errors</param>
+        /// <returns></returns>
+        private string getAirportIcao(Dictionary<TokenType, string[]> groupedTokens, List<string> errors)
+        {
+            var airportValue = groupedTokens.GetTokenGroupOrDefault(TokenType.Airport);
+            if (airportValue.Length > 0)
+                return airportValue[0];
+
+            errors.Add("Airport ICAO code not found");
+            return null;
+        }
+
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using MetarParserCore.Enums;
 using MetarParserCore.Objects;
 using MetarParserCore.TokenLogic;
@@ -32,7 +33,7 @@ namespace MetarParserCore
             var tokenGrouper = new TokenGrouper();
             var groupedTokens = tokenGrouper.TransformToGroups(tokens);
 
-            throw new NotImplementedException();
+            return new Metar(groupedTokens, month);
         }
 
         /// <summary>
@@ -50,11 +51,6 @@ namespace MetarParserCore
 
             return metars;
         }
-
-        #endregion
-
-        #region Private methods
-
 
         #endregion
     }
