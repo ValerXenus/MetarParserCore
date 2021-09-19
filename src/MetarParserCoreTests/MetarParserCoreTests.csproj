@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MetarParcerCore\MetarParserCore.csproj" />
+    <ProjectReference Include="..\MetarParserCore\MetarParserCore.csproj" />
   </ItemGroup>
 
 </Project>
