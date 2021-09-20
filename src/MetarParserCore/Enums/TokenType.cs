@@ -3,7 +3,7 @@
     /// <summary>
     /// States of reading raw METAR
     /// </summary>
-    internal enum TokenType
+    public enum TokenType
     {
         Unknown = 0,
 

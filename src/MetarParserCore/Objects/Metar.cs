@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 
@@ -107,7 +108,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <param name="currentMonth">Current month</param>
-        internal Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth)
+        public Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth)
         {
             if (groupedTokens.Count == 0)
             {
@@ -118,9 +119,9 @@ namespace MetarParserCore.Objects
             var errors = new List<string>();
 
             Airport = getAirportIcao(groupedTokens, errors);
-            ObservationDayTime = new ObservationDayTime(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime),
-                errors, currentMonth);
-
+            ObservationDayTime = getObservationDayTime(groupedTokens, errors, currentMonth);
+            Modifier = getMetarModifier(groupedTokens);
+            SurfaceWind = getDataObjectOrNull<SurfaceWind>(groupedTokens, errors);
         }
 
         #endregion
@@ -141,6 +142,62 @@ namespace MetarParserCore.Objects
 
             errors.Add("Airport ICAO code not found");
             return null;
+        }
+
+        /// <summary>
+        /// Get metar report modifier
+        /// </summary>
+        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
+        /// <returns></returns>
+        private MetarModifier getMetarModifier(Dictionary<TokenType, string[]> groupedTokens)
+        {
+            var modifierValue = groupedTokens.GetTokenGroupOrDefault(TokenType.Modifier);
+            if (modifierValue.Length == 0)
+                return MetarModifier.None;
+
+            return modifierValue[0].Equals("AUTO")
+                ? MetarModifier.Auto
+                : MetarModifier.Cor;
+        }
+
+        /// <summary>
+        /// Get observation day time data object
+        /// </summary>
+        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
+        /// <param name="errors">List of parse errors</param>
+        /// <param name="currentMonth">Current month</param>
+        /// <returns></returns>
+        private ObservationDayTime getObservationDayTime(Dictionary<TokenType, string[]> groupedTokens,
+            List<string> errors, Month currentMonth)
+        {
+            var previousErrorsCount = errors.Count;
+            var data = new ObservationDayTime(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime),
+                errors, currentMonth);
+
+            if (errors.Count - previousErrorsCount > 1)
+                return null;
+
+            return data;
+        }
+
+        /// <summary>
+        /// Provides parsed data object or null if parse error occur
+        /// </summary>
+        /// <typeparam name="T">For object type</typeparam>
+        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
+        /// <param name="errors">List of parse errors</param>
+        /// <returns></returns>
+        private T getDataObjectOrNull<T>(Dictionary<TokenType, string[]> groupedTokens,
+            List<string> errors) where T : class
+        {
+            var previousErrorsCount = errors.Count;
+            var data = (T)Activator.CreateInstance(typeof(T), groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind),
+                errors);
+
+            if (errors.Count - previousErrorsCount > 1)
+                return null;
+
+            return data;
         }
 
         #endregion

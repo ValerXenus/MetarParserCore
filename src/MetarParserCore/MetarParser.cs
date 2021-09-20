@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using MetarParserCore.Enums;
+﻿using MetarParserCore.Enums;
 using MetarParserCore.Objects;
 using MetarParserCore.TokenLogic;
 
