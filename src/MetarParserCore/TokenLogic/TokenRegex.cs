@@ -19,7 +19,7 @@
 
         public static string PresentWeather => @"^(-|\+|VC)?(BC|BL|DR|FZ|MI|PR|SH|TS)?(DZ|GR|GS|IC|PL|RA|SG|SN|UP|BR|DU|FG|FU|HZ|PY|SA|VA|DS|FC|PO|SQ|SS){1,3}$";
 
-        public static string CloudLayers => @"^((FEW|SCT|BKN|OVC|VV)\d{3}(CB|TCU)?|SKC|NSC|CLR)$";
+        public static string CloudLayer => @"^((FEW|SCT|BKN|OVC|VV)\d{3}(CB|TCU)?|SKC|NSC|CLR)$";
 
         public static string Temperature => @"^M?\d{2}\/M?\d{2}$";
 

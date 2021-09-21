@@ -13,6 +13,11 @@ namespace MetarParserCore.Objects
     public class Metar
     {
         /// <summary>
+        /// METAR report type
+        /// </summary>
+        public ReportType ReportType { get; init; }
+
+        /// <summary>
         /// Airport ICAO code
         /// </summary>
         public string Airport { get; init; }
@@ -119,6 +124,7 @@ namespace MetarParserCore.Objects
 
             var errors = new List<string>();
 
+            ReportType = getMetarReportType(groupedTokens);
             Airport = getAirportIcao(groupedTokens, errors);
             ObservationDayTime =
                 getDataObjectOrNull<ObservationDayTime>(
@@ -132,6 +138,30 @@ namespace MetarParserCore.Objects
         #endregion
 
         #region Private methods
+
+        /// <summary>
+        /// Get METAR report type
+        /// </summary>
+        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
+        /// <returns></returns>
+        private ReportType getMetarReportType(Dictionary<TokenType, string[]> groupedTokens)
+        {
+            var reportType = groupedTokens.GetTokenGroupOrDefault(TokenType.ReportType);
+            if (reportType is null or {Length: 0})
+                return ReportType.NotSpecified;
+
+            switch (reportType[0])
+            {
+                case "METAR":
+                    return ReportType.Metar;
+                case "SPECI":
+                    return ReportType.Speci;
+                case "TAF":
+                    return ReportType.Taf;
+                default:
+                    return ReportType.NotSpecified;
+            }
+        }
 
         /// <summary>
         /// Get airport ICAO code
