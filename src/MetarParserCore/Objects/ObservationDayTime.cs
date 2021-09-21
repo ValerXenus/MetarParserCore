@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MetarParserCore.Enums;
 
 namespace MetarParserCore.Objects
 {
@@ -8,11 +7,6 @@ namespace MetarParserCore.Objects
     /// </summary>
     public class ObservationDayTime
     {
-        /// <summary>
-        /// Current month
-        /// </summary>
-        public Month Month { get; init; }
-
         /// <summary>
         /// Day of the current month
         /// </summary>
@@ -41,7 +35,7 @@ namespace MetarParserCore.Objects
         /// <param name="tokens">Array of tokens</param>
         /// <param name="errors">List of parse errors</param>
         /// <param name="month">Current month</param>
-        public ObservationDayTime(string[] tokens, List<string> errors, Month month)
+        internal ObservationDayTime(string[] tokens, List<string> errors)
         {
             if (tokens.Length == 0)
             {
@@ -49,7 +43,6 @@ namespace MetarParserCore.Objects
                 return;
             }
 
-            Month = month;
             Day = int.Parse(tokens[0].Substring(0, 2));
             Hours = int.Parse(tokens[0].Substring(2, 2));
             Minutes = int.Parse(tokens[0].Substring(4, 2));

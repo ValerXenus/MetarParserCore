@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 
@@ -108,7 +109,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <param name="currentMonth">Current month</param>
-        public Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth)
+        internal Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth)
         {
             if (groupedTokens.Count == 0)
             {
@@ -119,9 +120,13 @@ namespace MetarParserCore.Objects
             var errors = new List<string>();
 
             Airport = getAirportIcao(groupedTokens, errors);
-            ObservationDayTime = getObservationDayTime(groupedTokens, errors, currentMonth);
+            ObservationDayTime =
+                getDataObjectOrNull<ObservationDayTime>(
+                    groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime), errors);
+            Month = currentMonth;
             Modifier = getMetarModifier(groupedTokens);
-            SurfaceWind = getDataObjectOrNull<SurfaceWind>(groupedTokens, errors);
+            SurfaceWind =
+                getDataObjectOrNull<SurfaceWind>(groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind), errors);
         }
 
         #endregion
@@ -161,43 +166,22 @@ namespace MetarParserCore.Objects
         }
 
         /// <summary>
-        /// Get observation day time data object
-        /// </summary>
-        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
-        /// <param name="errors">List of parse errors</param>
-        /// <param name="currentMonth">Current month</param>
-        /// <returns></returns>
-        private ObservationDayTime getObservationDayTime(Dictionary<TokenType, string[]> groupedTokens,
-            List<string> errors, Month currentMonth)
-        {
-            var previousErrorsCount = errors.Count;
-            var data = new ObservationDayTime(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime),
-                errors, currentMonth);
-
-            if (errors.Count - previousErrorsCount > 1)
-                return null;
-
-            return data;
-        }
-
-        /// <summary>
         /// Provides parsed data object or null if parse error occur
         /// </summary>
         /// <typeparam name="T">For object type</typeparam>
-        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
+        /// <param name="groupTokens">Current group of tokens</param>
         /// <param name="errors">List of parse errors</param>
         /// <returns></returns>
-        private T getDataObjectOrNull<T>(Dictionary<TokenType, string[]> groupedTokens,
-            List<string> errors) where T : class
+        private T getDataObjectOrNull<T>(string[] groupTokens, List<string> errors)
+            where T : class
         {
             var previousErrorsCount = errors.Count;
-            var data = (T)Activator.CreateInstance(typeof(T), groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind),
-                errors);
+            var data = (T) Activator.CreateInstance(typeof(T), BindingFlags.NonPublic | BindingFlags.Instance, null,
+                new object[] {groupTokens, errors}, null);
 
-            if (errors.Count - previousErrorsCount > 1)
-                return null;
-
-            return data;
+            return errors.Count - previousErrorsCount > 1 
+                ? null 
+                : data;
         }
 
         #endregion
