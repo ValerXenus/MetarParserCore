@@ -132,7 +132,11 @@ namespace MetarParserCore.Objects
             Month = currentMonth;
             Modifier = getMetarModifier(groupedTokens);
             SurfaceWind =
-                getDataObjectOrNull<SurfaceWind>(groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind), errors);
+                getDataObjectOrNull<SurfaceWind>(
+                    groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind), errors);
+            PrevailingVisibility =
+                getDataObjectOrNull<PrevailingVisibility>(
+                    groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility), errors);
         }
 
         #endregion

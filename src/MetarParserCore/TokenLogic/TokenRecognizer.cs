@@ -72,13 +72,13 @@ namespace MetarParserCore.TokenLogic
                     return new Token(TokenType.Temperature, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.AltimeterSetting):
                     return new Token(TokenType.AltimeterSetting, rawToken);
-                case { } when Regex.IsMatch(rawToken, TokenRegex.Motne):
-                    return new Token(TokenType.Motne, rawToken);
                 case { } when rawToken.StartsWith("RE"):
                     return new Token(TokenType.RecentWeather, rawToken);
                 case "WS":
                 case "DENEB":
                     return new Token(TokenType.WindShear, rawToken);
+                case { } when Regex.IsMatch(rawToken, TokenRegex.Motne):
+                    return new Token(TokenType.Motne, rawToken);
                 case "BECMG":
                 case "TEMPO":
                 case "NOSIG":

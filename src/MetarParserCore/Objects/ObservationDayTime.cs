@@ -34,7 +34,6 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="tokens">Array of tokens</param>
         /// <param name="errors">List of parse errors</param>
-        /// <param name="month">Current month</param>
         internal ObservationDayTime(string[] tokens, List<string> errors)
         {
             if (tokens.Length == 0)
