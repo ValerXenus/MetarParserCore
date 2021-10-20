@@ -35,7 +35,7 @@ namespace MetarParserCore
         }
 
         /// <summary>
-        /// Multiple parse METARS method
+        /// Multiple parse METARs method
         /// </summary>
         /// <param name="raws">Array of raw METAR strings</param>
         /// <returns>Array of parsed Metar objects</returns>

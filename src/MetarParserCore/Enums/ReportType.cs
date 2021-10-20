@@ -9,8 +9,14 @@
 
         Metar = 1,
 
+        /// <summary>
+        /// ToDo: Not supported yet
+        /// </summary>
         Speci = 2,
 
+        /// <summary>
+        /// ToDo: Not supported yet
+        /// </summary>
         Taf = 3
     }
 }

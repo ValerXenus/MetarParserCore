@@ -15,7 +15,7 @@
 
         public static string PrevailingVisibility => @"^(\d{4}(N|S)?(E|W)?|[1-2]{1}|M?(\d{1}\/\d{1,2}|\d{1,2})SM|CAVOK)$";
 
-        public static string RunwayVisualRange => @"^R[0-3]{1}\d{1}(L|C|R|LL|RR)?\/(M|P)?\d{4}(V(M|P)?\d{4})?(FT)?\/?(U|D|N)?$";
+        public static string RunwayVisualRange => @"^R[0-3]{1}\d{1}(L|C|R|LL|RR)?\/(M|P)?\d{4}(V\d{4})?(FT)?(\/(U|D|N)|(U|D|N))?$";
 
         public static string PresentWeather => @"^(-|\+|VC)?(BC|BL|DR|FZ|MI|PR|SH|TS)?(DZ|GR|GS|IC|PL|RA|SG|SN|UP|BR|DU|FG|FU|HZ|PY|SA|VA|DS|FC|PO|SQ|SS){1,3}$";
 

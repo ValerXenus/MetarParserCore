@@ -48,9 +48,9 @@ namespace MetarParserCore.Objects
         public PrevailingVisibility PrevailingVisibility { get; init; }
 
         /// <summary>
-        /// Info about runway visibility (RVR)
+        /// Info about visibility on runways (RVR)
         /// </summary>
-        public RunwayVisualRange RunwayVisualRange { get; init; }
+        public RunwayVisualRange[] RunwayVisualRanges { get; init; }
 
         /// <summary>
         /// Special weather conditions
@@ -184,7 +184,7 @@ namespace MetarParserCore.Objects
         }
 
         /// <summary>
-        /// Get metar report modifier
+        /// Get METAR report modifier
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <returns></returns>
