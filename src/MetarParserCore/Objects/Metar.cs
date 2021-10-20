@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
@@ -137,6 +138,7 @@ namespace MetarParserCore.Objects
             PrevailingVisibility =
                 getDataObjectOrNull<PrevailingVisibility>(
                     groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility), errors);
+            RunwayVisualRanges = getRunwaysVisibilityRange(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange), errors);
         }
 
         #endregion
@@ -197,6 +199,18 @@ namespace MetarParserCore.Objects
             return modifierValue[0].Equals("AUTO")
                 ? MetarModifier.Auto
                 : MetarModifier.Cor;
+        }
+
+        /// <summary>
+        /// Get parsed RVRs
+        /// </summary>
+        /// <param name="rvrTokens">RVR raw tokens</param>
+        /// <param name="errors">Errors list</param>
+        /// <returns></returns>
+        private RunwayVisualRange[] getRunwaysVisibilityRange(string[] rvrTokens, List<string> errors)
+        { 
+            return rvrTokens.Select(token => getDataObjectOrNull<RunwayVisualRange>(new []{ token }, errors))
+                .ToArray();
         }
 
         /// <summary>
