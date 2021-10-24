@@ -56,12 +56,12 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Special weather conditions
         /// </summary>
-        public PresentWeather PresentWeather { get; init; }
+        public PresentWeather[] PresentWeather { get; init; }
 
         /// <summary>
         /// Info about clouds (Cloud layers)
         /// </summary>
-        public CloudLayers CloudLayers { get; init; }
+        public CloudLayer[] CloudLayer { get; init; }
 
         /// <summary>
         /// Information about temperature
@@ -138,7 +138,12 @@ namespace MetarParserCore.Objects
             PrevailingVisibility =
                 getDataObjectOrNull<PrevailingVisibility>(
                     groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility), errors);
-            RunwayVisualRanges = getRunwaysVisibilityRange(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange), errors);
+            RunwayVisualRanges =
+                getParsedDataArray<RunwayVisualRange>(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange),
+                    errors);
+            PresentWeather =
+                getParsedDataArray<PresentWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather),
+                    errors);
         }
 
         #endregion
@@ -146,7 +151,8 @@ namespace MetarParserCore.Objects
         #region Private methods
 
         /// <summary>
-        /// Get METAR report type
+        /// Get report type
+        /// METAR - default
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <returns></returns>
@@ -154,18 +160,16 @@ namespace MetarParserCore.Objects
         {
             var reportType = groupedTokens.GetTokenGroupOrDefault(TokenType.ReportType);
             if (reportType is null or {Length: 0})
-                return ReportType.NotSpecified;
+                return ReportType.Metar;
 
             switch (reportType[0])
             {
-                case "METAR":
-                    return ReportType.Metar;
                 case "SPECI":
                     return ReportType.Speci;
                 case "TAF":
                     return ReportType.Taf;
                 default:
-                    return ReportType.NotSpecified;
+                    return ReportType.Metar;
             }
         }
 
@@ -202,18 +206,6 @@ namespace MetarParserCore.Objects
         }
 
         /// <summary>
-        /// Get parsed RVRs
-        /// </summary>
-        /// <param name="rvrTokens">RVR raw tokens</param>
-        /// <param name="errors">Errors list</param>
-        /// <returns></returns>
-        private RunwayVisualRange[] getRunwaysVisibilityRange(string[] rvrTokens, List<string> errors)
-        { 
-            return rvrTokens.Select(token => getDataObjectOrNull<RunwayVisualRange>(new []{ token }, errors))
-                .ToArray();
-        }
-
-        /// <summary>
         /// Provides parsed data object or null if parse error occur
         /// </summary>
         /// <typeparam name="T">For object type</typeparam>
@@ -230,6 +222,21 @@ namespace MetarParserCore.Objects
             return errors.Count - previousErrorsCount > 1 
                 ? null 
                 : data;
+        }
+
+        /// <summary>
+        /// Get parsed data array from tokens array
+        /// </summary>
+        /// <typeparam name="T">Class name</typeparam>
+        /// <param name="tokens">Array of tokens</param>
+        /// <param name="errors">Errors list</param>
+        /// <returns></returns>
+        private T[] getParsedDataArray<T>(string[] tokens, List<string> errors) 
+            where T : class
+        {
+            return tokens
+                .Select(x => getDataObjectOrNull<T>(new[] { x }, errors))
+                .ToArray();
         }
 
         #endregion
