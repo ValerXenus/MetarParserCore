@@ -111,24 +111,27 @@ namespace MetarParserCore.Enums
         [Description("HZ")]
         Haze = 27,
 
+        [Description("PY")]
+        Spray = 28,
+
         #endregion
 
         #region Other
 
         [Description("PO")]
-        DustWhirls = 28,
+        DustWhirls = 29,
 
         [Description("SQ")]
-        Squalls = 29,
+        Squalls = 30,
 
         [Description("FC")]
-        FunnelCloud = 30,
+        FunnelCloud = 31,
 
         [Description("SS")]
-        SandStorm = 31,
+        SandStorm = 32,
 
         [Description("DS")]
-        DustStorm = 32
+        DustStorm = 33
 
         #endregion
     }

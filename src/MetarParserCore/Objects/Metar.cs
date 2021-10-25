@@ -144,6 +144,10 @@ namespace MetarParserCore.Objects
             PresentWeather =
                 getParsedDataArray<PresentWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather),
                     errors);
+            
+
+            // Parse errors
+            ParseErrors = errors.Count == 0 ? null : errors.ToArray();
         }
 
         #endregion
