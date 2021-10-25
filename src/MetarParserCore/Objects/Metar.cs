@@ -61,7 +61,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Info about clouds (Cloud layers)
         /// </summary>
-        public CloudLayer[] CloudLayer { get; init; }
+        public CloudLayer[] CloudLayers { get; init; }
 
         /// <summary>
         /// Information about temperature
@@ -144,7 +144,9 @@ namespace MetarParserCore.Objects
             PresentWeather =
                 getParsedDataArray<PresentWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather),
                     errors);
-            
+            CloudLayers =
+                getParsedDataArray<CloudLayer>(groupedTokens.GetTokenGroupOrDefault(TokenType.CloudLayer), 
+                    errors);
 
             // Parse errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();

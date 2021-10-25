@@ -67,7 +67,7 @@ namespace MetarParserCore.TokenLogic
                 case { } when Regex.IsMatch(rawToken, TokenRegex.PresentWeather):
                     return new Token(TokenType.PresentWeather, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.CloudLayer):
-                    return new Token(TokenType.CloudLayers, rawToken);
+                    return new Token(TokenType.CloudLayer, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.Temperature):
                     return new Token(TokenType.Temperature, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.AltimeterSetting):

@@ -40,7 +40,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="tokens">Array of tokens</param>
         /// <param name="errors">List of parse errors</param>
-        public CloudLayer(string[] tokens, List<string> errors)
+        internal CloudLayer(string[] tokens, List<string> errors)
         {
             if (tokens.Length == 0)
             {

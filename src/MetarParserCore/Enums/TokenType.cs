@@ -21,7 +21,7 @@
 
         PresentWeather = 7,
 
-        CloudLayers = 8,
+        CloudLayer = 8,
 
         Temperature = 9,
 
