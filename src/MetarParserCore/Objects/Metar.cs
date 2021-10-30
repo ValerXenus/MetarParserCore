@@ -56,7 +56,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Special weather conditions
         /// </summary>
-        public PresentWeather[] PresentWeather { get; init; }
+        public WeatherPhenomena[] PresentWeather { get; init; }
 
         /// <summary>
         /// Info about clouds (Cloud layers)
@@ -76,7 +76,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Recent weather info
         /// </summary>
-        public RecentWeather RecentWeather { get; init; }
+        public WeatherPhenomena RecentWeather { get; init; }
 
         /// <summary>
         /// Wind shear info
@@ -92,6 +92,11 @@ namespace MetarParserCore.Objects
         /// Information about changes of weather forecast
         /// </summary>
         public Trend Trend { get; init; }
+
+        /// <summary>
+        /// Fog dispersal operations are in progress
+        /// </summary>
+        public bool IsDeneb { get; init; }
 
         /// <summary>
         /// Additional remarks (RMK)
@@ -142,7 +147,7 @@ namespace MetarParserCore.Objects
                 getParsedDataArray<RunwayVisualRange>(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange),
                     errors);
             PresentWeather =
-                getParsedDataArray<PresentWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather),
+                getParsedDataArray<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather),
                     errors);
             CloudLayers =
                 getParsedDataArray<CloudLayer>(groupedTokens.GetTokenGroupOrDefault(TokenType.CloudLayer), 
@@ -152,6 +157,9 @@ namespace MetarParserCore.Objects
                     errors);
             AltimeterSetting =
                 getDataObjectOrNull<AltimeterSetting>(groupedTokens.GetTokenGroupOrDefault(TokenType.AltimeterSetting),
+                    errors);
+            RecentWeather =
+                getDataObjectOrNull<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.RecentWeather),
                     errors);
 
             // Parser errors

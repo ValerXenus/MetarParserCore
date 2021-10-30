@@ -8,7 +8,7 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Special weather conditions
     /// </summary>
-    public class PresentWeather
+    public class WeatherPhenomena
     {
         /// <summary>
         /// Ordered array of weather conditions
@@ -18,14 +18,14 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Default
         /// </summary>
-        public PresentWeather() { }
+        public WeatherPhenomena() { }
 
         /// <summary>
         /// Parser constructor
         /// </summary>
         /// <param name="tokens">Weather token</param>
         /// <param name="errors">Parse errors list</param>
-        internal PresentWeather(string[] tokens, List<string> errors)
+        internal WeatherPhenomena(string[] tokens, List<string> errors)
         {
             if (tokens.Length == 0)
             {
@@ -35,6 +35,9 @@ namespace MetarParserCore.Objects
 
             var parsedData = new List<WeatherCondition>();
             var weatherToken = tokens.First();
+
+            if (weatherToken.StartsWith("RE"))
+                weatherToken = weatherToken.Replace("RE", "");
 
             if (weatherToken.StartsWith("-"))
             {

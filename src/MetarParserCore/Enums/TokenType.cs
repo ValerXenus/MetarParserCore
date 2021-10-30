@@ -31,11 +31,13 @@
 
         WindShear = 12,
 
-        Motne = 13,
+        Deneb = 13,
 
-        Trend = 14,
+        Motne = 14,
 
-        Remarks = 15,
+        Trend = 15,
+
+        Remarks = 16,
 
         ReportType = 99
     }
