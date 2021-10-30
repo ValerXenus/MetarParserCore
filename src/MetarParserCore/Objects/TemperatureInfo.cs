@@ -32,11 +32,17 @@ namespace MetarParserCore.Objects
         {
             if (tokens.Length == 0)
             {
-                errors.Add("Array with temperature token");
+                errors.Add("Array with temperature token is empty");
                 return;
             }
 
             var temperatureToken = tokens.First();
+            if (string.IsNullOrEmpty(temperatureToken))
+            {
+                errors.Add("Cannot parse empty temperature token");
+                return;
+            }
+
             var values = temperatureToken.Split('/');
             if (values.Length < 2)
             {

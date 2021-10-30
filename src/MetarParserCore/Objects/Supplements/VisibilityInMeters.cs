@@ -75,7 +75,7 @@ namespace MetarParserCore.Objects.Supplements
                 if (Regex.IsMatch(token, ParseRegex.MetersVisibilityContainsDirections))
                 {
                     var directionString = token.Substring(4, token.Length - 4);
-                    direction = EnumTranslator.GetValueFromDescription<VisibilityDirection>(directionString);
+                    direction = EnumTranslator.GetValueByDescription<VisibilityDirection>(directionString);
                 }
 
                 outcome.Add((int.Parse(token.Substring(0, 4)), direction));

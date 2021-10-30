@@ -3,9 +3,9 @@
 namespace MetarParserCore.Enums
 {
     /// <summary>
-    /// Enum of unit types
+    /// Enum of RVR unit types
     /// </summary>
-    public enum UnitType
+    public enum RvrUnitType
     {
         [Description("None")]
         None = 0,

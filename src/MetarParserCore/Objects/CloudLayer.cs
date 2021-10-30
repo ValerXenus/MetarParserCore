@@ -75,7 +75,7 @@ namespace MetarParserCore.Objects
                 return CloudType.VerticalVisibility;
             }
 
-            var outcome = EnumTranslator.GetValueFromDescription<CloudType>(token[..3]);
+            var outcome = EnumTranslator.GetValueByDescription<CloudType>(token[..3]);
             token = token[3..];
             return outcome;
         }
@@ -116,7 +116,7 @@ namespace MetarParserCore.Objects
         {
             return string.IsNullOrEmpty(token)
                 ? ConvectiveCloudType.None
-                : EnumTranslator.GetValueFromDescription<ConvectiveCloudType>(token);
+                : EnumTranslator.GetValueByDescription<ConvectiveCloudType>(token);
         }
     }
 }

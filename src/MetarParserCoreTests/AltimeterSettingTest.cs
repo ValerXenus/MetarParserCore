@@ -5,25 +5,23 @@ using Xunit;
 
 namespace MetarParserCoreTests
 {
-    public class TemperatureInfoTests
+    public class AltimeterSettingTests
     {
         [Fact]
-        public void TemperatureInfo_Successful()
+        public void AltimeterSetting_Successful()
         {
             var tokens = new[]
             {
-                "M05/M08",
-                "M01/04",
-                "24/M12",
-                "05/08"
+                "A3012",
+                "Q1019"
             };
 
             var errors = new List<string>();
-            var temperatureInfos = tokens.Select(token => new TemperatureInfo(new[] { token }, errors))
+            var altimeterSetting = tokens.Select(token => new AltimeterSetting(new[] { token }, errors))
                 .ToList();
 
             Assert.Equal(errors.Count, 0);
-            Assert.Equal(temperatureInfos.Count, 4);
+            Assert.Equal(altimeterSetting.Count, 2);
         }
     }
 }

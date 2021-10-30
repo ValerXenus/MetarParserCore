@@ -30,7 +30,7 @@ namespace MetarParserCore.Extensions
         /// <typeparam name="T">Enum type</typeparam>
         /// <param name="description">Description text</param>
         /// <returns></returns>
-        public static T GetValueFromDescription<T>(string description) where T : Enum
+        public static T GetValueByDescription<T>(string description) where T : Enum
         {
             foreach (var field in typeof(T).GetFields())
             {

@@ -29,7 +29,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Unit type of the current RVR
         /// </summary>
-        public UnitType UnitType { get; init; }
+        public RvrUnitType UnitType { get; init; }
 
         /// <summary>
         /// Mark of the measurement area
@@ -62,13 +62,13 @@ namespace MetarParserCore.Objects
             var rvrRaw = tokens.First();
 
             UnitType = rvrRaw.Contains("FT")
-                ? UnitType.Feets
-                : UnitType.Meters;
+                ? RvrUnitType.Feets
+                : RvrUnitType.Meters;
 
             var lastLetter = rvrRaw.Substring(rvrRaw.Length - 1);
             if (Regex.IsMatch(lastLetter, @"^(U|D|N)$"))
             {
-                RvrTrend = EnumTranslator.GetValueFromDescription<RvrTrend>(lastLetter);
+                RvrTrend = EnumTranslator.GetValueByDescription<RvrTrend>(lastLetter);
                 rvrRaw = rvrRaw[..^1];
             }
 
@@ -80,7 +80,7 @@ namespace MetarParserCore.Objects
             values = values.Replace("FT", "");
             if (Regex.IsMatch(values[..1], @"^(M|P)$"))
             {
-                MeasurableBound = EnumTranslator.GetValueFromDescription<MeasurableBound>(values[..1]);
+                MeasurableBound = EnumTranslator.GetValueByDescription<MeasurableBound>(values[..1]);
                 values = values[1..];
             }
 

@@ -150,6 +150,9 @@ namespace MetarParserCore.Objects
             Temperature =
                 getDataObjectOrNull<TemperatureInfo>(groupedTokens.GetTokenGroupOrDefault(TokenType.Temperature),
                     errors);
+            AltimeterSetting =
+                getDataObjectOrNull<AltimeterSetting>(groupedTokens.GetTokenGroupOrDefault(TokenType.AltimeterSetting),
+                    errors);
 
             // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();

@@ -54,7 +54,7 @@ namespace MetarParserCore.Objects
                 errors.Add($"Cannot parse weather token: \"{weatherToken}\"");
                 return;
             }
-            parsedData.AddRange(weatherCodes.Select(EnumTranslator.GetValueFromDescription<WeatherCondition>));
+            parsedData.AddRange(weatherCodes.Select(EnumTranslator.GetValueByDescription<WeatherCondition>));
 
             WeatherConditions = parsedData.ToArray();
         }
