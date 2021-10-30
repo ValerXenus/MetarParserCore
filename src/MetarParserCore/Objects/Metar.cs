@@ -147,8 +147,11 @@ namespace MetarParserCore.Objects
             CloudLayers =
                 getParsedDataArray<CloudLayer>(groupedTokens.GetTokenGroupOrDefault(TokenType.CloudLayer), 
                     errors);
+            Temperature =
+                getDataObjectOrNull<TemperatureInfo>(groupedTokens.GetTokenGroupOrDefault(TokenType.Temperature),
+                    errors);
 
-            // Parse errors
+            // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
         }
 
