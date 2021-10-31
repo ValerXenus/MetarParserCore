@@ -25,6 +25,6 @@
 
         public static string AltimeterSetting => @"^(A|Q){1}\d{4}$";
 
-        public static string Motne => @"^((R[0-3]{1}\d{1}\/|\d{2})([0-9\/]{6}|CLRD\d{2})|SNOCLO)$";
+        public static string Motne => @"^((R[0-3]{1}\d{1}\/|\d{2})([0-9\/]{6}|CLRD\d{2})|SNOCLO|R/SNOCLO)$";
     }
 }

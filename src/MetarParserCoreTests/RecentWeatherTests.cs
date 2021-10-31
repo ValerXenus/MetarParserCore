@@ -14,7 +14,8 @@ namespace MetarParserCoreTests
             {
                 "REFZRA",
                 "RERA",
-                "REBLSN"
+                "REBLSN",
+                "RETSGR"
             };
 
             var errors = new List<string>();
@@ -22,7 +23,7 @@ namespace MetarParserCoreTests
                 .ToList();
 
             Assert.Equal(errors.Count, 0);
-            Assert.Equal(recentWeathers.Count, 3);
+            Assert.Equal(recentWeathers.Count, 4);
         }
     }
 }

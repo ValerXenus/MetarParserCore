@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MetarParserCore.Enums;
 
 namespace MetarParserCore.TokenLogic
@@ -84,6 +85,13 @@ namespace MetarParserCore.TokenLogic
         private void saveGroupInDictionary(Token token, List<string> currentTokensGroup,
             IDictionary<TokenType, string[]> outcomeDictionary, ref TokenType lastTokenType)
         {
+            if (outcomeDictionary.ContainsKey(lastTokenType))
+            {
+                var previousGroup = outcomeDictionary[lastTokenType];
+                outcomeDictionary.Remove(lastTokenType);
+                currentTokensGroup = previousGroup.Concat(currentTokensGroup).ToList();
+            }
+
             outcomeDictionary.Add(lastTokenType, currentTokensGroup.ToArray());
 
             currentTokensGroup.Clear();

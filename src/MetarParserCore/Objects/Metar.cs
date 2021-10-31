@@ -81,7 +81,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Wind shear info
         /// </summary>
-        public string[] WindShear { get; init; }
+        public WindShear WindShear { get; init; }
 
         /// <summary>
         /// Info about runway conditions
@@ -160,6 +160,9 @@ namespace MetarParserCore.Objects
                     errors);
             RecentWeather =
                 getDataObjectOrNull<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.RecentWeather),
+                    errors);
+            WindShear =
+                getDataObjectOrNull<WindShear>(groupedTokens.GetTokenGroupOrDefault(TokenType.WindShear),
                     errors);
 
             // Parser errors
