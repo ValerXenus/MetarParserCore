@@ -86,7 +86,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Info about runway conditions
         /// </summary>
-        public Motne Motne { get; init; }
+        public Motne[] Motne { get; init; }
 
         /// <summary>
         /// Information about changes of weather forecast
@@ -164,6 +164,9 @@ namespace MetarParserCore.Objects
             WindShear =
                 getDataObjectOrNull<WindShear>(groupedTokens.GetTokenGroupOrDefault(TokenType.WindShear),
                     errors);
+            Motne =
+                getParsedDataArray<Motne>(groupedTokens.GetTokenGroupOrDefault(TokenType.Motne),
+                    errors);
 
             // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
@@ -238,6 +241,9 @@ namespace MetarParserCore.Objects
         private T getDataObjectOrNull<T>(string[] groupTokens, List<string> errors)
             where T : class
         {
+            if (groupTokens.Length == 0)
+                return null;
+
             var previousErrorsCount = errors.Count;
             var data = (T) Activator.CreateInstance(typeof(T), BindingFlags.NonPublic | BindingFlags.Instance, null,
                 new object[] {groupTokens, errors}, null);
