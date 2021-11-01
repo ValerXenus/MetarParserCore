@@ -180,6 +180,7 @@ namespace MetarParserCore.Objects
             SeaCondition =
                 getDataObjectOrNull<SeaCondition>(groupedTokens.GetTokenGroupOrDefault(TokenType.SeaState),
                     errors);
+            IsDeneb = groupedTokens.ContainsKey(TokenType.Deneb);
 
             // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
