@@ -30,6 +30,8 @@ namespace MetarParserCore.Objects
         /// </summary>
         public bool IsCloudBelow { get; init; }
 
+        #region Constructors
+
         /// <summary>
         /// Default
         /// </summary>
@@ -51,9 +53,9 @@ namespace MetarParserCore.Objects
             var cloudToken = tokens.First();
 
             CloudType = parseCloudType(ref cloudToken);
-            if (CloudType is CloudType.SkyClear 
-                or CloudType.Clear 
-                or CloudType.NoCloudDetected 
+            if (CloudType is CloudType.SkyClear
+                or CloudType.Clear
+                or CloudType.NoCloudDetected
                 or CloudType.NoSignificantClouds)
                 return;
 
@@ -61,6 +63,10 @@ namespace MetarParserCore.Objects
             IsCloudBelow = isCloudBelow;
             ConvectiveCloudType = getConvectiveCloudType(cloudToken);
         }
+
+        #endregion
+
+        #region Private methods
 
         /// <summary>
         /// Parse the current cloud type
@@ -118,5 +124,7 @@ namespace MetarParserCore.Objects
                 ? ConvectiveCloudType.None
                 : EnumTranslator.GetValueByDescription<ConvectiveCloudType>(token);
         }
+
+        #endregion
     }
 }

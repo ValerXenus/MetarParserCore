@@ -80,6 +80,8 @@ namespace MetarParserCore.TokenLogic
                     return new Token(TokenType.Deneb, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.Motne):
                     return new Token(TokenType.Motne, rawToken);
+                case { } when Regex.IsMatch(rawToken, TokenRegex.SeaState):
+                    return new Token(TokenType.SeaState, rawToken);
                 case "BECMG":
                 case "TEMPO":
                 case "NOSIG":

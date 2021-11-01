@@ -41,6 +41,8 @@ namespace MetarParserCore.Objects
         /// </summary>
         public RvrTrend RvrTrend { get; init; }
 
+        #region Constructors
+
         /// <summary>
         /// Default
         /// </summary>
@@ -99,5 +101,7 @@ namespace MetarParserCore.Objects
             else
                 VisibilityValue = int.Parse(values);
         }
+
+        #endregion
     }
 }

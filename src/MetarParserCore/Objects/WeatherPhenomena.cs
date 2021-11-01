@@ -15,6 +15,8 @@ namespace MetarParserCore.Objects
         /// </summary>
         public WeatherCondition[] WeatherConditions { get; set; }
 
+        #region Constructors
+
         /// <summary>
         /// Default
         /// </summary>
@@ -62,6 +64,10 @@ namespace MetarParserCore.Objects
             WeatherConditions = parsedData.ToArray();
         }
 
+        #endregion
+
+        #region Private methods
+
         /// <summary>
         /// Splits weather string into weather codes
         /// </summary>
@@ -79,5 +85,7 @@ namespace MetarParserCore.Objects
 
             return outcome;
         }
+
+        #endregion
     }
 }

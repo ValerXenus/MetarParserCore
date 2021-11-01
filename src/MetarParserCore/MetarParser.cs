@@ -9,6 +9,16 @@ namespace MetarParserCore
     /// </summary>
     public class MetarParser
     {
+        /// <summary>
+        /// Current month
+        /// </summary>
+        private Month _currentMonth;
+
+        public MetarParser(Month currentMonth = Month.None)
+        {
+            _currentMonth = currentMonth;
+        }
+
         #region Public methods
 
         /// <summary>
@@ -17,7 +27,7 @@ namespace MetarParserCore
         /// <param name="raw">Raw METAR string</param>
         /// <param name="month">Current month</param>
         /// <returns>Parsed Metar object</returns>
-        public Metar Parse(string raw, Month month = Month.None)
+        public Metar Parse(string raw)
         {
             if (string.IsNullOrEmpty(raw))
                 return new Metar
@@ -31,7 +41,7 @@ namespace MetarParserCore
             var tokenGrouper = new TokenGrouper();
             var groupedTokens = tokenGrouper.TransformToGroups(tokens);
 
-            return new Metar(groupedTokens, month);
+            return new Metar(groupedTokens, _currentMonth);
         }
 
         /// <summary>

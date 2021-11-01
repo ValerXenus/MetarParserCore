@@ -19,6 +19,11 @@ namespace MetarParserCore.Objects
         public ReportType ReportType { get; init; }
 
         /// <summary>
+        /// Report is empty
+        /// </summary>
+        public bool IsNil { get; init; }
+
+        /// <summary>
         /// Airport ICAO code
         /// </summary>
         public string Airport { get; init; }
@@ -89,6 +94,11 @@ namespace MetarParserCore.Objects
         public Motne[] Motne { get; init; }
 
         /// <summary>
+        /// Info about sea-surface temperature and state
+        /// </summary>
+        public SeaCondition SeaCondition { get; init; }
+
+        /// <summary>
         /// Information about changes of weather forecast
         /// </summary>
         public Trend Trend { get; init; }
@@ -138,11 +148,11 @@ namespace MetarParserCore.Objects
             Month = currentMonth;
             Modifier = getMetarModifier(groupedTokens);
             SurfaceWind =
-                getDataObjectOrNull<SurfaceWind>(
-                    groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind), errors);
+                getDataObjectOrNull<SurfaceWind>(groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind),
+                    errors);
             PrevailingVisibility =
-                getDataObjectOrNull<PrevailingVisibility>(
-                    groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility), errors);
+                getDataObjectOrNull<PrevailingVisibility>(groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility),
+                    errors);
             RunwayVisualRanges =
                 getParsedDataArray<RunwayVisualRange>(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange),
                     errors);
@@ -166,6 +176,9 @@ namespace MetarParserCore.Objects
                     errors);
             Motne =
                 getParsedDataArray<Motne>(groupedTokens.GetTokenGroupOrDefault(TokenType.Motne),
+                    errors);
+            SeaCondition =
+                getDataObjectOrNull<SeaCondition>(groupedTokens.GetTokenGroupOrDefault(TokenType.SeaState),
                     errors);
 
             // Parser errors
@@ -263,9 +276,11 @@ namespace MetarParserCore.Objects
         private T[] getParsedDataArray<T>(string[] tokens, List<string> errors) 
             where T : class
         {
-            return tokens
-                .Select(x => getDataObjectOrNull<T>(new[] { x }, errors))
+            var outcome = tokens.Select(x => getDataObjectOrNull<T>(new[] { x }, errors))
                 .ToArray();
+            return outcome.Length != 0
+                ? outcome
+                : null;
         }
 
         #endregion

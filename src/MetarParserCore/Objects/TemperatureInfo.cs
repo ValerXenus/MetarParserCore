@@ -18,6 +18,8 @@ namespace MetarParserCore.Objects
         /// </summary>
         public int DewPoint { get; init; }
 
+        #region Constructors
+
         /// <summary>
         /// Default
         /// </summary>
@@ -54,6 +56,10 @@ namespace MetarParserCore.Objects
             DewPoint = getTemperatureValue(values[1]);
         }
 
+        #endregion
+
+        #region Private methods
+
         /// <summary>
         /// Convert temperature value to integer considering sign "M"
         /// </summary>
@@ -67,5 +73,7 @@ namespace MetarParserCore.Objects
 
             return int.Parse(stringValue);
         }
+
+        #endregion
     }
 }

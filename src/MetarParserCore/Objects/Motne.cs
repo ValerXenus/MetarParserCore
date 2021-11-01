@@ -83,8 +83,10 @@ namespace MetarParserCore.Objects
             }
 
             RunwayNumber = getRunwayNumber(ref motneToken, errors);
-            TypeOfDeposit = getMotneEnum<MotneTypeOfDeposit>(motneToken, 0, 1);
-            ExtentOfContamination = getMotneEnum<MotneExtentOfContamination>(motneToken, 1, 1);
+            TypeOfDeposit = motneToken.Substring(0, 1).Equals("/")
+                ? MotneTypeOfDeposit.NotReported
+                : getMotneEnum<MotneTypeOfDeposit>(motneToken.Substring(0, 1));
+            ExtentOfContamination = getMotneEnum<MotneExtentOfContamination>(motneToken.Substring(1, 1));
             DepthOfDeposit = getMotneIntValue(motneToken, 2, 2);
             FrictionCoefficient = getMotneIntValue(motneToken, motneToken.Length - 2, 2);
             Specials = MotneSpecials.Default;
@@ -121,18 +123,15 @@ namespace MetarParserCore.Objects
         /// Get MOTNE data as enum value
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="motneToken">Current MOTNE token</param>
-        /// <param name="startIdx">Substring start index</param>
-        /// <param name="length">Elements length</param>
+        /// <param name="stringValue">MOTNE string value</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        private T getMotneEnum<T>(string motneToken, int startIdx, int length)
+        private T getMotneEnum<T>(string stringValue)
             where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
                 throw new ArgumentException("T must be an enumerated type");
 
-            var stringValue = motneToken.Substring(startIdx, length);
             if (stringValue.Contains("/"))
                 return default;
 

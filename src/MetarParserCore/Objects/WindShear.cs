@@ -24,6 +24,8 @@ namespace MetarParserCore.Objects
         /// </summary>
         public string Runway { get; init; }
 
+        #region Constructors
+
         /// <summary>
         /// Default
         /// </summary>
@@ -70,6 +72,10 @@ namespace MetarParserCore.Objects
             Runway = getCleanRunwayNumber(tokens[runwayTokenIdx]);
         }
 
+        #endregion
+
+        #region Private methods
+
         /// <summary>
         /// Get runway number without prefix "R" or "RWY"
         /// </summary>
@@ -81,5 +87,7 @@ namespace MetarParserCore.Objects
                 ? runwayToken[3..]
                 : runwayToken[1..];
         }
+
+        #endregion
     }
 }

@@ -35,9 +35,11 @@
 
         Motne = 14,
 
-        Trend = 15,
+        SeaState = 15,
 
-        Remarks = 16,
+        Trend = 16,
+
+        Remarks = 17,
 
         ReportType = 99
     }

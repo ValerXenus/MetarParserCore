@@ -20,6 +20,8 @@ namespace MetarParserCore.Objects
         /// </summary>
         public int Value { get; init; }
 
+        #region Constructors
+
         /// <summary>
         /// Default
         /// </summary>
@@ -43,5 +45,7 @@ namespace MetarParserCore.Objects
             UnitType = EnumTranslator.GetValueByDescription<AltimeterUnitType>(altimeterToken[..1]);
             Value = int.Parse(altimeterToken[1..]);
         }
+
+        #endregion
     }
 }
