@@ -125,6 +125,7 @@ namespace MetarParserCore.Objects
             MilitaryWeather =
                 getDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode),
                     errors);
+            Remarks = getRemarks(groupedTokens.GetTokenGroupOrDefault(TokenType.Remarks));
 
             // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
@@ -174,6 +175,20 @@ namespace MetarParserCore.Objects
             }
 
             return outcome.ToArray();
+        }
+
+        /// <summary>
+        /// Get remarks as string
+        /// </summary>
+        /// <param name="remarkTokens">Array of tokens</param>
+        /// <returns></returns>
+        private string getRemarks(string[] remarkTokens)
+        {
+            if (remarkTokens is null or { Length: 0 })
+                return null;
+
+            remarkTokens = remarkTokens[1..];
+            return string.Join(" ", remarkTokens);
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace MetarParserCore.Objects
         public int SeaTemperature { get; init; }
 
         /// <summary>
-        /// Average height of the waves
+        /// Average height of the waves in decimeters
         /// </summary>
         public int WaveHeight { get; init; }
 

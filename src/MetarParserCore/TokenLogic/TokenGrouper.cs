@@ -29,17 +29,22 @@ namespace MetarParserCore.TokenLogic
 
             for (var i = 0; i < tokens.Length; i++)
             {
+                var isLastStep = i == tokens.Length - 1;
+
                 var token = tokens[i];
-                if (token.Type == TokenType.Motne || i == tokens.Length - 1)
+                if (token.Type == TokenType.Motne || isLastStep)
                 {
-                    saveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                    if (isLastStep)
+                        currentTokensGroup.Add(token.Value);
+
+                    saveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
                     groupMode = false;
                     continue;
                 }
 
                 if (isGroupableType(token.Type))
                 {
-                    saveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                    saveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
                     groupMode = true;
                     continue;
                 }
@@ -57,7 +62,7 @@ namespace MetarParserCore.TokenLogic
                     continue;
                 }
 
-                saveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                saveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
             }
 
             return outcomeDictionary;
@@ -153,7 +158,7 @@ namespace MetarParserCore.TokenLogic
         /// <param name="lastTokenType">Last token type</param>
         /// <param name="currentTokensGroup">List of current tokens group</param>
         /// <param name="outcomeDictionary">Result dictionary</param>
-        private void saveGroupInDictionary(Token token, List<string> currentTokensGroup,
+        private void saveGroupInDictionary(Token token, ref List<string> currentTokensGroup,
             IDictionary<TokenType, string[]> outcomeDictionary, ref TokenType lastTokenType)
         {
             if (outcomeDictionary.ContainsKey(lastTokenType))

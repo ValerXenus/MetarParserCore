@@ -17,7 +17,8 @@ namespace MetarParserCoreTests
                 "W31/H32",
                 "W24/S4",
                 "WM11/S2",
-                "W11/S4"
+                "W11/S4",
+                "W15/H172",
             };
 
             var errors = new List<string>();
@@ -25,7 +26,7 @@ namespace MetarParserCoreTests
                 .ToList();
 
             Assert.Equal(errors.Count, 0);
-            Assert.Equal(seaConditions.Count, 6);
+            Assert.Equal(seaConditions.Count, 7);
         }
     }
 }
