@@ -20,7 +20,8 @@ namespace MetarParserCoreTests
                 "BECMG AT1330 02020MPS",
                 "TEMPO VRB15MPS -TSRA BKN020CB OVC110",
                 "TEMPO 2100 -SHRA BKN015CB",
-                "BECMG AT1330 NSW"
+                "BECMG AT1330 NSW",
+                "TEMPO GRN YLO"
             };
 
             var errors = new List<string>();
@@ -45,7 +46,7 @@ namespace MetarParserCoreTests
             }
 
             Assert.Equal(errors.Count, 0);
-            Assert.Equal(outcome.Count, 9);
+            Assert.Equal(outcome.Count, 10);
         }
     }
 }

@@ -43,6 +43,8 @@
 
         TrendTime = 18,
 
+        MilitaryColorCode = 19,
+
         ReportType = 99
     }
 }

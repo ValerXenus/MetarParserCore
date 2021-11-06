@@ -30,5 +30,7 @@
         public static string SeaState => @"^W(M)?\d{2}\/(S[0-9]{1}|H\d{1,2})$";
 
         public static string TrendTime => @"^(AT|FM|TL)[0-2]{1}\d{1}[0-5]{1}\d{1}$";
+
+        public static string MilitaryCode => @"^(BLACK)?(BLU|WHT|GRN|YLO|AMB|RED)$";
     }
 }

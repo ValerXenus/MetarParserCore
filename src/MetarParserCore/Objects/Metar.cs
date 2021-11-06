@@ -69,6 +69,11 @@ namespace MetarParserCore.Objects
         public bool IsDeneb { get; init; }
 
         /// <summary>
+        /// Military airfield weather (represents in color codes)
+        /// </summary>
+        public MilitaryWeather MilitaryWeather { get; init; }
+
+        /// <summary>
         /// Additional remarks (RMK)
         /// </summary>
         public string Remarks { get; init; }
@@ -117,6 +122,9 @@ namespace MetarParserCore.Objects
                     errors);
             IsDeneb = groupedTokens.ContainsKey(TokenType.Deneb);
             Trends = getTrends(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend), errors);
+            MilitaryWeather =
+                getDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode),
+                    errors);
 
             // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();

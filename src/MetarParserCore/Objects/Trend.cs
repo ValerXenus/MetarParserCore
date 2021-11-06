@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
@@ -22,6 +21,11 @@ namespace MetarParserCore.Objects
         /// </summary>
         public TrendTime TrendTime { get; init; }
 
+        /// <summary>
+        /// Military airfield weather (represents in color codes)
+        /// </summary>
+        public MilitaryWeather MilitaryWeather { get; init; }
+
         #region Constructors
 
         /// <summary>
@@ -42,6 +46,9 @@ namespace MetarParserCore.Objects
             TrendType = getTrendType(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend)
                 .FirstOrDefault());
             TrendTime = getTrendTime(groupedTokens.GetTokenGroupOrDefault(TokenType.TrendTime), errors);
+            MilitaryWeather =
+                getDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode),
+                    errors);
             ParseErrors = getParseErrors(errors);
         }
 
