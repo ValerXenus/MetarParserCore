@@ -35,6 +35,7 @@ namespace MetarParserCore
                     ParseErrors = new []{ "Raw METAR is not correct" }
                 };
 
+            raw = raw.Replace("=", "");
             var rawTokens = raw.ToUpper().Split(" ");
             var groupedTokens = Recognizer.Instance().RecognizeAndGroupTokens(rawTokens);
 

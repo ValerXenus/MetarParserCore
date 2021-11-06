@@ -159,6 +159,9 @@ namespace MetarParserCore.Objects
         /// <returns></returns>
         private Trend[] getTrends(string[] trendTokens, List<string> errors)
         {
+            if (trendTokens is null or { Length: 0 })
+                return null;
+
             var trendReports = Recognizer.Instance().RecognizeAndGroupTokensTrend(trendTokens);
             var outcome = new List<Trend>();
 

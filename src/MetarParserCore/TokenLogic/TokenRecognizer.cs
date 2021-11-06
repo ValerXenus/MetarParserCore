@@ -92,6 +92,8 @@ namespace MetarParserCore.TokenLogic
                 case "TEMPO":
                 case "NOSIG":
                     return new Token(TokenType.Trend, rawToken);
+                case "NIL":
+                    return new Token(TokenType.Nil, rawToken);
                 case "RMK":
                     return new Token(TokenType.Remarks, rawToken);
             }

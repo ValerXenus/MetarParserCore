@@ -92,6 +92,7 @@ namespace MetarParserCore.Objects
             CloudLayers =
                 getParsedDataArray<CloudLayer>(groupedTokens.GetTokenGroupOrDefault(TokenType.CloudLayer),
                     errors);
+            IsNil = groupedTokens.ContainsKey(TokenType.Nil);
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
         }
 

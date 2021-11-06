@@ -45,6 +45,8 @@
 
         MilitaryColorCode = 19,
 
+        Nil = 20,
+
         ReportType = 99
     }
 }

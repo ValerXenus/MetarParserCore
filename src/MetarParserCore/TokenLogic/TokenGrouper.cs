@@ -35,7 +35,16 @@ namespace MetarParserCore.TokenLogic
                 if (token.Type == TokenType.Motne || isLastStep)
                 {
                     if (isLastStep)
-                        currentTokensGroup.Add(token.Value);
+                    {
+                        if (token.Type == lastTokenType)
+                            currentTokensGroup.Add(token.Value);
+                        else
+                        {
+                            outcomeDictionary.Add(lastTokenType, currentTokensGroup.ToArray());
+                            outcomeDictionary.Add(token.Type, new []{ token.Value });
+                            break;
+                        }
+                    }
 
                     saveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
                     groupMode = false;
