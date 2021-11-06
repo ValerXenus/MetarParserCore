@@ -47,27 +47,27 @@ namespace MetarParserCore.Objects
                 return;
             }
 
-            var firstToken = tokens.First();
-            if (firstToken.Equals("CAVOK"))
+            var visibilityToken = tokens.First();
+            if (visibilityToken.Equals("CAVOK"))
             {
                 IsCavok = true;
                 return;
             }
 
-            if (Regex.IsMatch(firstToken, ParseRegex.VisibilityWholeNumber) 
-                || Regex.IsMatch(firstToken, ParseRegex.StatuteMilesVisibility))
+            if (Regex.IsMatch(visibilityToken, ParseRegex.VisibilityWholeNumber) 
+                || Regex.IsMatch(visibilityToken, ParseRegex.StatuteMilesVisibility))
             {
                 VisibilityInStatuteMiles = new VisibilityInStatuteMiles(tokens);
                 return;
             }
 
-            if (Regex.IsMatch(firstToken, ParseRegex.MetersVisibility))
+            if (Regex.IsMatch(visibilityToken, ParseRegex.MetersVisibility))
             {
                 VisibilityInMeters = new VisibilityInMeters(tokens);
                 return;
             }
 
-            errors.Add($"Unexpected token: {firstToken}");
+            errors.Add($"Unexpected token: {visibilityToken}");
         }
 
         #endregion

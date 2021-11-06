@@ -55,7 +55,7 @@ namespace MetarParserCore.Objects
         {
             if (tokens.Length == 0)
             {
-                errors.Add("Wind tokens not found");
+                errors.Add("Wind tokens were not found");
                 return;
             }
 
