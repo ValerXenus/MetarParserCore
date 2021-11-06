@@ -28,5 +28,7 @@
         public static string Motne => @"^((R[0-3]{1}\d{1}\/|\d{2})([0-9\/]{1}[1259\/]{1}\d{4}|(CLRD|CLSD)\d{2})|R/SNOCLO|SNOCLO)$";
 
         public static string SeaState => @"^W(M)?\d{2}\/(S[0-9]{1}|H\d{1,2})$";
+
+        public static string TrendTime => @"^(AT|FM|TL)[0-2]{1}\d{1}[0-5]{1}\d{1}$";
     }
 }

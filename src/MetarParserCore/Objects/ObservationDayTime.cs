@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MetarParserCore.Objects.Supplements;
 
 namespace MetarParserCore.Objects
 {
@@ -13,14 +14,9 @@ namespace MetarParserCore.Objects
         public int Day { get; init; }
 
         /// <summary>
-        /// Hours
+        /// Time of the observation
         /// </summary>
-        public int Hours { get; init; }
-
-        /// <summary>
-        /// Minutes
-        /// </summary>
-        public int Minutes { get; init; }
+        public Time Time { get; init; }
 
         #region Constructors
 
@@ -43,8 +39,8 @@ namespace MetarParserCore.Objects
             }
 
             Day = int.Parse(tokens[0].Substring(0, 2));
-            Hours = int.Parse(tokens[0].Substring(2, 2));
-            Minutes = int.Parse(tokens[0].Substring(4, 2));
+            Time = new Time(int.Parse(tokens[0].Substring(2, 2)), 
+                int.Parse(tokens[0].Substring(4, 2)));
         }
 
         #endregion

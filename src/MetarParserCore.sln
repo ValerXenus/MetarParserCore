@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetarParserCore", "MetarParserCore.csproj", "{E347CA42-CA6B-4411-86C5-A7711A537375}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetarParserCore", "MetarParserCore\MetarParserCore.csproj", "{E347CA42-CA6B-4411-86C5-A7711A537375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetarParserCoreTests", "..\MetarParserCoreTests\MetarParserCoreTests.csproj", "{B6E60AD5-A895-44AB-AA47-001A0A179A0F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetarParserCoreTests", "MetarParserCoreTests\MetarParserCoreTests.csproj", "{B6E60AD5-A895-44AB-AA47-001A0A179A0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -41,6 +41,8 @@
 
         Remarks = 17,
 
+        TrendTime = 18,
+
         ReportType = 99
     }
 }

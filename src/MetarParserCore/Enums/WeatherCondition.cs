@@ -131,8 +131,11 @@ namespace MetarParserCore.Enums
         SandStorm = 32,
 
         [Description("DS")]
-        DustStorm = 33
+        DustStorm = 33,
 
         #endregion
+
+        [Description("NSW")]
+        NoSignificantWeather = 34
     }
 }

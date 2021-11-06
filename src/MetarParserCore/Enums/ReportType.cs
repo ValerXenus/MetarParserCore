@@ -7,16 +7,24 @@
     {
         NotSpecified = 0,
 
+        /// <summary>
+        /// METAR report
+        /// </summary>
         Metar = 1,
 
         /// <summary>
-        /// ToDo: Not supported yet
+        /// TREND Report
         /// </summary>
-        Speci = 2,
+        Trend = 2,
 
         /// <summary>
         /// ToDo: Not supported yet
         /// </summary>
-        Taf = 3
+        Speci = 3,
+
+        /// <summary>
+        /// ToDo: Not supported yet
+        /// </summary>
+        Taf = 4
     }
 }

@@ -35,11 +35,8 @@ namespace MetarParserCore
                     ParseErrors = new []{ "Raw METAR is not correct" }
                 };
 
-            var unrecognizedTokens = raw.ToUpper().Split(" ");
-            var recognizer = new TokenRecognizer();
-            var tokens = recognizer.RecognizeTokens(unrecognizedTokens);
-            var tokenGrouper = new TokenGrouper();
-            var groupedTokens = tokenGrouper.TransformToGroups(tokens);
+            var rawTokens = raw.ToUpper().Split(" ");
+            var groupedTokens = Recognizer.Instance().RecognizeAndGroupTokens(rawTokens);
 
             return new Metar(groupedTokens, _currentMonth);
         }

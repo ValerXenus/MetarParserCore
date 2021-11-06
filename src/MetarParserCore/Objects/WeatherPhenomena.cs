@@ -38,6 +38,12 @@ namespace MetarParserCore.Objects
             var parsedData = new List<WeatherCondition>();
             var weatherToken = tokens.First();
 
+            if (weatherToken.Equals("NSW"))
+            {
+                WeatherConditions = new[] { WeatherCondition.NoSignificantWeather };
+                return;
+            }
+
             if (weatherToken.StartsWith("RE"))
                 weatherToken = weatherToken.Replace("RE", "");
 

@@ -7,7 +7,7 @@ namespace MetarParserCore.TokenLogic
     /// <summary>
     /// Class for recognition METAR tokens
     /// </summary>
-    internal class TokenRecognizer
+    internal sealed class TokenRecognizer
     {
         #region Fields
 
@@ -28,10 +28,12 @@ namespace MetarParserCore.TokenLogic
         /// <summary>
         /// Recognize raw tokens
         /// </summary>
-        /// <param name="rawTokens"></param>
+        /// <param name="rawTokens">Array of raw tokens</param>
+        /// <param name="isAirportRecognized">If airport is recognized already</param>
         /// <returns></returns>
-        public Token[] RecognizeTokens(string[] rawTokens)
+        public Token[] RecognizeTokens(string[] rawTokens, bool isAirportRecognized = false)
         {
+            _isAirportRecognized = isAirportRecognized;
             return rawTokens.Select(recognizeAndCreateToken).ToArray();
         }
 
@@ -56,6 +58,8 @@ namespace MetarParserCore.TokenLogic
                     return new Token(TokenType.Airport, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.ObservationDayTime):
                     return new Token(TokenType.ObservationDayTime, rawToken);
+                case { } when Regex.IsMatch(rawToken, TokenRegex.TrendTime):
+                    return new Token(TokenType.TrendTime, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.Modifier):
                     return new Token(TokenType.Modifier, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.SurfaceWind):
