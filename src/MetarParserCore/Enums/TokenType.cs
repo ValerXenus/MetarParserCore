@@ -21,7 +21,7 @@
 
         PresentWeather = 7,
 
-        CloudLayers = 8,
+        CloudLayer = 8,
 
         Temperature = 9,
 
@@ -31,11 +31,21 @@
 
         WindShear = 12,
 
-        Motne = 13,
+        Deneb = 13,
 
-        Trend = 14,
+        Motne = 14,
 
-        Remarks = 15,
+        SeaState = 15,
+
+        Trend = 16,
+
+        Remarks = 17,
+
+        TrendTime = 18,
+
+        MilitaryColorCode = 19,
+
+        Nil = 20,
 
         ReportType = 99
     }

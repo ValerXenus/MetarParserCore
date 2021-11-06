@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using MetarParserCore.Enums;
+﻿using MetarParserCore.Enums;
 using MetarParserCore.Objects;
 using MetarParserCore.TokenLogic;
 
@@ -11,6 +9,16 @@ namespace MetarParserCore
     /// </summary>
     public class MetarParser
     {
+        /// <summary>
+        /// Current month
+        /// </summary>
+        private Month _currentMonth;
+
+        public MetarParser(Month currentMonth = Month.None)
+        {
+            _currentMonth = currentMonth;
+        }
+
         #region Public methods
 
         /// <summary>
@@ -19,7 +27,7 @@ namespace MetarParserCore
         /// <param name="raw">Raw METAR string</param>
         /// <param name="month">Current month</param>
         /// <returns>Parsed Metar object</returns>
-        public Metar Parse(string raw, Month month = Month.None)
+        public Metar Parse(string raw)
         {
             if (string.IsNullOrEmpty(raw))
                 return new Metar
@@ -27,17 +35,15 @@ namespace MetarParserCore
                     ParseErrors = new []{ "Raw METAR is not correct" }
                 };
 
-            var unrecognizedTokens = raw.ToUpper().Split(" ");
-            var recognizer = new TokenRecognizer();
-            var tokens = recognizer.RecognizeTokens(unrecognizedTokens);
-            var tokenGrouper = new TokenGrouper();
-            var groupedTokens = tokenGrouper.TransformToGroups(tokens);
+            raw = raw.Replace("=", "");
+            var rawTokens = raw.ToUpper().Split(" ");
+            var groupedTokens = Recognizer.Instance().RecognizeAndGroupTokens(rawTokens);
 
-            return new Metar(groupedTokens, month);
+            return new Metar(groupedTokens, _currentMonth);
         }
 
         /// <summary>
-        /// Multiple parse METARS method
+        /// Multiple parse METARs method
         /// </summary>
         /// <param name="raws">Array of raw METAR strings</param>
         /// <returns>Array of parsed Metar objects</returns>

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MetarParserCore.Enums;
+using MetarParserCore.Objects.Supplements;
 
 namespace MetarParserCore.Objects
 {
@@ -9,24 +9,14 @@ namespace MetarParserCore.Objects
     public class ObservationDayTime
     {
         /// <summary>
-        /// Current month
-        /// </summary>
-        public Month Month { get; init; }
-
-        /// <summary>
         /// Day of the current month
         /// </summary>
         public int Day { get; init; }
 
         /// <summary>
-        /// Hours
+        /// Time of the observation
         /// </summary>
-        public int Hours { get; init; }
-
-        /// <summary>
-        /// Minutes
-        /// </summary>
-        public int Minutes { get; init; }
+        public Time Time { get; init; }
 
         #region Constructors
 
@@ -40,8 +30,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="tokens">Array of tokens</param>
         /// <param name="errors">List of parse errors</param>
-        /// <param name="month">Current month</param>
-        internal ObservationDayTime(string[] tokens, List<string> errors, Month month)
+        internal ObservationDayTime(string[] tokens, List<string> errors)
         {
             if (tokens.Length == 0)
             {
@@ -49,10 +38,9 @@ namespace MetarParserCore.Objects
                 return;
             }
 
-            Month = month;
             Day = int.Parse(tokens[0].Substring(0, 2));
-            Hours = int.Parse(tokens[0].Substring(2, 2));
-            Minutes = int.Parse(tokens[0].Substring(4, 2));
+            Time = new Time(int.Parse(tokens[0].Substring(2, 2)), 
+                int.Parse(tokens[0].Substring(4, 2)));
         }
 
         #endregion

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
+using MetarParserCore.TokenLogic;
 
 namespace MetarParserCore.Objects
 {
@@ -8,7 +11,7 @@ namespace MetarParserCore.Objects
     /// General METAR data class
     /// NOTE: Any property can be null
     /// </summary>
-    public class Metar
+    public class Metar : ReportBase
     {
         /// <summary>
         /// Airport ICAO code
@@ -21,39 +24,9 @@ namespace MetarParserCore.Objects
         public ObservationDayTime ObservationDayTime { get; init; }
 
         /// <summary>
-        /// Current month
+        /// Info about visibility on runways (RVR)
         /// </summary>
-        public Month Month { get; init; }
-
-        /// <summary>
-        /// METAR modifier
-        /// </summary>
-        public MetarModifier Modifier { get; init; }
-
-        /// <summary>
-        /// Info about surface wind
-        /// </summary>
-        public SurfaceWind SurfaceWind { get; init; }
-
-        /// <summary>
-        /// Info about visibility
-        /// </summary>
-        public PrevailingVisibility PrevailingVisibility { get; init; }
-
-        /// <summary>
-        /// Info about runway visibility (RVR)
-        /// </summary>
-        public RunwayVisualRange RunwayVisualRange { get; init; }
-
-        /// <summary>
-        /// Special weather conditions
-        /// </summary>
-        public PresentWeather PresentWeather { get; init; }
-
-        /// <summary>
-        /// Info about clouds (Cloud layers)
-        /// </summary>
-        public CloudLayers CloudLayers { get; init; }
+        public RunwayVisualRange[] RunwayVisualRanges { get; init; }
 
         /// <summary>
         /// Information about temperature
@@ -68,32 +41,42 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Recent weather info
         /// </summary>
-        public RecentWeather RecentWeather { get; init; }
+        public WeatherPhenomena RecentWeather { get; init; }
 
         /// <summary>
         /// Wind shear info
         /// </summary>
-        public string[] WindShear { get; init; }
+        public WindShear WindShear { get; init; }
 
         /// <summary>
         /// Info about runway conditions
         /// </summary>
-        public Motne Motne { get; init; }
+        public Motne[] Motne { get; init; }
+
+        /// <summary>
+        /// Info about sea-surface temperature and state
+        /// </summary>
+        public SeaCondition SeaCondition { get; init; }
 
         /// <summary>
         /// Information about changes of weather forecast
         /// </summary>
-        public Trend Trend { get; init; }
+        public Trend[] Trends { get; init; }
+
+        /// <summary>
+        /// Fog dispersal operations are in progress
+        /// </summary>
+        public bool IsDeneb { get; init; }
+
+        /// <summary>
+        /// Military airfield weather (represents in color codes)
+        /// </summary>
+        public MilitaryWeather MilitaryWeather { get; init; }
 
         /// <summary>
         /// Additional remarks (RMK)
         /// </summary>
         public string Remarks { get; init; }
-
-        /// <summary>
-        /// Set of parse errors
-        /// </summary>
-        public string[] ParseErrors { get; init; }
 
         #region Constructors
 
@@ -107,20 +90,45 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <param name="currentMonth">Current month</param>
-        internal Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth)
+        internal Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth) 
+            : base(groupedTokens, currentMonth)
         {
-            if (groupedTokens.Count == 0)
-            {
-                ParseErrors = new[] { "Grouped tokens dictionary is empty" };
-                return;
-            }
-
             var errors = new List<string>();
 
             Airport = getAirportIcao(groupedTokens, errors);
-            ObservationDayTime = new ObservationDayTime(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime),
-                errors, currentMonth);
+            ObservationDayTime =
+                getDataObjectOrNull<ObservationDayTime>(
+                    groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime), errors);
+            RunwayVisualRanges =
+                getParsedDataArray<RunwayVisualRange>(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange),
+                    errors);
+            Temperature =
+                getDataObjectOrNull<TemperatureInfo>(groupedTokens.GetTokenGroupOrDefault(TokenType.Temperature),
+                    errors);
+            AltimeterSetting =
+                getDataObjectOrNull<AltimeterSetting>(groupedTokens.GetTokenGroupOrDefault(TokenType.AltimeterSetting),
+                    errors);
+            RecentWeather =
+                getDataObjectOrNull<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.RecentWeather),
+                    errors);
+            WindShear =
+                getDataObjectOrNull<WindShear>(groupedTokens.GetTokenGroupOrDefault(TokenType.WindShear),
+                    errors);
+            Motne =
+                getParsedDataArray<Motne>(groupedTokens.GetTokenGroupOrDefault(TokenType.Motne),
+                    errors);
+            SeaCondition =
+                getDataObjectOrNull<SeaCondition>(groupedTokens.GetTokenGroupOrDefault(TokenType.SeaState),
+                    errors);
+            IsDeneb = groupedTokens.ContainsKey(TokenType.Deneb);
+            Trends = getTrends(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend), errors);
+            MilitaryWeather =
+                getDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode),
+                    errors);
+            Remarks = getRemarks(groupedTokens.GetTokenGroupOrDefault(TokenType.Remarks));
 
+            // Parser errors
+            ParseErrors = errors.Count == 0 ? null : errors.ToArray();
         }
 
         #endregion
@@ -141,6 +149,49 @@ namespace MetarParserCore.Objects
 
             errors.Add("Airport ICAO code not found");
             return null;
+        }
+
+        /// <summary>
+        /// Get TREND weather infos
+        /// </summary>
+        /// <param name="trendTokens">TREND tokens</param>
+        /// <param name="errors">List of parse errors</param>
+        /// <returns></returns>
+        private Trend[] getTrends(string[] trendTokens, List<string> errors)
+        {
+            if (trendTokens is null or { Length: 0 })
+                return null;
+
+            var trendReports = Recognizer.Instance().RecognizeAndGroupTokensTrend(trendTokens);
+            var outcome = new List<Trend>();
+
+            foreach (var report in trendReports)
+            {
+                var current = new Trend(report, Month);
+                if (current.ParseErrors is { Length: > 0 })
+                {
+                    errors = errors.Concat(current.ParseErrors).ToList();
+                    continue;
+                }
+
+                outcome.Add(current);
+            }
+
+            return outcome.ToArray();
+        }
+
+        /// <summary>
+        /// Get remarks as string
+        /// </summary>
+        /// <param name="remarkTokens">Array of tokens</param>
+        /// <returns></returns>
+        private string getRemarks(string[] remarkTokens)
+        {
+            if (remarkTokens is null or { Length: 0 })
+                return null;
+
+            remarkTokens = remarkTokens[1..];
+            return string.Join(" ", remarkTokens);
         }
 
         #endregion
