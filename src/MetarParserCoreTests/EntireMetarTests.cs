@@ -39,5 +39,17 @@ namespace MetarParserCoreTests
             Assert.Null(airportMetar.ParseErrors);
             Assert.Equal(airportMetar.Airport, "KSME");
         }
+
+        [Fact]
+        public void ParseMetarExample4_Successful()
+        {
+            var rawString = "KSME 171053Z AUTO 00000KT 1 3/4SM ERROR BR VV007";
+            var metarParser = new MetarParser();
+            var airportMetar = metarParser.Parse(rawString);
+
+            Assert.Null(airportMetar.ParseErrors);
+            Assert.Equal(airportMetar.Airport, "KSME");
+            Assert.Equal(airportMetar.Unrecognized[0], "ERROR");
+        }
     }
 }

@@ -57,6 +57,11 @@ namespace MetarParserCore.Objects
         /// </summary>
         public string[] ParseErrors { get; set; }
 
+        /// <summary>
+        /// Unrecognized tokens by METAR TokenRecognizer
+        /// </summary>
+        public string[] Unrecognized { get; set; }
+
         #region Constructors
 
         /// <summary>
@@ -94,6 +99,7 @@ namespace MetarParserCore.Objects
                     errors);
             IsNil = groupedTokens.ContainsKey(TokenType.Nil);
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
+            Unrecognized = getUnrecognizedTokens(groupedTokens.GetTokenGroupOrDefault(TokenType.Unknown));
         }
 
         #endregion
@@ -207,6 +213,16 @@ namespace MetarParserCore.Objects
             return modifierValue[0].Equals("AUTO")
                 ? MetarModifier.Auto
                 : MetarModifier.Cor;
+        }
+
+        /// <summary>
+        /// Get array of unrecognized tokens
+        /// </summary>
+        /// <param name="tokens">Array of tokens</param>
+        /// <returns></returns>
+        private string[] getUnrecognizedTokens(string[] tokens)
+        {
+            return tokens is null or { Length: 0 } ? null : tokens;
         }
 
         #endregion
