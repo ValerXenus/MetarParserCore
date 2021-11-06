@@ -37,6 +37,7 @@ namespace MetarParserCore.Objects
 
             var parsedData = new List<WeatherCondition>();
             var weatherToken = tokens.First();
+            var noChangedToken = weatherToken;
 
             if (weatherToken.Equals("NSW"))
             {
@@ -62,7 +63,7 @@ namespace MetarParserCore.Objects
             var weatherCodes = splitIntoCodes(weatherToken);
             if (weatherCodes.Length == 0)
             {
-                errors.Add($"Cannot parse weather token: \"{weatherToken}\"");
+                errors.Add($"Cannot parse weather token: \"{noChangedToken}\"");
                 return;
             }
             parsedData.AddRange(weatherCodes.Select(EnumTranslator.GetValueByDescription<WeatherCondition>));
