@@ -82,7 +82,6 @@ namespace MetarParserCore.Objects
 
             var errors = new List<string>();
 
-            ReportType = getMetarReportType(groupedTokens);
             Month = currentMonth;
             Modifier = getMetarModifier(groupedTokens);
             SurfaceWind =
@@ -171,33 +170,6 @@ namespace MetarParserCore.Objects
         #endregion
 
         #region Private methods
-
-        /// <summary>
-        /// Get report type
-        /// METAR - default
-        /// </summary>
-        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
-        /// <returns></returns>
-        private ReportType getMetarReportType(Dictionary<TokenType, string[]> groupedTokens)
-        {
-            var reportType = groupedTokens.GetTokenGroupOrDefault(TokenType.ReportType);
-            if (reportType is null or { Length: 0 })
-                return ReportType.Metar;
-
-            switch (reportType[0])
-            {
-                case "SPECI":
-                    return ReportType.Speci;
-                case "TAF":
-                    return ReportType.Taf;
-                case "TEMPO":
-                case "BECMG":
-                case "NOSIG":
-                    return ReportType.Trend;
-                default:
-                    return ReportType.Metar;
-            }
-        }
 
         /// <summary>
         /// Get METAR report modifier

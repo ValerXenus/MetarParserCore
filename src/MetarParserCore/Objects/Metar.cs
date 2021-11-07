@@ -95,6 +95,7 @@ namespace MetarParserCore.Objects
         {
             var errors = new List<string>();
 
+            ReportType = ReportType.Metar;
             Airport = getAirportIcao(groupedTokens, errors);
             ObservationDayTime =
                 getDataObjectOrNull<ObservationDayTime>(

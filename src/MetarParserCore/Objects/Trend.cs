@@ -43,6 +43,7 @@ namespace MetarParserCore.Objects
         {
             var errors = new List<string>();
 
+            ReportType = ReportType.Trend;
             TrendType = getTrendType(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend)
                 .FirstOrDefault());
             TrendTime = getTrendTime(groupedTokens.GetTokenGroupOrDefault(TokenType.TrendTime), errors);

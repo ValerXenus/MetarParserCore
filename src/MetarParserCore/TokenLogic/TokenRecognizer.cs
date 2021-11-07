@@ -68,6 +68,7 @@ namespace MetarParserCore.TokenLogic
                     return new Token(TokenType.PrevailingVisibility, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.RunwayVisualRange):
                     return new Token(TokenType.RunwayVisualRange, rawToken);
+                case "NSW":
                 case { } when Regex.IsMatch(rawToken, TokenRegex.PresentWeather):
                     return new Token(TokenType.PresentWeather, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.CloudLayer):
