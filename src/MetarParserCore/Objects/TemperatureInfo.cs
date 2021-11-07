@@ -46,7 +46,7 @@ namespace MetarParserCore.Objects
             }
 
             var values = temperatureToken.Split('/');
-            if (values.Length < 2)
+            if (values.Length < 2 || values.Length >= 2 && string.IsNullOrEmpty(values[1]))
             {
                 errors.Add($"Cannot parse \"{temperatureToken}\" as temperature token");
                 return;

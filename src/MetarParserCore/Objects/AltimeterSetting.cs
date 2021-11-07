@@ -36,11 +36,6 @@ namespace MetarParserCore.Objects
             }
 
             var altimeterToken = tokens.First();
-            if (string.IsNullOrEmpty(altimeterToken))
-            {
-                errors.Add("Cannot parse empty altimeter token");
-                return;
-            }
 
             UnitType = EnumTranslator.GetValueByDescription<AltimeterUnitType>(altimeterToken[..1]);
             Value = int.Parse(altimeterToken[1..]);

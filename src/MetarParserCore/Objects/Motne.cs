@@ -61,7 +61,7 @@ namespace MetarParserCore.Objects
             var motneToken = tokens.First();
             if (string.IsNullOrEmpty(motneToken))
             {
-                errors.Add("Motne token is not found");
+                errors.Add("Motne token was not found");
                 return;
             }
 

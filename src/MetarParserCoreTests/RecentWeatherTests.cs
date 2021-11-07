@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MetarParserCore.Enums;
 using MetarParserCore.Objects;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace MetarParserCoreTests
@@ -24,6 +26,49 @@ namespace MetarParserCoreTests
 
             Assert.Equal(errors.Count, 0);
             Assert.Equal(recentWeathers.Count, 4);
+
+            #region Valid object
+
+            var validResultsObject = new List<WeatherPhenomena>
+            {
+                new WeatherPhenomena
+                {
+                    WeatherConditions = new []
+                    {
+                        WeatherCondition.Freezing,
+                        WeatherCondition.Rain
+                    }
+                },
+                new WeatherPhenomena
+                {
+                    WeatherConditions = new []
+                    {
+                        WeatherCondition.Rain
+                    }
+                },
+                new WeatherPhenomena
+                {
+                    WeatherConditions = new []
+                    {
+                        WeatherCondition.Blowing,
+                        WeatherCondition.Snow
+                    }
+                },
+                new WeatherPhenomena
+                {
+                    WeatherConditions = new []
+                    {
+                        WeatherCondition.Thunderstorm,
+                        WeatherCondition.Hail
+                    }
+                }
+            };
+
+            #endregion
+
+            var parseResults = JsonConvert.SerializeObject(recentWeathers);
+            var validResults = JsonConvert.SerializeObject(validResultsObject);
+            Assert.Equal(parseResults, validResults);
         }
     }
 }
