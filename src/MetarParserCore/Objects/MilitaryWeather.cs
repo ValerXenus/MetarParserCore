@@ -36,7 +36,7 @@ namespace MetarParserCore.Objects
         {
             if (tokens.Length == 0)
             {
-                errors.Add("Array of prevailing visibility tokens is empty");
+                errors.Add("Array of military codes is empty");
                 return;
             }
 
