@@ -15,7 +15,11 @@ var airportMetar = metarParser.Parse(raw);
 
 # Classes overview
 
-
+| Classes | Description                                                         |
+|---------|---------------------------------------------------------------------|
+| Metar   | General METAR data class. Any property of this class could be null. | 
+|         |                                                                     |
+|         |                                                                     | 
 
 # Feedback
 
