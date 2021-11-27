@@ -25,7 +25,6 @@ namespace MetarParserCore
         /// Parse method
         /// </summary>
         /// <param name="raw">Raw METAR string</param>
-        /// <param name="month">Current month</param>
         /// <returns>Parsed Metar object</returns>
         public Metar Parse(string raw)
         {

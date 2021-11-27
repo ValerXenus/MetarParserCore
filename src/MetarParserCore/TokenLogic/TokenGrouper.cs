@@ -36,7 +36,7 @@ namespace MetarParserCore.TokenLogic
                 {
                     if (isLastStep)
                     {
-                        if (token.Type == lastTokenType)
+                        if (token.Type == lastTokenType || groupMode)
                             currentTokensGroup.Add(token.Value);
                         else
                         {

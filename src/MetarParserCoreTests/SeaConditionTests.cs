@@ -85,7 +85,7 @@ namespace MetarParserCoreTests
         public void SeaConditionParser_Unsuccessful()
         {
             var errors = new List<string>();
-            var cloudLayer = new SeaCondition(Array.Empty<string>(), errors);
+            var seaCondition = new SeaCondition(Array.Empty<string>(), errors);
 
             Assert.Equal(1, errors.Count);
             Assert.Equal("Array of sea condition tokens is empty", errors[0]);
