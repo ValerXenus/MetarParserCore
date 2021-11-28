@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Valery Borisov</Authors>
-    <Company></Company>
+    <Owners>Valery Borisov</Owners>
     <Description>A .NET Core library intended for parsing raw METAR data</Description>
     <Copyright>Valery Borisov</Copyright>
     <PackageProjectUrl>https://github.com/ValerXenus/MetarParserCore</PackageProjectUrl>
@@ -14,9 +14,11 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <Version>1.0.0</Version>
-    <PackageTags>METAR; Parser; METAR Parser; Aviation Weather; .NET 5.0; .NET Core;</PackageTags>
-    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <PackageReleaseNotes>- METAR parser</PackageReleaseNotes>
+    <PackageTags>METAR, Parser, METAR Parser, Aviation Weather, .NET 5.0, .NET Core</PackageTags>
+    <PackageReleaseNotes>METAR parser</PackageReleaseNotes>
+    <IsPublishable>False</IsPublishable>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,5 +32,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Licenses\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
   </ItemGroup>
 </Project>
