@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MetarParserCore.Extensions
 {
     /// <summary>
-    /// Extension methods for dictionary
+    /// Extension methods for standard dictionary
     /// </summary>
     internal static class DictionaryExtension
     {
