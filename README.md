@@ -1,5 +1,6 @@
 # MetarParserCore
 A .NET 5.0 library intended for parsing raw METAR data. Current version can parse METAR and TREND reports.
+Nuget package: https://www.nuget.org/packages/MetarParserCore/
 
 # Getting started
 This library is easy to use. Just follow exanple below:
