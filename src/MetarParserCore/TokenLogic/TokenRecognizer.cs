@@ -34,7 +34,7 @@ namespace MetarParserCore.TokenLogic
         public Token[] RecognizeTokens(string[] rawTokens, bool isAirportRecognized = false)
         {
             _isAirportRecognized = isAirportRecognized;
-            return rawTokens.Select(recognizeAndCreateToken).ToArray();
+            return rawTokens.Select(RecognizeAndCreateToken).ToArray();
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace MetarParserCore.TokenLogic
         /// </summary>
         /// <param name="rawToken">Current raw value</param>
         /// <returns></returns>
-        private Token recognizeAndCreateToken(string rawToken)
+        private Token RecognizeAndCreateToken(string rawToken)
         {
             switch (rawToken)
             {

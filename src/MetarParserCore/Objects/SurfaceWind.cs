@@ -73,10 +73,10 @@ namespace MetarParserCore.Objects
             if (tokens[0].Substring(5, 1).Equals("G"))
                 GustSpeed = int.Parse(tokens[0].Substring(6, 2));
 
-            WindUnit = getWindUnit(tokens[0]);
+            WindUnit = GetWindUnit(tokens[0]);
 
             if (tokens.Length > 1) 
-                ExtremeWindDirections = getExtremeWindDirections(tokens[1]);
+                ExtremeWindDirections = GetExtremeWindDirections(tokens[1]);
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="unitString"></param>
         /// <returns></returns>
-        private WindUnit getWindUnit(string unitString)
+        private WindUnit GetWindUnit(string unitString)
         {
             if (unitString.EndsWith("KMT"))
                 return WindUnit.KilometersPerHour;
@@ -103,7 +103,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="intervalToken"></param>
         /// <returns></returns>
-        private ExtremeWindDirections getExtremeWindDirections(string intervalToken)
+        private ExtremeWindDirections GetExtremeWindDirections(string intervalToken)
         {
             var directions = intervalToken.Split("V");
             return new ExtremeWindDirections

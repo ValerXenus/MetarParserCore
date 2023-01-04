@@ -42,13 +42,13 @@ namespace MetarParserCore.Objects.Supplements
                 switch (token)
                 {
                     case { } when token.StartsWith("AT"):
-                        AtTime = getTimeValue(token[2..]);
+                        AtTime = GetTimeValue(token[2..]);
                         break;
                     case { } when token.StartsWith("FM"):
-                        FromTime = getTimeValue(token[2..]);
+                        FromTime = GetTimeValue(token[2..]);
                         break;
                     case { } when token.StartsWith("TL"):
-                        TillTime = getTimeValue(token[2..]);
+                        TillTime = GetTimeValue(token[2..]);
                         break;
                     default:
                         errors.Add($"Unexpected time token {token}");
@@ -66,12 +66,9 @@ namespace MetarParserCore.Objects.Supplements
         /// </summary>
         /// <param name="stringValue">Incoming string time</param>
         /// <returns></returns>
-        private Time getTimeValue(string stringValue)
+        private Time GetTimeValue(string stringValue)
         {
-            return new Time(
-                int.Parse(stringValue[..2]),
-                int.Parse(stringValue[2..])
-                );
+            return new Time(int.Parse(stringValue[..2]), int.Parse(stringValue[2..]));
         }
 
         #endregion

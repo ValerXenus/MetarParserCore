@@ -83,22 +83,14 @@ namespace MetarParserCore.Objects
             var errors = new List<string>();
 
             Month = currentMonth;
-            Modifier = getMetarModifier(groupedTokens);
-            SurfaceWind =
-                getDataObjectOrNull<SurfaceWind>(groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind),
-                    errors);
-            PrevailingVisibility =
-                getDataObjectOrNull<PrevailingVisibility>(groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility),
-                    errors);
-            PresentWeather =
-                getParsedDataArray<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather),
-                    errors);
-            CloudLayers =
-                getParsedDataArray<CloudLayer>(groupedTokens.GetTokenGroupOrDefault(TokenType.CloudLayer),
-                    errors);
+            Modifier = GetMetarModifier(groupedTokens);
+            SurfaceWind = GetDataObjectOrNull<SurfaceWind>(groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind), errors);
+            PrevailingVisibility = GetDataObjectOrNull<PrevailingVisibility>(groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility), errors);
+            PresentWeather = GetParsedDataArray<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather), errors);
+            CloudLayers = GetParsedDataArray<CloudLayer>(groupedTokens.GetTokenGroupOrDefault(TokenType.CloudLayer), errors);
             IsNil = groupedTokens.ContainsKey(TokenType.Nil);
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
-            Unrecognized = getUnrecognizedTokens(groupedTokens.GetTokenGroupOrDefault(TokenType.Unknown));
+            Unrecognized = GetUnrecognizedTokens(groupedTokens.GetTokenGroupOrDefault(TokenType.Unknown));
         }
 
         #endregion
@@ -112,15 +104,13 @@ namespace MetarParserCore.Objects
         /// <param name="groupTokens">Current group of tokens</param>
         /// <param name="errors">List of parse errors</param>
         /// <returns></returns>
-        protected T getDataObjectOrNull<T>(string[] groupTokens, List<string> errors)
-            where T : class
+        protected T GetDataObjectOrNull<T>(string[] groupTokens, List<string> errors) where T : class
         {
             if (groupTokens.Length == 0)
                 return null;
 
             var previousErrorsCount = errors.Count;
-            var data = (T)Activator.CreateInstance(typeof(T), BindingFlags.NonPublic | BindingFlags.Instance, null,
-                new object[] { groupTokens, errors }, null);
+            var data = (T)Activator.CreateInstance(typeof(T), BindingFlags.NonPublic | BindingFlags.Instance, null, new object[] { groupTokens, errors }, null);
 
             return errors.Count - previousErrorsCount > 1
                 ? null
@@ -134,11 +124,9 @@ namespace MetarParserCore.Objects
         /// <param name="tokens">Array of tokens</param>
         /// <param name="errors">Errors list</param>
         /// <returns></returns>
-        protected T[] getParsedDataArray<T>(string[] tokens, List<string> errors)
-            where T : class
+        protected T[] GetParsedDataArray<T>(string[] tokens, List<string> errors) where T : class
         {
-            var outcome = tokens.Select(x => getDataObjectOrNull<T>(new[] { x }, errors))
-                .ToArray();
+            var outcome = tokens.Select(x => GetDataObjectOrNull<T>(new[] { x }, errors)).ToArray();
             return outcome.Length != 0
                 ? outcome
                 : null;
@@ -149,7 +137,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="errors">Errors list</param>
         /// <returns></returns>
-        protected string[] getParseErrors(List<string> errors)
+        protected string[] GetParseErrors(List<string> errors)
         {
             var errorsListIsEmpty = errors is null or { Count: 0 };
             var parseErrorsIsEmpty = ParseErrors is null or { Length: 0 };
@@ -176,7 +164,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <returns></returns>
-        private MetarModifier getMetarModifier(Dictionary<TokenType, string[]> groupedTokens)
+        private MetarModifier GetMetarModifier(Dictionary<TokenType, string[]> groupedTokens)
         {
             var modifierValue = groupedTokens.GetTokenGroupOrDefault(TokenType.Modifier);
             if (modifierValue.Length == 0)
@@ -192,7 +180,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="tokens">Array of tokens</param>
         /// <returns></returns>
-        private string[] getUnrecognizedTokens(string[] tokens)
+        private string[] GetUnrecognizedTokens(string[] tokens)
         {
             return tokens is null or { Length: 0 } ? null : tokens;
         }

@@ -60,7 +60,7 @@ namespace MetarParserCore.Objects
                 weatherToken = weatherToken[1..];
             }
 
-            var weatherCodes = splitIntoCodes(weatherToken);
+            var weatherCodes = SplitIntoCodes(weatherToken);
             if (weatherCodes.Length == 0)
             {
                 errors.Add($"Cannot parse weather token: \"{noChangedToken}\"");
@@ -80,7 +80,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="weatherToken">Weather token</param>
         /// <returns></returns>
-        private string[] splitIntoCodes(string weatherToken)
+        private string[] SplitIntoCodes(string weatherToken)
         {
             var length = weatherToken.Length / 2;
             var outcome = new string[length];

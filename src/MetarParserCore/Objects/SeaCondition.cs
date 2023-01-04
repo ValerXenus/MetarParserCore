@@ -47,7 +47,7 @@ namespace MetarParserCore.Objects
             var firstToken = tokens.First();
             var splittedToken = firstToken.Split("/");
 
-            SeaTemperature = getSeaTemperature(splittedToken[0]);
+            SeaTemperature = GetSeaTemperature(splittedToken[0]);
 
             var stateToken = splittedToken[1];
             if (stateToken.Contains("H"))
@@ -71,7 +71,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="temperatureString">Temperature string</param>
         /// <returns></returns>
-        private int getSeaTemperature(string temperatureString)
+        private int GetSeaTemperature(string temperatureString)
         {
             temperatureString = temperatureString.Replace("W", "");
 

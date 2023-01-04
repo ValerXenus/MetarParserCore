@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
@@ -90,43 +89,24 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <param name="currentMonth">Current month</param>
-        internal Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth) 
-            : base(groupedTokens, currentMonth)
+        internal Metar(Dictionary<TokenType, string[]> groupedTokens, Month currentMonth) : base(groupedTokens, currentMonth)
         {
             var errors = new List<string>();
 
             ReportType = ReportType.Metar;
-            Airport = getAirportIcao(groupedTokens, errors);
-            ObservationDayTime =
-                getDataObjectOrNull<ObservationDayTime>(
-                    groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime), errors);
-            RunwayVisualRanges =
-                getParsedDataArray<RunwayVisualRange>(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange),
-                    errors);
-            Temperature =
-                getDataObjectOrNull<TemperatureInfo>(groupedTokens.GetTokenGroupOrDefault(TokenType.Temperature),
-                    errors);
-            AltimeterSetting =
-                getDataObjectOrNull<AltimeterSetting>(groupedTokens.GetTokenGroupOrDefault(TokenType.AltimeterSetting),
-                    errors);
-            RecentWeather =
-                getDataObjectOrNull<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.RecentWeather),
-                    errors);
-            WindShear =
-                getDataObjectOrNull<WindShear>(groupedTokens.GetTokenGroupOrDefault(TokenType.WindShear),
-                    errors);
-            Motne =
-                getParsedDataArray<Motne>(groupedTokens.GetTokenGroupOrDefault(TokenType.Motne),
-                    errors);
-            SeaCondition =
-                getDataObjectOrNull<SeaCondition>(groupedTokens.GetTokenGroupOrDefault(TokenType.SeaState),
-                    errors);
+            Airport = GetAirportIcao(groupedTokens, errors);
+            ObservationDayTime = GetDataObjectOrNull<ObservationDayTime>(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime), errors);
+            RunwayVisualRanges = GetParsedDataArray<RunwayVisualRange>(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange), errors);
+            Temperature = GetDataObjectOrNull<TemperatureInfo>(groupedTokens.GetTokenGroupOrDefault(TokenType.Temperature), errors);
+            AltimeterSetting = GetDataObjectOrNull<AltimeterSetting>(groupedTokens.GetTokenGroupOrDefault(TokenType.AltimeterSetting), errors);
+            RecentWeather = GetDataObjectOrNull<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.RecentWeather), errors);
+            WindShear = GetDataObjectOrNull<WindShear>(groupedTokens.GetTokenGroupOrDefault(TokenType.WindShear), errors);
+            Motne = GetParsedDataArray<Motne>(groupedTokens.GetTokenGroupOrDefault(TokenType.Motne), errors);
+            SeaCondition = GetDataObjectOrNull<SeaCondition>(groupedTokens.GetTokenGroupOrDefault(TokenType.SeaState), errors);
             IsDeneb = groupedTokens.ContainsKey(TokenType.Deneb);
-            Trends = getTrends(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend), errors);
-            MilitaryWeather =
-                getDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode),
-                    errors);
-            Remarks = getRemarks(groupedTokens.GetTokenGroupOrDefault(TokenType.Remarks));
+            Trends = GetTrends(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend), errors);
+            MilitaryWeather = GetDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode), errors);
+            Remarks = GetRemarks(groupedTokens.GetTokenGroupOrDefault(TokenType.Remarks));
 
             // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
@@ -142,7 +122,7 @@ namespace MetarParserCore.Objects
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <param name="errors">List of parse errors</param>
         /// <returns></returns>
-        private string getAirportIcao(Dictionary<TokenType, string[]> groupedTokens, List<string> errors)
+        private string GetAirportIcao(Dictionary<TokenType, string[]> groupedTokens, List<string> errors)
         {
             var airportValue = groupedTokens.GetTokenGroupOrDefault(TokenType.Airport);
             if (airportValue.Length > 0)
@@ -158,7 +138,7 @@ namespace MetarParserCore.Objects
         /// <param name="trendTokens">TREND tokens</param>
         /// <param name="errors">List of parse errors</param>
         /// <returns></returns>
-        private Trend[] getTrends(string[] trendTokens, List<string> errors)
+        private Trend[] GetTrends(string[] trendTokens, List<string> errors)
         {
             if (trendTokens is null or { Length: 0 })
                 return null;
@@ -186,7 +166,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="remarkTokens">Array of tokens</param>
         /// <returns></returns>
-        private string getRemarks(string[] remarkTokens)
+        private string GetRemarks(string[] remarkTokens)
         {
             if (remarkTokens is null or { Length: 0 })
                 return null;

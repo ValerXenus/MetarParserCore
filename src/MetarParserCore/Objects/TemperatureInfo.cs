@@ -52,8 +52,8 @@ namespace MetarParserCore.Objects
                 return;
             }
 
-            Value = getTemperatureValue(values[0]);
-            DewPoint = getTemperatureValue(values[1]);
+            Value = GetTemperatureValue(values[0]);
+            DewPoint = GetTemperatureValue(values[1]);
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace MetarParserCore.Objects
         /// <param name="stringValue">Temperature value</param>
         /// <returns></returns>
 
-        private int getTemperatureValue(string stringValue)
+        private int GetTemperatureValue(string stringValue)
         {
             if (stringValue.Contains("M"))
                 stringValue = stringValue.Replace("M", "-");

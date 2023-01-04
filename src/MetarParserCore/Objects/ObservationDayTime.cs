@@ -39,8 +39,7 @@ namespace MetarParserCore.Objects
             }
 
             Day = int.Parse(tokens[0].Substring(0, 2));
-            Time = new Time(int.Parse(tokens[0].Substring(2, 2)), 
-                int.Parse(tokens[0].Substring(4, 2)));
+            Time = new Time(int.Parse(tokens[0].Substring(2, 2)), int.Parse(tokens[0].Substring(4, 2)));
         }
 
         #endregion

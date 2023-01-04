@@ -68,13 +68,13 @@ namespace MetarParserCore.Objects
             switch (motneToken)
             {
                 case { } when motneToken.Contains("CLRD"):
-                    FrictionCoefficient = getMotneIntValue(motneToken, motneToken.Length - 2, 2);
-                    RunwayNumber = getRunwayNumber(ref motneToken, errors);
+                    FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
+                    RunwayNumber = GetRunwayNumber(ref motneToken, errors);
                     Specials = MotneSpecials.Cleared;
                     return;
                 case { } when motneToken.Contains("CLSD"):
-                    FrictionCoefficient = getMotneIntValue(motneToken, motneToken.Length - 2, 2);
-                    RunwayNumber = getRunwayNumber(ref motneToken, errors);
+                    FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
+                    RunwayNumber = GetRunwayNumber(ref motneToken, errors);
                     Specials = MotneSpecials.Closed;
                     return;
                 case { } when motneToken.Contains("SNOCLO"):
@@ -82,13 +82,13 @@ namespace MetarParserCore.Objects
                     return;
             }
 
-            RunwayNumber = getRunwayNumber(ref motneToken, errors);
+            RunwayNumber = GetRunwayNumber(ref motneToken, errors);
             TypeOfDeposit = motneToken.Substring(0, 1).Equals("/")
                 ? MotneTypeOfDeposit.NotReported
-                : getMotneEnum<MotneTypeOfDeposit>(motneToken.Substring(0, 1));
-            ExtentOfContamination = getMotneEnum<MotneExtentOfContamination>(motneToken.Substring(1, 1));
-            DepthOfDeposit = getMotneIntValue(motneToken, 2, 2);
-            FrictionCoefficient = getMotneIntValue(motneToken, motneToken.Length - 2, 2);
+                : GetMotneEnum<MotneTypeOfDeposit>(motneToken.Substring(0, 1));
+            ExtentOfContamination = GetMotneEnum<MotneExtentOfContamination>(motneToken.Substring(1, 1));
+            DepthOfDeposit = GetMotneIntValue(motneToken, 2, 2);
+            FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
             Specials = MotneSpecials.Default;
         }
 
@@ -98,7 +98,7 @@ namespace MetarParserCore.Objects
         /// <param name="errors">Errors list</param>
         /// </summary>
         /// <returns></returns>
-        private string getRunwayNumber(ref string motneToken, List<string> errors)
+        private string GetRunwayNumber(ref string motneToken, List<string> errors)
         {
             if (motneToken.StartsWith("R"))
             {
@@ -126,8 +126,7 @@ namespace MetarParserCore.Objects
         /// <param name="stringValue">MOTNE string value</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        private T getMotneEnum<T>(string stringValue)
-            where T : struct, IConvertible
+        private T GetMotneEnum<T>(string stringValue) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
                 throw new ArgumentException("T must be an enumerated type");
@@ -145,7 +144,7 @@ namespace MetarParserCore.Objects
         /// <param name="startIdx">Substring start index</param>
         /// <param name="length">Elements length</param>
         /// <returns></returns>
-        private int getMotneIntValue(string motneToken, int startIdx, int length)
+        private int GetMotneIntValue(string motneToken, int startIdx, int length)
         {
             var valueToken = motneToken.Substring(startIdx, length);
             if (valueToken.Contains("/"))

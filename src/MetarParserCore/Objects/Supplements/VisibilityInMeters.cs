@@ -44,7 +44,7 @@ namespace MetarParserCore.Objects.Supplements
         /// <param name="tokens">Array of tokens</param>
         internal VisibilityInMeters(string[] tokens)
         {
-            var dataTuples = processVisibilityTokens(tokens);
+            var dataTuples = ProcessVisibilityTokens(tokens);
 
             VisibilityValue = dataTuples[0].Value;
             VisibilityDirection = dataTuples[0].Direction;
@@ -65,7 +65,7 @@ namespace MetarParserCore.Objects.Supplements
         /// </summary>
         /// <param name="tokens">Array of tokens</param>
         /// <returns></returns>
-        private List<(int Value, VisibilityDirection Direction)> processVisibilityTokens(string[] tokens)
+        private List<(int Value, VisibilityDirection Direction)> ProcessVisibilityTokens(string[] tokens)
         {
             var outcome = new List<(int Value, VisibilityDirection Direction)>();
 

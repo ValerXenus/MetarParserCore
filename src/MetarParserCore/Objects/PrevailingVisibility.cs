@@ -54,8 +54,7 @@ namespace MetarParserCore.Objects
                 return;
             }
 
-            if (Regex.IsMatch(visibilityToken, ParseRegex.VisibilityWholeNumber) 
-                || Regex.IsMatch(visibilityToken, ParseRegex.StatuteMilesVisibility))
+            if (Regex.IsMatch(visibilityToken, ParseRegex.VisibilityWholeNumber) || Regex.IsMatch(visibilityToken, ParseRegex.StatuteMilesVisibility))
             {
                 VisibilityInStatuteMiles = new VisibilityInStatuteMiles(tokens);
                 return;

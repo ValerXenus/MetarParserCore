@@ -69,7 +69,7 @@ namespace MetarParserCore.Objects
             }
 
             Type = type;
-            Runway = getCleanRunwayNumber(tokens[runwayTokenIdx]);
+            Runway = GetCleanRunwayNumber(tokens[runwayTokenIdx]);
         }
 
         #endregion
@@ -81,7 +81,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="runwayToken">Current runway token</param>
         /// <returns></returns>
-        private string getCleanRunwayNumber(string runwayToken)
+        private string GetCleanRunwayNumber(string runwayToken)
         {
             return runwayToken.StartsWith("RWY")
                 ? runwayToken[3..]

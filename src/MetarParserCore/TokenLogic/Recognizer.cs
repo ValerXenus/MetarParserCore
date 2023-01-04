@@ -58,7 +58,7 @@ namespace MetarParserCore.TokenLogic
         public Dictionary<TokenType, string[]>[] RecognizeAndGroupTokensTrend(string[] rawTokens)
         {
             var tokens = _tokenRecognizer.RecognizeTokens(rawTokens, true);
-            return _tokenGrouper.TransformToGroupsTrend(tokens);
+            return _tokenGrouper.TransformIntoGroupsTrend(tokens);
         }
 
         #endregion
