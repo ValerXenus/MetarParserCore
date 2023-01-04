@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MetarParserCore.Enums;
 using MetarParserCore.Objects;
 using Newtonsoft.Json;
 using Xunit;
