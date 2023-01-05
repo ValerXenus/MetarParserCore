@@ -21,14 +21,14 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 
 | Classes                  | Description                                                                                   |
 |--------------------------|-----------------------------------------------------------------------------------------------|
-| [ReportBase](#reportBase)               | Base abstract class for all meteorological reports.                                           |
+| [ReportBase](#report-base)               | Base abstract class for all meteorological reports.                                           |
 | [Metar](#metar)                    | General METAR data class. Any property of this class could be null. Inhereted from ReportBase.|
 
-#### <a name="reportBase"/>Structure of ReportBase
+#### <a name="report-base"/>Structure of ReportBase
 
 | Property name        | Type                 | Description                                  |
 |----------------------|----------------------|----------------------------------------------|
-| ReportType           | enum [ReportType](#reportType)      | METAR report type                            |
+| ReportType           | enum [ReportType](#report-type)      | METAR report type                            |
 | IsNil                | bool                 | Report is empty                              |
 | Month                | enum [Month](#month)           | Current month                                |
 | Modifier             | enum [MetarModifier](#metarModifier)   | METAR modifier                               |
@@ -206,7 +206,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 
 # Base enums
 
-#### <a name="reportType"/>Enum ReportType
+#### <a name="report-type"/>Enum ReportType
 
 | ValueName    | ID | Description  |
 |--------------|----|--------------|
