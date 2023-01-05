@@ -1,21 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace MetarParserCore.Objects
 {
     /// <summary>
     /// Information about air temperature and dew point
     /// </summary>
+    [DataContract(Name = "temperatureInfo")]
     public class TemperatureInfo
     {
         /// <summary>
         /// Temperature value in Celsius
         /// </summary>
+        [DataMember(Name = "value", EmitDefaultValue = false)]
         public int Value { get; init; }
 
         /// <summary>
         /// Temperature dew point in Celsius
         /// </summary>
+        [DataMember(Name = "dewPoint", EmitDefaultValue = false)]
         public int DewPoint { get; init; }
 
         #region Constructors

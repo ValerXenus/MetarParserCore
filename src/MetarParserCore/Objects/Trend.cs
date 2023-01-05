@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 using MetarParserCore.Objects.Supplements;
@@ -9,21 +10,25 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Information about changes of weather forecast (TREND)
     /// </summary>
+    [DataContract(Name = "trend")]
     public class Trend : ReportBase
     {
         /// <summary>
         /// TREND report type
         /// </summary>
+        [DataMember(Name = "trendType", EmitDefaultValue = false)]
         public TrendType TrendType { get; init; }
 
         /// <summary>
         /// TREND time
         /// </summary>
+        [DataMember(Name = "trendTime", EmitDefaultValue = false)]
         public TrendTime TrendTime { get; init; }
 
         /// <summary>
         /// Military airfield weather (represents in color codes)
         /// </summary>
+        [DataMember(Name = "militaryWeather", EmitDefaultValue = false)]
         public MilitaryWeather MilitaryWeather { get; init; }
 
         #region Constructors

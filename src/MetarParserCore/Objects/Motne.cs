@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 
 namespace MetarParserCore.Objects
@@ -8,38 +9,45 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about runway conditions
     /// </summary>
+    [DataContract(Name = "motne")]
     public class Motne
     {
         /// <summary>
         /// Current runway
         /// </summary>
+        [DataMember(Name = "runwayNumber", EmitDefaultValue = false)]
         public string RunwayNumber { get; init; }
 
         /// <summary>
         /// MOTNE special sign
         /// </summary>
+        [DataMember(Name = "specials", EmitDefaultValue = false)]
         public MotneSpecials Specials { get; init; }
 
         /// <summary>
         /// Type of deposit
         /// </summary>
+        [DataMember(Name = "typeOfDeposit")]
         public MotneTypeOfDeposit TypeOfDeposit { get; init; }
 
         /// <summary>
         /// Extent of contamination of the current runway
         /// </summary>
+        [DataMember(Name = "extentOfContamination", EmitDefaultValue = false)]
         public MotneExtentOfContamination ExtentOfContamination { get; init; }
 
         /// <summary>
         /// Depth of deposit (2 digits)
         /// -1 - depth not significant (has value "//")
         /// </summary>
+        [DataMember(Name = "depthOfDeposit", EmitDefaultValue = false)]
         public int DepthOfDeposit { get; init; }
 
         /// <summary>
         /// Braking conditions
         /// -1 - not measured (has value "//")
         /// </summary>
+        [DataMember(Name = "frictionCoefficient", EmitDefaultValue = false)]
         public int FrictionCoefficient { get; init; }
 
         /// <summary>

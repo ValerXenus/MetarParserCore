@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 
@@ -7,21 +8,25 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about windshear on runways
     /// </summary>
+    [DataContract(Name = "windShear")]
     public class WindShear
     {
         /// <summary>
         /// Wind shear on all runways
         /// </summary>
+        [DataMember(Name = "isAll", EmitDefaultValue = false)]
         public bool IsAll { get; init; }
 
         /// <summary>
         /// Wind shear type
         /// </summary>
+        [DataMember(Name = "type", EmitDefaultValue = false)]
         public WindShearType Type { get; init; }
 
         /// <summary>
         /// Runway number
         /// </summary>
+        [DataMember(Name = "runway", EmitDefaultValue = false)]
         public string Runway { get; init; }
 
         #region Constructors

@@ -5,29 +5,31 @@
     /// </summary>
     public enum MotneTypeOfDeposit
     {
-        ClearAndDry = 0,
+        None = 0,
 
-        Damp = 1,
+        ClearAndDry = 1,
 
-        Wet = 2,
+        Damp = 2,
 
-        Rime = 3,
+        Wet = 3,
 
-        DrySnow = 4,
+        Rime = 4,
 
-        WetSnow = 5,
+        DrySnow = 5,
 
-        Slush = 6,
+        WetSnow = 6,
 
-        Ice = 7,
+        Slush = 7,
 
-        RolledSnow = 8,
+        Ice = 8,
 
-        FrozenRuts = 9,
+        RolledSnow = 9,
+
+        FrozenRuts = 10,
 
         /// <summary>
         /// Marked as "/"
         /// </summary>
-        NotReported = 10
+        NotReported = 11
     }
 }

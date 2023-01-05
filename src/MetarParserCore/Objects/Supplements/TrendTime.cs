@@ -1,25 +1,30 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace MetarParserCore.Objects.Supplements
 {
     /// <summary>
     /// Info about trend times
     /// </summary>
+    [DataContract(Name = "trendTime")]
     public class TrendTime
     {
         /// <summary>
         /// Attribute "AT"
         /// </summary>
+        [DataMember(Name = "atTime", EmitDefaultValue = false)]
         public Time AtTime { get; init; }
 
         /// <summary>
         /// Attribute "FM"
         /// </summary>
+        [DataMember(Name = "fromTime", EmitDefaultValue = false)]
         public Time FromTime { get; init; }
 
         /// <summary>
         /// Attribute "TL"
         /// </summary>
+        [DataMember(Name = "tillTime", EmitDefaultValue = false)]
         public Time TillTime { get; init; }
 
         #region Constructors

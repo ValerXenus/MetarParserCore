@@ -344,7 +344,6 @@ namespace MetarParserCoreTests
             var airportMetar = metarParser.Parse(rawString);
 
             Assert.Null(airportMetar.ParseErrors);
-
             Assert.Equal(airportMetar.Unrecognized[0], "ERROR");
 
             #region Valid object

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Objects.Supplements;
 
@@ -7,36 +8,43 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Surface wind information
     /// </summary>
+    [DataContract(Name = "surfaceWind")]
     public class SurfaceWind
     {
         /// <summary>
         /// Current wind direction
         /// </summary>
+        [DataMember(Name = "direction", EmitDefaultValue = false)]
         public int Direction { get; init; }
 
         /// <summary>
         /// Sign if wind has variable direction (VRB)
         /// </summary>
+        [DataMember(Name = "isVariable", EmitDefaultValue = false)]
         public bool IsVariable { get; init; }
 
         /// <summary>
         /// Speed of the wind
         /// </summary>
+        [DataMember(Name = "speed", EmitDefaultValue = false)]
         public int Speed { get; init; }
 
         /// <summary>
         /// Max wind speed or gust speed
         /// </summary>
+        [DataMember(Name = "gustSpeed", EmitDefaultValue = false)]
         public int GustSpeed { get; init; }
 
         /// <summary>
         /// Type of wind unit
         /// </summary>
+        [DataMember(Name = "windUnit", EmitDefaultValue = false)]
         public WindUnit WindUnit { get; init; }
 
         /// <summary>
         /// Info about extreme wind directions
         /// </summary>
+        [DataMember(Name = "extremeWindDirections", EmitDefaultValue = false)]
         public ExtremeWindDirections ExtremeWindDirections { get; init; }
 
         #region Constructors

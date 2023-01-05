@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 
@@ -10,56 +11,67 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Base abstract class of all meteorological reports
     /// </summary>
+    [DataContract(Name = "reportBase")]
     public abstract class ReportBase
     {
         /// <summary>
         /// METAR report type
         /// </summary>
+        [DataMember(Name = "reportType", EmitDefaultValue = false)]
         public ReportType ReportType { get; init; }
 
         /// <summary>
         /// Report is empty
         /// </summary>
+        [DataMember(Name = "isNil", EmitDefaultValue = false)]
         public bool IsNil { get; init; }
 
         /// <summary>
         /// Current month
         /// </summary>
+        [DataMember(Name = "month", EmitDefaultValue = false)]
         public Month Month { get; init; }
 
         /// <summary>
         /// METAR modifier
         /// </summary>
+        [DataMember(Name = "modifier", EmitDefaultValue = false)]
         public MetarModifier Modifier { get; init; }
 
         /// <summary>
         /// Info about surface wind
         /// </summary>
+        [DataMember(Name = "surfaceWind", EmitDefaultValue = false)]
         public SurfaceWind SurfaceWind { get; init; }
 
         /// <summary>
         /// Info about visibility
         /// </summary>
+        [DataMember(Name = "prevailingVisibility", EmitDefaultValue = false)]
         public PrevailingVisibility PrevailingVisibility { get; init; }
 
         /// <summary>
         /// Special weather conditions
         /// </summary>
+        [DataMember(Name = "presentWeather", EmitDefaultValue = false)]
         public WeatherPhenomena[] PresentWeather { get; init; }
 
         /// <summary>
         /// Info about clouds (Cloud layers)
         /// </summary>
+        [DataMember(Name = "cloudLayers", EmitDefaultValue = false)]
         public CloudLayer[] CloudLayers { get; init; }
 
         /// <summary>
         /// Set of parse errors
         /// </summary>
+        [DataMember(Name = "parseErrors", EmitDefaultValue = false)]
         public string[] ParseErrors { get; set; }
 
         /// <summary>
         /// Unrecognized tokens by METAR TokenRecognizer
         /// </summary>
+        [DataMember(Name = "unrecognized", EmitDefaultValue = false)]
         public string[] Unrecognized { get; set; }
 
         #region Constructors

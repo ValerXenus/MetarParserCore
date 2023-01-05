@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 
@@ -8,11 +9,13 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Special weather conditions
     /// </summary>
+    [DataContract(Name = "weatherPhenomena")]
     public class WeatherPhenomena
     {
         /// <summary>
         /// Ordered array of weather conditions
         /// </summary>
+        [DataMember(Name = "weatherConditions", EmitDefaultValue = false)]
         public WeatherCondition[] WeatherConditions { get; set; }
 
         #region Constructors

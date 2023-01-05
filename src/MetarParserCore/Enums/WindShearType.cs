@@ -7,21 +7,23 @@ namespace MetarParserCore.Enums
     /// </summary>
     public enum WindShearType
     {
+        None = 0,
+
         /// <summary>
         /// Wind shear during landing or take off
         /// </summary>
-        Both = 0,
+        Both = 1,
 
         /// <summary>
         /// Wind shear during take off
         /// </summary>
         [Description("TKOF")]
-        TakeOff = 1,
+        TakeOff = 2,
 
         /// <summary>
         /// Wind shear during landing 
         /// </summary>
         [Description("LDG")]
-        Landing = 2,
+        Landing = 3,
     }
 }

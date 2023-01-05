@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 
@@ -8,26 +9,31 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about clouds and vertical visibility (Cloud layers)
     /// </summary>
+    [DataContract(Name = "cloudLayer")]
     public class CloudLayer
     {
         /// <summary>
         /// Cloud type
         /// </summary>
+        [DataMember(Name = "cloudType", EmitDefaultValue = false)]
         public CloudType CloudType { get; init; }
 
         /// <summary>
         /// Cloud altitude
         /// </summary>
+        [DataMember(Name = "altitude", EmitDefaultValue = false)]
         public int Altitude { get; init; }
 
         /// <summary>
         /// Convective cloud type
         /// </summary>
+        [DataMember(Name = "convectiveCloudType", EmitDefaultValue = false)]
         public ConvectiveCloudType ConvectiveCloudType { get; init; }
 
         /// <summary>
         /// Cloud below airport (in mountain airports)
         /// </summary>
+        [DataMember(Name = "isCloudBelow", EmitDefaultValue = false)]
         public bool IsCloudBelow { get; init; }
 
         #region Constructors

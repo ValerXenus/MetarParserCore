@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 
 namespace MetarParserCore.Objects
@@ -7,21 +8,25 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about sea-surface temperature and state
     /// </summary>
+    [DataContract(Name = "seaCondition")]
     public class SeaCondition
     {
         /// <summary>
         /// Temperature in Celsius
         /// </summary>
+        [DataMember(Name = "seaTemperature", EmitDefaultValue = false)]
         public int SeaTemperature { get; init; }
 
         /// <summary>
         /// Average height of the waves in decimeters
         /// </summary>
+        [DataMember(Name = "waveHeight", EmitDefaultValue = false)]
         public int WaveHeight { get; init; }
 
         /// <summary>
         /// Sea state
         /// </summary>
+        [DataMember(Name = "seaState", EmitDefaultValue = false)]
         public SeaStateType SeaState { get; init; }
 
         #region Constructors

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using MetarParserCore.Common;
 using MetarParserCore.Enums;
@@ -9,26 +10,31 @@ namespace MetarParserCore.Objects.Supplements
     /// <summary>
     /// Prevailing visibility in meters
     /// </summary>
+    [DataContract(Name = "visibilityInMeters")]
     public class VisibilityInMeters
     {
         /// <summary>
         /// Visibility value in meters
         /// </summary>
+        [DataMember(Name = "visibilityValue", EmitDefaultValue = false)]
         public int VisibilityValue { get; init; }
 
         /// <summary>
         /// Direction of the represented visibility
         /// </summary>
+        [DataMember(Name = "visibilityDirection", EmitDefaultValue = false)]
         public VisibilityDirection VisibilityDirection { get; init; }
 
         /// <summary>
         /// Max visibility value
         /// </summary>
+        [DataMember(Name = "maxVisibilityValue", EmitDefaultValue = false)]
         public int MaxVisibilityValue { get; init; }
 
         /// <summary>
         /// Max visibility direction
         /// </summary>
+        [DataMember(Name = "maxVisibilityDirection", EmitDefaultValue = false)]
         public VisibilityDirection MaxVisibilityDirection { get; init; }
 
         #region Constructors

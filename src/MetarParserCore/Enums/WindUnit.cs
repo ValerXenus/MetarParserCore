@@ -7,11 +7,13 @@ namespace MetarParserCore.Enums
     /// </summary>
     public enum WindUnit
     {
+        None = 0,
+
         [Description("MPS")]
-        MetersPerSecond = 0,
+        MetersPerSecond = 1,
 
         [Description("KMT")]
-        KilometersPerHour = 1,
+        KilometersPerHour = 2,
 
         [Description("KT")]
         Knots = 3
