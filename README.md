@@ -31,11 +31,11 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | ReportType           | enum [ReportType](#report-type)      | METAR report type                            |
 | IsNil                | bool                 | Report is empty                              |
 | Month                | enum [Month](#month)           | Current month                                |
-| Modifier             | enum [MetarModifier](#metarModifier)   | METAR modifier                               |
-| SurfaceWind          | [SurfaceWind](#surfaceWind)          | Info about surface wind                      |
-| PrevailingVisibility | [PrevailingVisibility](#prevailingVisibility) | Info about visibility                        |
-| PresentWeather       | [WeatherPhenomena](#weatherPhenomena)\[\] | Special weather conditions                   |
-| CloudLayers          | [CloudLayer](#cloudLayer)\[\]       | Info about clouds (Cloud layers)             |
+| Modifier             | enum [MetarModifier](#metar-modifier)   | METAR modifier                               |
+| SurfaceWind          | [SurfaceWind](#surface-wind)          | Info about surface wind                      |
+| PrevailingVisibility | [PrevailingVisibility](#prevailing-visibility) | Info about visibility                        |
+| PresentWeather       | [WeatherPhenomena](#weather-phenomena)\[\] | Special weather conditions                   |
+| CloudLayers          | [CloudLayer](#cloud-layer)\[\]       | Info about clouds (Cloud layers)             |
 | ParseErrors          | string\[\]           | Array of parse errors                        |
 | Unrecognized         | string\[\]           | Unrecognized tokens by METAR TokenRecognizer |
 
@@ -44,20 +44,20 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Property name      | Type                  | Description                                           |
 |--------------------|-----------------------|-------------------------------------------------------|
 | Airport            | string                | Airport ICAO code                                     |
-| ObservationDayTime | [ObservationDayTime](#observationDayTime)    | Date and time by Zulu of the observation              |
-| RunwayVisualRanges | [RunwayVisualRange](#runwayVisualRange)\[\] | Info about visibility on runways (RVR)                |
-| Temperature        | [TemperatureInfo](#temperatureInfo)       | Information about temperature                         |
-| AltimeterSetting   | [AltimeterSetting](#altimeterSetting)      | Information about air pressure                        |
-| RecentWeather      | [WeatherPhenomena](#weatherPhenomena)      | Recent weather info                                   |
-| WindShear          | [WindShear](#windShear)             | Wind shear info                                       |
+| ObservationDayTime | [ObservationDayTime](#observation-day-time)    | Date and time by Zulu of the observation              |
+| RunwayVisualRanges | [RunwayVisualRange](#runway-visual-range)\[\] | Info about visibility on runways (RVR)                |
+| Temperature        | [TemperatureInfo](#temperature-info)       | Information about temperature                         |
+| AltimeterSetting   | [AltimeterSetting](#altimeter-setting)      | Information about air pressure                        |
+| RecentWeather      | [WeatherPhenomena](#weather-phenomena)      | Recent weather info                                   |
+| WindShear          | [WindShear](#wind-shear)             | Wind shear info                                       |
 | Motne              | [Motne](#motne)\[\]             | Info about runway conditions                          |
-| SeaCondition       | [SeaCondition](#seaCondition)          | Info about sea-surface temperature and state          |
+| SeaCondition       | [SeaCondition](#sea-condition)          | Info about sea-surface temperature and state          |
 | Trends             | [Trend](#trend)\[\]             | Information about changes of weather forecast         |
 | IsDeneb            | bool                  | Fog dispersal operations are in progress              |
-| MilitaryWeather    | [MilitaryWeather](#militaryWeather)       | Military airfield weather (represents in color codes) |
+| MilitaryWeather    | [MilitaryWeather](#military-weather)       | Military airfield weather (represents in color codes) |
 | Remarks            | string                | Additional remarks (RMK)                              |
 
-#### <a name="surfaceWind"/>Structure of SurfaceWind
+#### <a name="surface-wind"/>Structure of SurfaceWind
 
 | Property name         | Type                  | Description                               |
 |-----------------------|-----------------------|-------------------------------------------|
@@ -65,69 +65,69 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | IsVariable            | bool                  | Sign if wind has variable direction (VRB) |
 | Speed                 | int                   | Speed of the wind                         |
 | GustSpeed             | int                   | Max wind speed or gust speed              |
-| WindUnit              | enum [WindUnit](#windUnit)         | Type of wind unit                         |
-| ExtremeWindDirections | [ExtremeWindDirections](#extremeWindDirections) | Info about extreme wind directions        |
+| WindUnit              | enum [WindUnit](#wind-unit)         | Type of wind unit                         |
+| ExtremeWindDirections | [ExtremeWindDirections](#extreme-wind-directions) | Info about extreme wind directions        |
 
-#### <a name="prevailingVisibility"/>Structure of PrevailingVisibility
+#### <a name="prevailing-visibility"/>Structure of PrevailingVisibility
 
 | Property name            | Type                     | Description                                                         |
 |--------------------------|--------------------------|---------------------------------------------------------------------|
 | IsCavok                  | bool                     | Sign if visibility marked as CAVOK. Means Ceiling and Visibility OK |
-| VisibilityInMeters       | [VisibilityInMeters](#visibilityInMeters)       | Prevailing visibility in meters                                     |
-| VisibilityInStatuteMiles | [VisibilityInStatuteMiles](#visibilityInStatuteMiles) | Prevailing visibility in statute miles                              |
+| VisibilityInMeters       | [VisibilityInMeters](#visibility-in-meters)       | Prevailing visibility in meters                                     |
+| VisibilityInStatuteMiles | [VisibilityInStatuteMiles](#visibility-in-statute-miles) | Prevailing visibility in statute miles                              |
 
-#### <a name="weatherPhenomena"/>Structure of WeatherPhenomena
+#### <a name="weather-phenomena"/>Structure of WeatherPhenomena
 
 | Property name    | Type                  | Description                         |
 |------------------|-----------------------|-------------------------------------|
-| WeatherCondition | enum [WeatherCondition](#weatherCondition) | Ordered array of weather conditions |
+| WeatherCondition | enum [WeatherCondition](#weather-condition) | Ordered array of weather conditions |
 
-#### <a name="cloudLayer"/>Structure of CloudLayer
+#### <a name="cloud-layer"/>Structure of CloudLayer
 
 | Property name       | Type                     | Description                                |
 |---------------------|--------------------------|--------------------------------------------|
-| CloudType           | enum [CloudType](#cloudType)           | Cloud type                                 |
+| CloudType           | enum [CloudType](#cloud-type)           | Cloud type                                 |
 | CloudAltitude       | int                      | Cloud altitude                             |
-| ConvectiveCloudType | enum [ConvectiveCloudType](#convectiveCloudType) | Convective cloud type                      |
+| ConvectiveCloudType | enum [ConvectiveCloudType](#convective-cloud-type) | Convective cloud type                      |
 | IsCloudBelow        | bool                     | Cloud below airport (in mountain airports) |
 
-#### <a name="observationDayTime"/>Structure of ObservationDayTime
+#### <a name="observation-day-time"/>Structure of ObservationDayTime
 
 | Property name | Type | Description              |
 |---------------|------|--------------------------|
 | Day           | int  | Day of the current month |
 | Time          | [Time](#time) | Time of the observation  |
 
-#### <a name="runwayVisualRange"/>Structure of RunwayVisualRange
+#### <a name="runway-visual-range"/>Structure of RunwayVisualRange
 
 | Property name   | Type                 | Description                     |
 |-----------------|----------------------|---------------------------------|
 | RunwayNumber    | string               | Number of the current runway    |
 | VisibilityValue | int                  | RVR value in meters/feets (min) |
-| UnitType        | enum [RvrUnitType](#rvrUnitType)     | Unit type of the current RVR    |
-| MeasurableBound | enum [MeasurableBound](#measurableBound) | Mark of the measurement area    |
-| RvrTrend        | enum [RvrTrend](#rvrTrend)        | Rvr trend                       |
+| UnitType        | enum [RvrUnitType](#rvr-unit-type)     | Unit type of the current RVR    |
+| MeasurableBound | enum [MeasurableBound](#measurable-bound) | Mark of the measurement area    |
+| RvrTrend        | enum [RvrTrend](#rvr-trend)        | Rvr trend                       |
 
-#### <a name="temperatureInfo"/>Structure of TemperatureInfo
+#### <a name="temperature-info"/>Structure of TemperatureInfo
 
 | Property name | Type | Description                      |
 |---------------|------|----------------------------------|
 | Value         | int  | Temperature value in Celsius     |
 | DewPoint      | int  | Temperature dew point in Celsius |
 
-#### <a name="altimeterSetting"/>Structure of AltimeterSetting
+#### <a name="altimeter-setting"/>Structure of AltimeterSetting
 
 | Property name | Type                   | Description         |
 |---------------|------------------------|---------------------|
-| UnitType      | enum [AltimeterUnitType](#altimeterUnitType) | Altimeter unit type |
+| UnitType      | enum [AltimeterUnitType](#altimeter-unit-type) | Altimeter unit type |
 | Value         | int                    | Altimeter value     |
 
-#### <a name="windShear"/>Structure of WindShear
+#### <a name="wind-shear"/>Structure of WindShear
 
 | Property name | Type               | Description               |
 |---------------|--------------------|---------------------------|
 | IsAll         | bool               | Wind shear on all runways |
-| Type          | enum [WindShearType](#windShearType) | Wind shear type           |
+| Type          | enum [WindShearType](#wind-shear-type) | Wind shear type           |
 | RunwayNumber  | string             | Runway number             |
 
 #### <a name="motne"/>Structure of Motne
@@ -135,52 +135,52 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Property name         | Type                            | Description                                                             |
 |-----------------------|---------------------------------|-------------------------------------------------------------------------|
 | RunwayNumber          | string                          | Runway number                                                           |
-| Specials              | enum [MotneSpecials](#motneSpecials)              | MOTNE special sign                                                      |
-| TypeOfDeposit         | enum [MotneTypeOfDeposit](#motneTypeOfDeposit)         | Type of deposit                                                         |
-| ExtentOfContamination | enum [MotneExtentOfContamination](#motneExtentOfContamination) | Extent of contamination of the current runway                           |
+| Specials              | enum [MotneSpecials](#motne-specials)              | MOTNE special sign                                                      |
+| TypeOfDeposit         | enum [MotneTypeOfDeposit](#motne-type-of-deposit)         | Type of deposit                                                         |
+| ExtentOfContamination | enum [MotneExtentOfContamination](#motne-extent-of-contamination) | Extent of contamination of the current runway                           |
 | DepthOfDeposit        | int                             | Depth of deposit (2 digits) -1 - depth not significant (has value "//") |
 | FrictionCoefficient   | int                             | Braking conditions -1 - not measured (has value "//")                   |
 
-#### <a name="seaCondition"/>Structure of SeaCondition
+#### <a name="sea-condition"/>Structure of SeaCondition
 
 | Property name  | Type          | Description                               |
 |----------------|---------------|-------------------------------------------|
 | SeaTemperature | int           | Temperature in Celsius                    |
 | WaveHeight     | int           | Average height of the waves in decimeters |
-| SeaState       | enum [SeaState](#seaState) | Sea state                                 |
+| SeaState       | enum [SeaState](#sea-state) | Sea state                                 |
 
 #### <a name="trend"/>Structure of Trend
 
 | Property name   | Type            | Description                                           |
 |-----------------|-----------------|-------------------------------------------------------|
-| TrendType       | enum [TrendType](#trendType)  | TREND report type                                     |
-| TrendTime       | [TrendTime](#trendTime)       | TREND time                                            |
-| MilitaryWeather | [MilitaryWeather](#militaryWeather) | Military airfield weather (represents in color codes) |
+| TrendType       | enum [TrendType](#trend-type)  | TREND report type                                     |
+| TrendTime       | [TrendTime](#trend-time)       | TREND time                                            |
+| MilitaryWeather | [MilitaryWeather](#military-weather) | Military airfield weather (represents in color codes) |
 
-#### <a name="militaryWeather"/>Structure of MilitaryWeather
+#### <a name="military-weather"/>Structure of MilitaryWeather
 
 | Property name     | Type                       | Description                                        |
 |-------------------|----------------------------|----------------------------------------------------|
-| MilitaryColorCode | enum [MilitaryColorCode](#militaryColorCode)\[\] | Array of color codes                               |
+| MilitaryColorCode | enum [MilitaryColorCode](#military-color-code)\[\] | Array of color codes                               |
 | IsClosed          | bool                       | Sign if airfield is closed. BLACK color is defined |
 
-#### <a name="extremeWindDirections"/>Structure of ExtremeWindDirections
+#### <a name="extreme-wind-directions"/>Structure of ExtremeWindDirections
 
 | Property name            | Type | Description                                        |
 |--------------------------|------|----------------------------------------------------|
 | FirstExtremeDirection    | int  | First value of the extreme wind direction interval |
 | LastExtremeWindDirection | int  | Last value of the extreme wind direction interval  |
 
-#### <a name="visibilityInMeters"/>Structure of VisibilityInMeters
+#### <a name="visibility-in-meters"/>Structure of VisibilityInMeters
 
 | Property name          | Type                     | Description                             |
 |------------------------|--------------------------|-----------------------------------------|
 | VisibilityValue        | int                      | Visibility value in meters              |
-| VisibilityDirection    | enum [VisibilityDirection](#visibilityDirection) | Direction of the represented visibility |
+| VisibilityDirection    | enum [VisibilityDirection](#visibility-direction) | Direction of the represented visibility |
 | MaxVisibilityValue     | int                      | Max visibility value                    |
-| MaxVisibilityDirection | enum [VisibilityDirection](#visibilityDirection) | Max visibility direction                |
+| MaxVisibilityDirection | enum [VisibilityDirection](#visibility-direction) | Max visibility direction                |
 
-#### <a name="visibilityInStatuteMiles"/>Structure of VisibilityInStatuteMiles
+#### <a name="visibility-in-statute-miles"/>Structure of VisibilityInStatuteMiles
 
 | Property name | Type | Description                                                     |
 |---------------|------|-----------------------------------------------------------------|
@@ -196,7 +196,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Hours         | int  | Hours       |
 | Minutes       | int  | Minutes     |
 
-#### <a name="trendTime"/>Enum TrendTime
+#### <a name="trend-time"/>Enum TrendTime
 
 | Property name | Type | Description    |
 |---------------|------|----------------|
@@ -232,7 +232,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | November  | 11 |
 | December  | 12 |
 
-#### <a name="metarModifier"/>Enum MetarModifier
+#### <a name="metar-modifier"/>Enum MetarModifier
 
 | ValueName | ID |
 |-----------|----|
@@ -240,7 +240,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Auto      | 1  |
 | Cor       | 2  |
 
-#### <a name="windUnit"/>Enum WindUnit
+#### <a name="wind-unit"/>Enum WindUnit
 
 | ValueName         | ID |
 |-------------------|----|
@@ -249,7 +249,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | KilometersPerHour | 2  |
 | Knots             | 3  |
 
-#### <a name="weatherCondition"/>Enum WeatherCondition
+#### <a name="weather-condition"/>Enum WeatherCondition
 
 | ValueName            | ID | Description                               |
 |----------------------|----|-------------------------------------------|
@@ -289,7 +289,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | DustStorm            | 33 |                                           |
 | NoSignificantWeather | 34 | NSW                                       |
 
-#### <a name="cloudType"/>Enum CloudType
+#### <a name="cloud-type"/>Enum CloudType
 
 | ValueName           | ID | Description                                                  |
 |---------------------|----|--------------------------------------------------------------|
@@ -304,7 +304,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | NoSignificantClouds | 8  | No significant clouds - clouds present at and above 5,000 ft |
 | NoCloudDetected     | 9  | No cloud detected                                            |
 
-#### <a name="convectiveCloudType"/>Enum ConvectiveCloudType
+#### <a name="convective-cloud-type"/>Enum ConvectiveCloudType
 
 | ValueName       | ID |
 |-----------------|----|
@@ -312,7 +312,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Cumulonimbus    | 1  |
 | ToweringCumulus | 2  |
 
-#### <a name="rvrUnitType"/>Enum RvrUnitType
+#### <a name="rvr-unit-type"/>Enum RvrUnitType
 
 | ValueName | ID |
 |-----------|----|
@@ -320,7 +320,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Meters    | 1  |
 | Feets     | 2  |
 
-#### <a name="measurableBound"/>Enum MeasurableBound
+#### <a name="measurable-bound"/>Enum MeasurableBound
 
 | ValueName | ID | Description                            |
 |-----------|----|----------------------------------------|
@@ -328,7 +328,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Lower     | 1  | Preceding the lowest measurable value  |
 | Higher    | 2  | Preceding the highest measurable value |
 
-#### <a name="rvrTrend"/>Enum RvrTrend
+#### <a name="rvr-trend"/>Enum RvrTrend
 
 | ValueName | ID | Description              |
 |-----------|----|--------------------------|
@@ -337,7 +337,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Downward  | 2  | Visibility became worse  |
 | NoChange  | 3  | Without changes          |
 
-#### <a name="altimeterUnitType"/>Enum AltimeterUnitType
+#### <a name="altimeter-unit-type"/>Enum AltimeterUnitType
 
 | ValueName       | ID |
 |-----------------|----|
@@ -345,7 +345,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Hectopascal     | 1  |
 | InchesOfMercury | 2  |
 
-#### <a name="windShearType"/>Enum WindShearType
+#### <a name="wind-shear-type"/>Enum WindShearType
 
 | ValueName | ID | Description                           |
 |-----------|----|---------------------------------------|
@@ -353,7 +353,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | TakeOff   | 1  | Wind shear during take off            |
 | Landing   | 2  | Wind shear during landing             |
 
-#### <a name="motneSpecials"/>Enum MotneSpecials
+#### <a name="motne-specials"/>Enum MotneSpecials
 
 | ValueName    | ID | Description                                              |
 |--------------|----|----------------------------------------------------------|
@@ -362,7 +362,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Closed       | 2  | Runway closed                                            |
 | ClosedToSnow | 3  | Closed due to snow                                       |
 
-#### <a name="motneTypeOfDeposit"/>Enum MotneTypeOfDeposit
+#### <a name="motne-type-of-deposit"/>Enum MotneTypeOfDeposit
 
 | ValueName   | ID |
 |-------------|----|
@@ -378,7 +378,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | FrozenRuts  | 9  |
 | NotReported | 10 |
 
-#### <a name="motneExtentOfContamination"/>Enum MotneExtentOfContamination
+#### <a name="motne-extent-of-contamination"/>Enum MotneExtentOfContamination
 
 | ValueName   | ID | Description                   |
 |-------------|----|-------------------------------|
@@ -388,7 +388,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | From26To50  | 3  | 26% to 50% of runway covered  |
 | From51To100 | 4  | 51% to 100% of runway covered |
 
-#### <a name="seaState"/>Enum SeaState
+#### <a name="sea-state"/>Enum SeaState
 
 | ValueName  | ID | Description                          |
 |------------|----|--------------------------------------|
@@ -404,7 +404,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Phenomenal | 9  | Wave height over 14 meters           |
 | None       | 10 | Not reported                         |
 
-#### <a name="trendType"/>Enum TrendType
+#### <a name="trend-type"/>Enum TrendType
 
 | ValueName            | ID | Description                  |
 |----------------------|----|------------------------------|
@@ -413,7 +413,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Tempo                | 2  | Changes is definitely happen |
 | NoSignificantChanges | 3  |                              |
 
-#### <a name="militaryColorCode"/>Enum MilitaryColorCode
+#### <a name="military-color-code"/>Enum MilitaryColorCode
 
 | ValueName | ID | Description                                            |
 |-----------|----|--------------------------------------------------------|
@@ -425,7 +425,7 @@ var serializedResult = JsonConvert.SerializeObject(airportMetar);
 | Amber     | 5  | Visibility 1/2 - 1 1/8 mi, ceiling 200 - 300 ft        |
 | Red       | 6  | Visibility less 1/2 mi, ceiling less 200 ft            |
 
-#### <a name="visibilityDirection"/>Enum VisibilityDirection
+#### <a name="visibility-direction"/>Enum VisibilityDirection
 
 | ValueName | ID |
 |-----------|----|
