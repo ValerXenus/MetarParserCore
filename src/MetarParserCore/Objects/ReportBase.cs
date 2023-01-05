@@ -17,7 +17,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// METAR report type
         /// </summary>
-        [DataMember(Name = "reportType", EmitDefaultValue = false)]
+        [DataMember(Name = "reportType")]
         public ReportType ReportType { get; init; }
 
         /// <summary>

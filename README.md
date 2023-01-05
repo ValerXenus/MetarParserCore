@@ -1,5 +1,5 @@
 # MetarParserCore
-A .NET 5.0 library intended for parsing raw METAR data. Current version can parse METAR and TREND reports.
+A .NET 6.0 library intended for parsing raw METAR data. Current version can parse METAR and TREND reports.
 Nuget package: https://www.nuget.org/packages/MetarParserCore/
 
 # Getting started
@@ -12,13 +12,17 @@ var raw = "UWKD 291500Z 32003MPS CAVOK 18/02 Q1019 R29/CLRD70 NOSIG RMK QFE753/1
 var metarParser = new MetarParser();
 // Parse raw METAR
 var airportMetar = metarParser.Parse(raw);
+// Serialization using Newtonsoft.Json
+var serializedResult = JsonConvert.SerializeObject(airportMetar);
 ```
 
-# Classes overview
+# Types overview
+#### All base types
 
 | Classes                  | Description                                                                                                                                                              |
 |--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Metar                    | General METAR data class. Any property of this class could be null. Inhereted from ReportBase.                                                                           |
+| [Metar](#metar)                    | General METAR data class. Any property of this class could be null. Inhereted from ReportBase.                                                                           |
+| ReportBase               | Base abstract class for all meteorological reports.                                                                                                                      |
 | AltimeterSetting         | Information about air pressure.                                                                                                                                          |
 | CloudLayer               | Info about clouds and vertical visibility (Cloud layers).                                                                                                                |
 | MilitaryWeather          | Weather info on military airfields (Military color codes).                                                                                                               |
@@ -31,7 +35,6 @@ var airportMetar = metarParser.Parse(raw);
 | TemperatureInfo          | Information about air temperature and dew point.                                                                                                                         |
 | WeatherPhenomena         | Special weather conditions.                                                                                                                                              |
 | WindShear                | Info about windshear on runways.                                                                                                                                         |
-| ReportBase               | Base abstract class of all meteorological reports.                                                                                                                       |
 | Trend                    | Information about changes of weather forecast (TREND). Inhereted from ReportBase.                                                                                        |
 | ExtremeWindDirections    | Info about two extreme wind directions during the 10 minute period of the observation.                                                                                   |
 | Time                     | Custom time class.                                                                                                                                                       |
@@ -40,6 +43,27 @@ var airportMetar = metarParser.Parse(raw);
 | VisibilityInStatuteMiles | Prevailing visibility measuring in statute miles.                                                                                                                        |
 | MetarParser              | General METAR parser class.                                                                                                                                              |
 
+#### <a name="metar"/>Structure of Metar
+
+| Property name      | Type                  | Description                                           |
+|--------------------|-----------------------|-------------------------------------------------------|
+| Airport            | string                | Airport ICAO code                                     |
+| ObservationDayTime | ObservationDayTime    | Date and time by Zulu of the observation              |
+| RunwayVisualRanges | RunwayVisualRange\[\] | Info about visibility on runways (RVR)                |
+| Temperature        | TemperatureInfo       | Information about temperature                         |
+| AltimeterSetting   | AltimeterSetting      | Information about air pressure                        |
+| RecentWeather      | WeatherPhenomena      | Recent weather info                                   |
+| WindShear          | WindShear             | Wind shear info                                       |
+| Motne              | Motne\[\]             | Info about runway conditions                          |
+| SeaCondition       | SeaCondition          | Info about sea-surface temperature and state          |
+| Trends             | Trend\[\]             | Information about changes of weather forecast         |
+| IsDeneb            | bool                  | Fog dispersal operations are in progress              |
+| MilitaryWeather    | MilitaryWeather       | Military airfield weather (represents in color codes) |
+| Remarks            | string                | Additional remarks (RMK)                              |
+
+
+
+
 # Feedback
 
-If you have any feedback, contact me valeraxenus@mail.ru
+If you have any feedback, contact me valerxenus@gmail.com
