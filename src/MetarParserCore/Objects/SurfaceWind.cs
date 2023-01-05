@@ -12,7 +12,7 @@ namespace MetarParserCore.Objects
     public class SurfaceWind
     {
         /// <summary>
-        /// Current wind direction
+        /// Current wind direction (heading)
         /// </summary>
         [DataMember(Name = "direction", EmitDefaultValue = false)]
         public int Direction { get; init; }

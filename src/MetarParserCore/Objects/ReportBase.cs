@@ -63,7 +63,7 @@ namespace MetarParserCore.Objects
         public CloudLayer[] CloudLayers { get; init; }
 
         /// <summary>
-        /// Set of parse errors
+        /// Array of parse errors
         /// </summary>
         [DataMember(Name = "parseErrors", EmitDefaultValue = false)]
         public string[] ParseErrors { get; set; }
