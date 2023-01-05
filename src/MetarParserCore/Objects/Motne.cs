@@ -69,12 +69,12 @@ namespace MetarParserCore.Objects
             {
                 case { } when motneToken.Contains("CLRD"):
                     FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
-                    RunwayNumber = GetRunwayNumber(ref motneToken, errors);
+                    RunwayNumber = GetRunwayNumber(motneToken, errors).Item1;
                     Specials = MotneSpecials.Cleared;
                     return;
                 case { } when motneToken.Contains("CLSD"):
                     FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
-                    RunwayNumber = GetRunwayNumber(ref motneToken, errors);
+                    RunwayNumber = GetRunwayNumber(motneToken, errors).Item1;
                     Specials = MotneSpecials.Closed;
                     return;
                 case { } when motneToken.Contains("SNOCLO"):
@@ -82,7 +82,10 @@ namespace MetarParserCore.Objects
                     return;
             }
 
-            RunwayNumber = GetRunwayNumber(ref motneToken, errors);
+            var parsedRunwayNumber = GetRunwayNumber(motneToken, errors);
+            RunwayNumber = parsedRunwayNumber.Item1;
+            motneToken = parsedRunwayNumber.Item2;
+
             TypeOfDeposit = motneToken.Substring(0, 1).Equals("/")
                 ? MotneTypeOfDeposit.NotReported
                 : GetMotneEnum<MotneTypeOfDeposit>(motneToken.Substring(0, 1));
@@ -97,14 +100,13 @@ namespace MetarParserCore.Objects
         /// <param name="motneToken">Current MOTNE</param>
         /// <param name="errors">Errors list</param>
         /// </summary>
-        /// <returns></returns>
-        private string GetRunwayNumber(ref string motneToken, List<string> errors)
+        /// <returns>Runway number; new MOTNE token value</returns>
+        private (string, string) GetRunwayNumber(string motneToken, List<string> errors)
         {
             if (motneToken.StartsWith("R"))
             {
                 var splittedMotne = motneToken.Split("/");
-                motneToken = motneToken[(splittedMotne[0].Length + 1)..];
-                return splittedMotne[0][1..];
+                return (splittedMotne[0][1..], motneToken[(splittedMotne[0].Length + 1)..]);
             }
 
             var stringNumber = motneToken[..2];
@@ -112,11 +114,10 @@ namespace MetarParserCore.Objects
             if (runwayNumber > 86 && runwayNumber != 88 && runwayNumber != 99)
             {
                 errors.Add($"Incorrect runway number in MOTNE {motneToken} token");
-                return string.Empty;
+                return (string.Empty, motneToken);
             }
 
-            motneToken = motneToken[2..];
-            return stringNumber;
+            return (stringNumber, motneToken[2..]);
         }
 
         /// <summary>

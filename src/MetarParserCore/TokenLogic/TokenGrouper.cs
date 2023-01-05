@@ -46,14 +46,14 @@ namespace MetarParserCore.TokenLogic
                         }
                     }
 
-                    SaveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                    (currentTokensGroup, lastTokenType) = SaveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, lastTokenType);
                     groupMode = false;
                     continue;
                 }
 
                 if (IsGroupableType(token.Type))
                 {
-                    SaveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                    (currentTokensGroup, lastTokenType) = SaveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, lastTokenType);
                     groupMode = true;
                     continue;
                 }
@@ -71,7 +71,7 @@ namespace MetarParserCore.TokenLogic
                     continue;
                 }
 
-                SaveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                (currentTokensGroup, lastTokenType) = SaveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, lastTokenType);
             }
 
             return outcomeDictionary;
@@ -163,7 +163,8 @@ namespace MetarParserCore.TokenLogic
         /// <param name="lastTokenType">Last token type</param>
         /// <param name="currentTokensGroup">List of current tokens group</param>
         /// <param name="outcomeDictionary">Result dictionary</param>
-        private void SaveGroupInDictionary(Token token, ref List<string> currentTokensGroup, IDictionary<TokenType, string[]> outcomeDictionary, ref TokenType lastTokenType)
+        /// <returns>New current tokens group; new last token type</returns>
+        private (List<string>, TokenType) SaveGroupInDictionary(Token token, List<string> currentTokensGroup, IDictionary<TokenType, string[]> outcomeDictionary, TokenType lastTokenType)
         {
             if (outcomeDictionary.ContainsKey(lastTokenType))
             {
@@ -173,10 +174,10 @@ namespace MetarParserCore.TokenLogic
             }
 
             outcomeDictionary.Add(lastTokenType, currentTokensGroup.ToArray());
-
             currentTokensGroup.Clear();
             currentTokensGroup.Add(token.Value);
-            lastTokenType = token.Type;
+
+            return (currentTokensGroup, token.Type);
         }
 
         /// <summary>
