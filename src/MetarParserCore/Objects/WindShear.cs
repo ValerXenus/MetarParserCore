@@ -20,7 +20,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Wind shear type
         /// </summary>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
+        [DataMember(Name = "type")]
         public WindShearType Type { get; init; }
 
         /// <summary>

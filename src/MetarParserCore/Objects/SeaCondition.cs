@@ -26,7 +26,7 @@ namespace MetarParserCore.Objects
         /// <summary>
         /// Sea state
         /// </summary>
-        [DataMember(Name = "seaState", EmitDefaultValue = false)]
+        [DataMember(Name = "seaState")]
         public SeaStateType SeaState { get; init; }
 
         #region Constructors
