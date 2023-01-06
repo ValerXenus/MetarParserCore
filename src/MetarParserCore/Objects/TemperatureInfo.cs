@@ -1,21 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace MetarParserCore.Objects
 {
     /// <summary>
     /// Information about air temperature and dew point
     /// </summary>
+    [DataContract(Name = "temperatureInfo")]
     public class TemperatureInfo
     {
         /// <summary>
         /// Temperature value in Celsius
         /// </summary>
+        [DataMember(Name = "value", EmitDefaultValue = false)]
         public int Value { get; init; }
 
         /// <summary>
         /// Temperature dew point in Celsius
         /// </summary>
+        [DataMember(Name = "dewPoint", EmitDefaultValue = false)]
         public int DewPoint { get; init; }
 
         #region Constructors
@@ -52,8 +56,8 @@ namespace MetarParserCore.Objects
                 return;
             }
 
-            Value = getTemperatureValue(values[0]);
-            DewPoint = getTemperatureValue(values[1]);
+            Value = GetTemperatureValue(values[0]);
+            DewPoint = GetTemperatureValue(values[1]);
         }
 
         #endregion
@@ -66,7 +70,7 @@ namespace MetarParserCore.Objects
         /// <param name="stringValue">Temperature value</param>
         /// <returns></returns>
 
-        private int getTemperatureValue(string stringValue)
+        private int GetTemperatureValue(string stringValue)
         {
             if (stringValue.Contains("M"))
                 stringValue = stringValue.Replace("M", "-");

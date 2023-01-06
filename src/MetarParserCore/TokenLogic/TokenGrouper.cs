@@ -30,8 +30,8 @@ namespace MetarParserCore.TokenLogic
             for (var i = 0; i < tokens.Length; i++)
             {
                 var isLastStep = i == tokens.Length - 1;
-
                 var token = tokens[i];
+
                 if (token.Type == TokenType.Motne || isLastStep)
                 {
                     if (isLastStep)
@@ -46,14 +46,14 @@ namespace MetarParserCore.TokenLogic
                         }
                     }
 
-                    saveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                    (currentTokensGroup, lastTokenType) = SaveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, lastTokenType);
                     groupMode = false;
                     continue;
                 }
 
-                if (isGroupableType(token.Type))
+                if (IsGroupableType(token.Type))
                 {
-                    saveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                    (currentTokensGroup, lastTokenType) = SaveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, lastTokenType);
                     groupMode = true;
                     continue;
                 }
@@ -71,7 +71,7 @@ namespace MetarParserCore.TokenLogic
                     continue;
                 }
 
-                saveGroupInDictionary(token, ref currentTokensGroup, outcomeDictionary, ref lastTokenType);
+                (currentTokensGroup, lastTokenType) = SaveGroupInDictionary(token, currentTokensGroup, outcomeDictionary, lastTokenType);
             }
 
             return outcomeDictionary;
@@ -82,7 +82,7 @@ namespace MetarParserCore.TokenLogic
         /// </summary>
         /// <param name="tokens">Array of recognized tokens</param>
         /// <returns></returns>
-        public Dictionary<TokenType, string[]>[] TransformToGroupsTrend(Token[] tokens)
+        public Dictionary<TokenType, string[]>[] TransformIntoGroupsTrend(Token[] tokens)
         {
             if (tokens is null or { Length: 0 })
                 throw new Exception("Tokens array is undefined or empty");
@@ -117,17 +117,14 @@ namespace MetarParserCore.TokenLogic
                     else
                         currentGroup.Add(token.Value);
 
-                    saveTrendLastStep(i, tokens.Length - 1, previousType, currentGroup,
-                        currentTokensDictionary, outcomeList);
+                    SaveTrendLastStep(i, tokens.Length - 1, previousType, currentGroup, currentTokensDictionary, outcomeList);
                     continue;
                 }
 
                 if (previousType == token.Type)
                 {
                     currentGroup.Add(token.Value);
-
-                    saveTrendLastStep(i, tokens.Length - 1, previousType, currentGroup,
-                        currentTokensDictionary, outcomeList);
+                    SaveTrendLastStep(i, tokens.Length - 1, previousType, currentGroup, currentTokensDictionary, outcomeList);
                     continue;
                 }
 
@@ -138,8 +135,7 @@ namespace MetarParserCore.TokenLogic
                 currentGroup.Add(token.Value);
                 previousType = token.Type;
 
-                saveTrendLastStep(i, tokens.Length - 1, previousType, currentGroup,
-                    currentTokensDictionary, outcomeList);
+                SaveTrendLastStep(i, tokens.Length - 1, previousType, currentGroup, currentTokensDictionary, outcomeList);
             }
 
             return outcomeList.ToArray();
@@ -154,7 +150,7 @@ namespace MetarParserCore.TokenLogic
         /// </summary>
         /// <param name="type">Current token type</param>
         /// <returns></returns>
-        private bool isGroupableType(TokenType type) =>
+        private bool IsGroupableType(TokenType type) =>
             type is TokenType.RecentWeather 
                 or TokenType.WindShear 
                 or TokenType.Trend 
@@ -167,8 +163,8 @@ namespace MetarParserCore.TokenLogic
         /// <param name="lastTokenType">Last token type</param>
         /// <param name="currentTokensGroup">List of current tokens group</param>
         /// <param name="outcomeDictionary">Result dictionary</param>
-        private void saveGroupInDictionary(Token token, ref List<string> currentTokensGroup,
-            IDictionary<TokenType, string[]> outcomeDictionary, ref TokenType lastTokenType)
+        /// <returns>New current tokens group; new last token type</returns>
+        private (List<string>, TokenType) SaveGroupInDictionary(Token token, List<string> currentTokensGroup, IDictionary<TokenType, string[]> outcomeDictionary, TokenType lastTokenType)
         {
             if (outcomeDictionary.ContainsKey(lastTokenType))
             {
@@ -178,10 +174,10 @@ namespace MetarParserCore.TokenLogic
             }
 
             outcomeDictionary.Add(lastTokenType, currentTokensGroup.ToArray());
-
             currentTokensGroup.Clear();
             currentTokensGroup.Add(token.Value);
-            lastTokenType = token.Type;
+
+            return (currentTokensGroup, token.Type);
         }
 
         /// <summary>
@@ -193,7 +189,7 @@ namespace MetarParserCore.TokenLogic
         /// <param name="currentGroup">Current group list (list of tokens with the same type)</param>
         /// <param name="currentTokensDictionary">Current TREND group</param>
         /// <param name="outcomeList">List of TREND groups</param>
-        private void saveTrendLastStep(
+        private void SaveTrendLastStep(
             int i,
             int lastIdx,
             TokenType previousType,

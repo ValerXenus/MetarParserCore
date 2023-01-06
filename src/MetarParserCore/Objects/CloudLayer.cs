@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 
@@ -8,26 +9,31 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about clouds and vertical visibility (Cloud layers)
     /// </summary>
+    [DataContract(Name = "cloudLayer")]
     public class CloudLayer
     {
         /// <summary>
         /// Cloud type
         /// </summary>
+        [DataMember(Name = "cloudType", EmitDefaultValue = false)]
         public CloudType CloudType { get; init; }
 
         /// <summary>
         /// Cloud altitude
         /// </summary>
+        [DataMember(Name = "altitude", EmitDefaultValue = false)]
         public int Altitude { get; init; }
 
         /// <summary>
         /// Convective cloud type
         /// </summary>
+        [DataMember(Name = "convectiveCloudType", EmitDefaultValue = false)]
         public ConvectiveCloudType ConvectiveCloudType { get; init; }
 
         /// <summary>
         /// Cloud below airport (in mountain airports)
         /// </summary>
+        [DataMember(Name = "isCloudBelow", EmitDefaultValue = false)]
         public bool IsCloudBelow { get; init; }
 
         #region Constructors
@@ -51,17 +57,22 @@ namespace MetarParserCore.Objects
             }
 
             var cloudToken = tokens.First();
+            var parsedCloudType = ParseCloudType(cloudToken);
+            cloudToken = parsedCloudType.Item2;
 
-            CloudType = parseCloudType(ref cloudToken);
+            CloudType = parsedCloudType.Item1;
             if (CloudType is CloudType.SkyClear
                 or CloudType.Clear
                 or CloudType.NoCloudDetected
                 or CloudType.NoSignificantClouds)
                 return;
 
-            Altitude = getAltitude(ref cloudToken, errors, out var isCloudBelow);
+            var parsedAltitude = GetAltitude(cloudToken, errors, out var isCloudBelow);
+            Altitude = parsedAltitude.Item1;
+            cloudToken = parsedAltitude.Item2;
+
             IsCloudBelow = isCloudBelow;
-            ConvectiveCloudType = getConvectiveCloudType(cloudToken);
+            ConvectiveCloudType = GetConvectiveCloudType(cloudToken);
         }
 
         #endregion
@@ -72,18 +83,17 @@ namespace MetarParserCore.Objects
         /// Parse the current cloud type
         /// </summary>
         /// <param name="token">String token</param>
-        /// <returns></returns>
-        private CloudType parseCloudType(ref string token)
+        /// <returns>Cloud type; new token value</returns>
+        private (CloudType, string) ParseCloudType(string token)
         {
             if (token.StartsWith("VV"))
             {
                 token = token.Replace("VV", "");
-                return CloudType.VerticalVisibility;
+                return (CloudType.VerticalVisibility, token);
             }
 
-            var outcome = EnumTranslator.GetValueByDescription<CloudType>(token[..3]);
-            token = token[3..];
-            return outcome;
+            var cloudType = EnumTranslator.GetValueByDescription<CloudType>(token[..3]);
+            return (cloudType, token[3..]);
         }
 
         /// <summary>
@@ -92,25 +102,24 @@ namespace MetarParserCore.Objects
         /// <param name="token">String token</param>
         /// <param name="errors">Errors list</param>
         /// <param name="isCloudBelow">Sign if cloud is below airport</param>
-        /// <returns></returns>
-        private int getAltitude(ref string token, List<string> errors, out bool isCloudBelow)
+        /// <returns>Altitude FL; new token value</returns>
+        private (int, string) GetAltitude(string token, List<string> errors, out bool isCloudBelow)
         {
             isCloudBelow = false;
 
             if (token.StartsWith("///"))
             {
                 isCloudBelow = true;
-                return 0;
+                return (0, token);
             }
 
             if (!int.TryParse(token[..3], out var altitude))
             {
                 errors.Add($"Cannot parse altitude from token {token}");
-                return 0;
+                return (0, token);
             }
 
-            token = token[3..];
-            return altitude;
+            return (altitude, token[3..]);
         }
 
         /// <summary>
@@ -118,7 +127,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="token">String token</param>
         /// <returns></returns>
-        private ConvectiveCloudType getConvectiveCloudType(string token)
+        private ConvectiveCloudType GetConvectiveCloudType(string token)
         {
             return string.IsNullOrEmpty(token)
                 ? ConvectiveCloudType.None

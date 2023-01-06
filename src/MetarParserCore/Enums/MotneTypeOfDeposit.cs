@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace MetarParserCore.Enums
+﻿namespace MetarParserCore.Enums
 {
     /// <summary>
     /// Type of deposit

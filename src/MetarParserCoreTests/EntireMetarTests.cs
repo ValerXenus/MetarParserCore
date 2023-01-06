@@ -12,8 +12,7 @@ namespace MetarParserCoreTests
         [Fact]
         public void ParseMetarExampleUwkd_Successful()
         {
-            var rawString = "UWKD 021330Z 17007G12MPS 5000 6500SE R29/1500D SHRA BKN015CB 17/14 Q1001"
-                + " WS TKOF RWY29 R29/2/0050 BECMG AT1350 02020MPS TEMPO VRB15MPS -TSRA BKN020CB OVC110 RMK QFE740/0987=";
+            var rawString = "UWKD 021330Z 17007G12MPS 5000 6500SE R29/1500D SHRA BKN015CB 17/14 Q1001 WS TKOF RWY29 R29/2/0050 BECMG AT1350 02020MPS TEMPO VRB15MPS -TSRA BKN020CB OVC110 RMK QFE740/0987=";
             var metarParser = new MetarParser();
             var airportMetar = metarParser.Parse(rawString);
 
@@ -345,7 +344,6 @@ namespace MetarParserCoreTests
             var airportMetar = metarParser.Parse(rawString);
 
             Assert.Null(airportMetar.ParseErrors);
-
             Assert.Equal(airportMetar.Unrecognized[0], "ERROR");
 
             #region Valid object

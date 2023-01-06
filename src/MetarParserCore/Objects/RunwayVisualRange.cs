@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
@@ -9,36 +10,43 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about visibility on the runway (RVR)
     /// </summary>
+    [DataContract(Name = "runwayVisualRange")]
     public class RunwayVisualRange
     {
         /// <summary>
         /// Number of the current runway
         /// </summary>
+        [DataMember(Name = "runwayNumber", EmitDefaultValue = false)]
         public string RunwayNumber { get; init; }
 
         /// <summary>
         /// RVR value in meters/feets (min)
         /// </summary>
+        [DataMember(Name = "visibilityValue", EmitDefaultValue = false)]
         public int VisibilityValue { get; init; }
 
         /// <summary>
         /// Max RVR value in meters/feets
         /// </summary>
+        [DataMember(Name = "visibilityValueMax", EmitDefaultValue = false)]
         public int VisibilityValueMax { get; init; }
 
         /// <summary>
         /// Unit type of the current RVR
         /// </summary>
+        [DataMember(Name = "unitType", EmitDefaultValue = false)]
         public RvrUnitType UnitType { get; init; }
 
         /// <summary>
         /// Mark of the measurement area
         /// </summary>
+        [DataMember(Name = "measurableBound", EmitDefaultValue = false)]
         public MeasurableBound MeasurableBound { get; init; }
 
         /// <summary>
         /// Rvr trend
         /// </summary>
+        [DataMember(Name = "rvrTrend", EmitDefaultValue = false)]
         public RvrTrend RvrTrend { get; init; }
 
         #region Constructors

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Objects.Supplements;
 
@@ -7,36 +8,43 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Surface wind information
     /// </summary>
+    [DataContract(Name = "surfaceWind")]
     public class SurfaceWind
     {
         /// <summary>
-        /// Current wind direction
+        /// Current wind direction (heading)
         /// </summary>
+        [DataMember(Name = "direction", EmitDefaultValue = false)]
         public int Direction { get; init; }
 
         /// <summary>
         /// Sign if wind has variable direction (VRB)
         /// </summary>
+        [DataMember(Name = "isVariable", EmitDefaultValue = false)]
         public bool IsVariable { get; init; }
 
         /// <summary>
         /// Speed of the wind
         /// </summary>
+        [DataMember(Name = "speed", EmitDefaultValue = false)]
         public int Speed { get; init; }
 
         /// <summary>
         /// Max wind speed or gust speed
         /// </summary>
+        [DataMember(Name = "gustSpeed", EmitDefaultValue = false)]
         public int GustSpeed { get; init; }
 
         /// <summary>
         /// Type of wind unit
         /// </summary>
+        [DataMember(Name = "windUnit", EmitDefaultValue = false)]
         public WindUnit WindUnit { get; init; }
 
         /// <summary>
         /// Info about extreme wind directions
         /// </summary>
+        [DataMember(Name = "extremeWindDirections", EmitDefaultValue = false)]
         public ExtremeWindDirections ExtremeWindDirections { get; init; }
 
         #region Constructors
@@ -73,10 +81,10 @@ namespace MetarParserCore.Objects
             if (tokens[0].Substring(5, 1).Equals("G"))
                 GustSpeed = int.Parse(tokens[0].Substring(6, 2));
 
-            WindUnit = getWindUnit(tokens[0]);
+            WindUnit = GetWindUnit(tokens[0]);
 
             if (tokens.Length > 1) 
-                ExtremeWindDirections = getExtremeWindDirections(tokens[1]);
+                ExtremeWindDirections = GetExtremeWindDirections(tokens[1]);
         }
 
         #endregion
@@ -88,7 +96,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="unitString"></param>
         /// <returns></returns>
-        private WindUnit getWindUnit(string unitString)
+        private WindUnit GetWindUnit(string unitString)
         {
             if (unitString.EndsWith("KMT"))
                 return WindUnit.KilometersPerHour;
@@ -103,7 +111,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="intervalToken"></param>
         /// <returns></returns>
-        private ExtremeWindDirections getExtremeWindDirections(string intervalToken)
+        private ExtremeWindDirections GetExtremeWindDirections(string intervalToken)
         {
             var directions = intervalToken.Split("V");
             return new ExtremeWindDirections

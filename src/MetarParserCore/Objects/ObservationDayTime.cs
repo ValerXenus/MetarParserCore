@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MetarParserCore.Objects.Supplements;
 
 namespace MetarParserCore.Objects
@@ -6,16 +7,19 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Date and time of the airport by Zulu
     /// </summary>
+    [DataContract(Name = "observationDayTime")]
     public class ObservationDayTime
     {
         /// <summary>
         /// Day of the current month
         /// </summary>
+        [DataMember(Name = "day", EmitDefaultValue = false)]
         public int Day { get; init; }
 
         /// <summary>
         /// Time of the observation
         /// </summary>
+        [DataMember(Name = "time", EmitDefaultValue = false)]
         public Time Time { get; init; }
 
         #region Constructors
@@ -39,8 +43,7 @@ namespace MetarParserCore.Objects
             }
 
             Day = int.Parse(tokens[0].Substring(0, 2));
-            Time = new Time(int.Parse(tokens[0].Substring(2, 2)), 
-                int.Parse(tokens[0].Substring(4, 2)));
+            Time = new Time(int.Parse(tokens[0].Substring(2, 2)), int.Parse(tokens[0].Substring(4, 2)));
         }
 
         #endregion

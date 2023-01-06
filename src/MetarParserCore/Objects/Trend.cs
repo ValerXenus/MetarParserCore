@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 using MetarParserCore.Objects.Supplements;
@@ -9,21 +10,25 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Information about changes of weather forecast (TREND)
     /// </summary>
+    [DataContract(Name = "trend")]
     public class Trend : ReportBase
     {
         /// <summary>
         /// TREND report type
         /// </summary>
+        [DataMember(Name = "trendType", EmitDefaultValue = false)]
         public TrendType TrendType { get; init; }
 
         /// <summary>
         /// TREND time
         /// </summary>
+        [DataMember(Name = "trendTime", EmitDefaultValue = false)]
         public TrendTime TrendTime { get; init; }
 
         /// <summary>
         /// Military airfield weather (represents in color codes)
         /// </summary>
+        [DataMember(Name = "militaryWeather", EmitDefaultValue = false)]
         public MilitaryWeather MilitaryWeather { get; init; }
 
         #region Constructors
@@ -44,13 +49,10 @@ namespace MetarParserCore.Objects
             var errors = new List<string>();
 
             ReportType = ReportType.Trend;
-            TrendType = getTrendType(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend)
-                .FirstOrDefault());
-            TrendTime = getTrendTime(groupedTokens.GetTokenGroupOrDefault(TokenType.TrendTime), errors);
-            MilitaryWeather =
-                getDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode),
-                    errors);
-            ParseErrors = getParseErrors(errors);
+            TrendType = GetTrendType(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend).FirstOrDefault());
+            TrendTime = GetTrendTime(groupedTokens.GetTokenGroupOrDefault(TokenType.TrendTime), errors);
+            MilitaryWeather = GetDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode), errors);
+            ParseErrors = GetParseErrors(errors);
         }
 
         #endregion
@@ -62,7 +64,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="trendToken">String trend type</param>
         /// <returns></returns>
-        private TrendType getTrendType(string trendToken)
+        private TrendType GetTrendType(string trendToken)
         {
             return EnumTranslator.GetValueByDescription<TrendType>(trendToken);
         }
@@ -73,7 +75,7 @@ namespace MetarParserCore.Objects
         /// <param name="tokens">Time tokens</param>
         /// <param name="errors">Errors list</param>
         /// <returns></returns>
-        private TrendTime getTrendTime(string[] tokens, List<string> errors)
+        private TrendTime GetTrendTime(string[] tokens, List<string> errors)
         {
             var trendTime = new TrendTime(tokens, errors);
             var lastErrorsCount = errors.Count;

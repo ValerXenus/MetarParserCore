@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 
 namespace MetarParserCore.Objects
@@ -8,38 +9,45 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about runway conditions
     /// </summary>
+    [DataContract(Name = "motne")]
     public class Motne
     {
         /// <summary>
         /// Current runway
         /// </summary>
+        [DataMember(Name = "runwayNumber", EmitDefaultValue = false)]
         public string RunwayNumber { get; init; }
 
         /// <summary>
         /// MOTNE special sign
         /// </summary>
+        [DataMember(Name = "specials", EmitDefaultValue = false)]
         public MotneSpecials Specials { get; init; }
 
         /// <summary>
         /// Type of deposit
         /// </summary>
+        [DataMember(Name = "typeOfDeposit")]
         public MotneTypeOfDeposit TypeOfDeposit { get; init; }
 
         /// <summary>
         /// Extent of contamination of the current runway
         /// </summary>
+        [DataMember(Name = "extentOfContamination", EmitDefaultValue = false)]
         public MotneExtentOfContamination ExtentOfContamination { get; init; }
 
         /// <summary>
         /// Depth of deposit (2 digits)
         /// -1 - depth not significant (has value "//")
         /// </summary>
+        [DataMember(Name = "depthOfDeposit", EmitDefaultValue = false)]
         public int DepthOfDeposit { get; init; }
 
         /// <summary>
         /// Braking conditions
         /// -1 - not measured (has value "//")
         /// </summary>
+        [DataMember(Name = "frictionCoefficient", EmitDefaultValue = false)]
         public int FrictionCoefficient { get; init; }
 
         /// <summary>
@@ -68,13 +76,13 @@ namespace MetarParserCore.Objects
             switch (motneToken)
             {
                 case { } when motneToken.Contains("CLRD"):
-                    FrictionCoefficient = getMotneIntValue(motneToken, motneToken.Length - 2, 2);
-                    RunwayNumber = getRunwayNumber(ref motneToken, errors);
+                    FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
+                    RunwayNumber = GetRunwayNumber(motneToken, errors).Item1;
                     Specials = MotneSpecials.Cleared;
                     return;
                 case { } when motneToken.Contains("CLSD"):
-                    FrictionCoefficient = getMotneIntValue(motneToken, motneToken.Length - 2, 2);
-                    RunwayNumber = getRunwayNumber(ref motneToken, errors);
+                    FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
+                    RunwayNumber = GetRunwayNumber(motneToken, errors).Item1;
                     Specials = MotneSpecials.Closed;
                     return;
                 case { } when motneToken.Contains("SNOCLO"):
@@ -82,13 +90,16 @@ namespace MetarParserCore.Objects
                     return;
             }
 
-            RunwayNumber = getRunwayNumber(ref motneToken, errors);
+            var parsedRunwayNumber = GetRunwayNumber(motneToken, errors);
+            RunwayNumber = parsedRunwayNumber.Item1;
+            motneToken = parsedRunwayNumber.Item2;
+
             TypeOfDeposit = motneToken.Substring(0, 1).Equals("/")
                 ? MotneTypeOfDeposit.NotReported
-                : getMotneEnum<MotneTypeOfDeposit>(motneToken.Substring(0, 1));
-            ExtentOfContamination = getMotneEnum<MotneExtentOfContamination>(motneToken.Substring(1, 1));
-            DepthOfDeposit = getMotneIntValue(motneToken, 2, 2);
-            FrictionCoefficient = getMotneIntValue(motneToken, motneToken.Length - 2, 2);
+                : GetMotneEnum<MotneTypeOfDeposit>(motneToken.Substring(0, 1));
+            ExtentOfContamination = GetMotneEnum<MotneExtentOfContamination>(motneToken.Substring(1, 1));
+            DepthOfDeposit = GetMotneIntValue(motneToken, 2, 2);
+            FrictionCoefficient = GetMotneIntValue(motneToken, motneToken.Length - 2, 2);
             Specials = MotneSpecials.Default;
         }
 
@@ -97,14 +108,13 @@ namespace MetarParserCore.Objects
         /// <param name="motneToken">Current MOTNE</param>
         /// <param name="errors">Errors list</param>
         /// </summary>
-        /// <returns></returns>
-        private string getRunwayNumber(ref string motneToken, List<string> errors)
+        /// <returns>Runway number; new MOTNE token value</returns>
+        private (string, string) GetRunwayNumber(string motneToken, List<string> errors)
         {
             if (motneToken.StartsWith("R"))
             {
                 var splittedMotne = motneToken.Split("/");
-                motneToken = motneToken[(splittedMotne[0].Length + 1)..];
-                return splittedMotne[0][1..];
+                return (splittedMotne[0][1..], motneToken[(splittedMotne[0].Length + 1)..]);
             }
 
             var stringNumber = motneToken[..2];
@@ -112,11 +122,10 @@ namespace MetarParserCore.Objects
             if (runwayNumber > 86 && runwayNumber != 88 && runwayNumber != 99)
             {
                 errors.Add($"Incorrect runway number in MOTNE {motneToken} token");
-                return string.Empty;
+                return (string.Empty, motneToken);
             }
 
-            motneToken = motneToken[2..];
-            return stringNumber;
+            return (stringNumber, motneToken[2..]);
         }
 
         /// <summary>
@@ -126,8 +135,7 @@ namespace MetarParserCore.Objects
         /// <param name="stringValue">MOTNE string value</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        private T getMotneEnum<T>(string stringValue)
-            where T : struct, IConvertible
+        private T GetMotneEnum<T>(string stringValue) where T : struct, IConvertible
         {
             if (!typeof(T).IsEnum)
                 throw new ArgumentException("T must be an enumerated type");
@@ -145,7 +153,7 @@ namespace MetarParserCore.Objects
         /// <param name="startIdx">Substring start index</param>
         /// <param name="length">Elements length</param>
         /// <returns></returns>
-        private int getMotneIntValue(string motneToken, int startIdx, int length)
+        private int GetMotneIntValue(string motneToken, int startIdx, int length)
         {
             var valueToken = motneToken.Substring(startIdx, length);
             if (valueToken.Contains("/"))

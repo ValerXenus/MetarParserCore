@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using MetarParserCore.Common;
 
 namespace MetarParserCore.Objects.Supplements
@@ -6,26 +7,31 @@ namespace MetarParserCore.Objects.Supplements
     /// <summary>
     /// Prevailing visibility measuring in statute miles
     /// </summary>
+    [DataContract(Name = "visibilityInStatuteMiles")]
     public class VisibilityInStatuteMiles
     {
         /// <summary>
         /// (M sign) - denotes less than represented value
         /// </summary>
+        [DataMember(Name = "lessThanSign", EmitDefaultValue = false)]
         public bool LessThanSign { get; init; }
 
         /// <summary>
         /// Whole number miles of visibility/whole number of mixed fraction 
         /// </summary>
+        [DataMember(Name = "wholeNumber", EmitDefaultValue = false)]
         public int WholeNumber { get; init; }
 
         /// <summary>
         /// Numerator of the fraction
         /// </summary>
+        [DataMember(Name = "numerator", EmitDefaultValue = false)]
         public int Numerator { get; init; }
 
         /// <summary>
         /// Denominator of the fraction
         /// </summary>
+        [DataMember(Name = "denominator", EmitDefaultValue = false)]
         public int Denominator { get; init; }
 
         #region Constructors

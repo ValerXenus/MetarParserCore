@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MetarParserCore.Enums;
 
 namespace MetarParserCore.Objects
@@ -7,21 +8,25 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Info about sea-surface temperature and state
     /// </summary>
+    [DataContract(Name = "seaCondition")]
     public class SeaCondition
     {
         /// <summary>
         /// Temperature in Celsius
         /// </summary>
+        [DataMember(Name = "seaTemperature", EmitDefaultValue = false)]
         public int SeaTemperature { get; init; }
 
         /// <summary>
         /// Average height of the waves in decimeters
         /// </summary>
+        [DataMember(Name = "waveHeight", EmitDefaultValue = false)]
         public int WaveHeight { get; init; }
 
         /// <summary>
         /// Sea state
         /// </summary>
+        [DataMember(Name = "seaState")]
         public SeaStateType SeaState { get; init; }
 
         #region Constructors
@@ -47,7 +52,7 @@ namespace MetarParserCore.Objects
             var firstToken = tokens.First();
             var splittedToken = firstToken.Split("/");
 
-            SeaTemperature = getSeaTemperature(splittedToken[0]);
+            SeaTemperature = GetSeaTemperature(splittedToken[0]);
 
             var stateToken = splittedToken[1];
             if (stateToken.Contains("H"))
@@ -71,7 +76,7 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="temperatureString">Temperature string</param>
         /// <returns></returns>
-        private int getSeaTemperature(string temperatureString)
+        private int GetSeaTemperature(string temperatureString)
         {
             temperatureString = temperatureString.Replace("W", "");
 

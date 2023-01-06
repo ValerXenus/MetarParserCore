@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using MetarParserCore.Common;
 using MetarParserCore.Objects.Supplements;
@@ -9,22 +10,26 @@ namespace MetarParserCore.Objects
     /// <summary>
     /// Horizontal visibility at the surface of the earth
     /// </summary>
+    [DataContract(Name = "prevailingVisibility")]
     public class PrevailingVisibility
     {
         /// <summary>
         /// Sign if visibility marked as CAVOK
         /// Means Ceiling and Visibility OK
         /// </summary>
+        [DataMember(Name = "isCavok", EmitDefaultValue = false)]
         public bool IsCavok { get; init; }
 
         /// <summary>
         /// Prevailing visibility in meters
         /// </summary>
+        [DataMember(Name = "visibilityInMeters", EmitDefaultValue = false)]
         public VisibilityInMeters VisibilityInMeters { get; init; }
 
         /// <summary>
         /// Prevailing visibility in statute miles
         /// </summary>
+        [DataMember(Name = "visibilityInStatuteMiles", EmitDefaultValue = false)]
         public VisibilityInStatuteMiles VisibilityInStatuteMiles { get; init; }
 
         #region Constructors
@@ -54,8 +59,7 @@ namespace MetarParserCore.Objects
                 return;
             }
 
-            if (Regex.IsMatch(visibilityToken, ParseRegex.VisibilityWholeNumber) 
-                || Regex.IsMatch(visibilityToken, ParseRegex.StatuteMilesVisibility))
+            if (Regex.IsMatch(visibilityToken, ParseRegex.VisibilityWholeNumber) || Regex.IsMatch(visibilityToken, ParseRegex.StatuteMilesVisibility))
             {
                 VisibilityInStatuteMiles = new VisibilityInStatuteMiles(tokens);
                 return;
