@@ -47,5 +47,10 @@ namespace MetarParserCore.Objects
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return $"{Day}T{Time.Hours}:{Time.Minutes}:00";
+        }
     }
 }
