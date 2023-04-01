@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -36,6 +37,9 @@ namespace MetarParserCore.Objects
         /// <param name="errors">Errors list</param>
         internal TemperatureInfo(string[] tokens, List<string> errors)
         {
+            const int temperatureIdx = 0;
+            const int dewPointIdx = 1;
+
             if (tokens.Length == 0)
             {
                 errors.Add("Array with temperature token is empty");
@@ -50,14 +54,14 @@ namespace MetarParserCore.Objects
             }
 
             var values = temperatureToken.Split('/');
-            if (values.Length < 2 || values.Length >= 2 && string.IsNullOrEmpty(values[1]))
+            if (values.Length < 2)
             {
                 errors.Add($"Cannot parse \"{temperatureToken}\" as temperature token");
                 return;
             }
 
-            Value = GetTemperatureValue(values[0]);
-            DewPoint = GetTemperatureValue(values[1]);
+            Value = GetTemperatureValue(values[temperatureIdx]);
+            DewPoint = string.IsNullOrEmpty(values[dewPointIdx]) ? int.MinValue : GetTemperatureValue(values[dewPointIdx]);
         }
 
         #endregion

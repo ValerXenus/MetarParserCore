@@ -61,10 +61,32 @@ namespace MetarParserCoreTests
         }
 
         [Fact]
+        public void TemperatureInfoWithoutDewPoint_Successful()
+        {
+            var errors = new List<string>();
+            var temperatureInfo = new TemperatureInfo(new[] { "21/" }, errors);
+
+            #region Valid object
+
+            var validResultObject = new TemperatureInfo
+            {
+                Value = 21,
+                DewPoint = int.MinValue
+            };
+
+            #endregion
+
+            var parseResult = JsonConvert.SerializeObject(temperatureInfo);
+            var validResult = JsonConvert.SerializeObject(validResultObject);
+
+            Assert.Equal(parseResult, validResult);
+        }
+
+        [Fact]
         public void TemperatureInfoEmptyTokensArray_Unsuccessful()
         {
             var errors = new List<string>();
-            var temperatureInfo = new TemperatureInfo(Array.Empty<string>(), errors);
+            var _ = new TemperatureInfo(Array.Empty<string>(), errors);
 
             Assert.Equal(1, errors.Count);
             Assert.Equal("Array with temperature token is empty", errors[0]);
@@ -74,20 +96,10 @@ namespace MetarParserCoreTests
         public void TemperatureInfoEmptyToken_Unsuccessful()
         {
             var errors = new List<string>();
-            var temperatureInfo = new TemperatureInfo(new []{ "" }, errors);
+            var _ = new TemperatureInfo(new []{ "" }, errors);
 
             Assert.Equal(1, errors.Count);
             Assert.Equal("Cannot parse empty temperature token", errors[0]);
-        }
-
-        [Fact]
-        public void TemperatureInfoWrongToken_Unsuccessful()
-        {
-            var errors = new List<string>();
-            var temperatureInfo = new TemperatureInfo(new[] { "21/" }, errors);
-
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Cannot parse \"21/\" as temperature token", errors[0]);
         }
     }
 }
