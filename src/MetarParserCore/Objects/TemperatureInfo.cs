@@ -73,7 +73,6 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="stringValue">Temperature value</param>
         /// <returns></returns>
-
         private int GetTemperatureValue(string stringValue)
         {
             if (stringValue.Contains("M"))

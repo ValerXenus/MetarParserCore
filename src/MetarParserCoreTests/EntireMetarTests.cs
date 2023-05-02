@@ -265,6 +265,101 @@ namespace MetarParserCoreTests
         }
 
         [Fact]
+        public void ParseMetarWithDirtyString_Successful()
+        {
+            var rawString = "UWKD 021730Z 01006MPS \n9999 -SHRA  BKN050CB 11/10 Q1019 \t  R29/2/0050 NOSIG RMK    QFE753/1004";
+            var metarParser = new MetarParser();
+            var airportMetar = metarParser.Parse(rawString);
+
+            Assert.Null(airportMetar.ParseErrors);
+
+            #region Valid object
+
+            var validMetar = new Metar
+            {
+                ReportType = ReportType.Metar,
+                Airport = "UWKD",
+                ObservationDayTime = new ObservationDayTime
+                {
+                    Day = 2,
+                    Time = new Time
+                    {
+                        Hours = 17,
+                        Minutes = 30
+                    }
+                },
+                SurfaceWind = new SurfaceWind
+                {
+                    Direction = 10,
+                    Speed = 6,
+                    WindUnit = WindUnit.MetersPerSecond
+                },
+                PrevailingVisibility = new PrevailingVisibility
+                {
+                    VisibilityInMeters = new VisibilityInMeters
+                    {
+                        VisibilityValue = 9999
+                    }
+                },
+                PresentWeather = new WeatherPhenomena[]
+                {
+                    new WeatherPhenomena
+                    {
+                        WeatherConditions = new WeatherCondition[]
+                        {
+                            WeatherCondition.Light,
+                            WeatherCondition.Shower,
+                            WeatherCondition.Rain
+                        }
+                    }
+                },
+                CloudLayers = new CloudLayer[]
+                {
+                    new CloudLayer()
+                    {
+                        CloudType = CloudType.Broken,
+                        Altitude = 50,
+                        ConvectiveCloudType = ConvectiveCloudType.Cumulonimbus
+                    }
+                },
+                Temperature = new TemperatureInfo
+                {
+                    Value = 11,
+                    DewPoint = 10
+                },
+                AltimeterSetting = new AltimeterSetting
+                {
+                    Value = 1019,
+                    UnitType = AltimeterUnitType.Hectopascal
+                },
+                Trends = new Trend[]
+                {
+                    new Trend
+                    {
+                        TrendType = TrendType.NoSignificantChanges,
+                        ReportType = ReportType.Trend
+                    }
+                },
+                Motne = new Motne[]
+                {
+                    new Motne
+                    {
+                        RunwayNumber = "29",
+                        TypeOfDeposit = MotneTypeOfDeposit.Wet,
+                        FrictionCoefficient = 50
+                    }
+                },
+                Remarks = "QFE753/1004"
+            };
+
+            #endregion
+
+            var parseResults = JsonConvert.SerializeObject(airportMetar);
+            var validResults = JsonConvert.SerializeObject(validMetar);
+            Assert.Equal(parseResults, validResults);
+        }
+
+        [Fact]
         public void ParseMetarExampleEgll_Successful()
         {
             var rawString = "EGLL 071750Z AUTO 25004KT 9999 NCD 09/04 Q1022 NOSIG";

@@ -1,4 +1,5 @@
 ﻿using MetarParserCore.Enums;
+using MetarParserCore.Extensions;
 using MetarParserCore.Objects;
 using MetarParserCore.TokenLogic;
 
@@ -34,10 +35,8 @@ namespace MetarParserCore
                     ParseErrors = new []{ "Raw METAR is not correct" }
                 };
 
-            raw = raw.Replace("=", "");
-            var rawTokens = raw.ToUpper().Split(" ");
+            var rawTokens = raw.Clean().ToUpper().Split(" ");
             var groupedTokens = Recognizer.Instance().RecognizeAndGroupTokens(rawTokens);
-
             return new Metar(groupedTokens, _currentMonth);
         }
 

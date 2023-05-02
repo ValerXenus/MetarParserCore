@@ -52,6 +52,7 @@ namespace MetarParserCore.TokenLogic
             {
                 case "METAR":
                 case "SPECI":
+                case "TAF":
                     return new Token(TokenType.ReportType, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.Airport) && !_isAirportRecognized:
                     _isAirportRecognized = true;
