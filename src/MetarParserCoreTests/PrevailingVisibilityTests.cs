@@ -21,8 +21,8 @@ namespace MetarParserCoreTests
                 new string[] {"9999"},
                 new string[] {"5000", "1500SE"},
                 new string[] {"1200NW"},
-                new string[] {"CAVOK"}
-
+                new string[] {"CAVOK"},
+                new string[] {"P6SM"}
             };
 
             var errors = new List<string>();

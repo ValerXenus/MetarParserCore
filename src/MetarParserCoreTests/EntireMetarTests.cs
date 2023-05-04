@@ -373,7 +373,7 @@ namespace MetarParserCoreTests
             var validMetar = new Metar
             {
                 ReportType = ReportType.Metar,
-                Modifier = MetarModifier.Auto,
+                Modifier = ReportModifier.Auto,
                 Airport = "EGLL",
                 ObservationDayTime = new ObservationDayTime
                 {
@@ -446,7 +446,7 @@ namespace MetarParserCoreTests
             var validMetar = new Metar
             {
                 ReportType = ReportType.Metar,
-                Modifier = MetarModifier.Auto,
+                Modifier = ReportModifier.Auto,
                 Airport = "KSME",
                 ObservationDayTime = new ObservationDayTime
                 {
@@ -490,7 +490,7 @@ namespace MetarParserCoreTests
                         Altitude = 7
                     }
                 },
-                Unrecognized = new []
+                Unrecognized = new[]
                 {
                     "ERROR"
                 }

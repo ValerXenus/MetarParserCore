@@ -5,7 +5,7 @@ namespace MetarParserCore.Enums
     /// <summary>
     /// Types of METAR data
     /// </summary>
-    public enum MetarModifier
+    public enum ReportModifier
     {
         [Description("None")]
         None = 0,
@@ -14,6 +14,12 @@ namespace MetarParserCore.Enums
         Auto = 1,
 
         [Description("COR")]
-        Cor = 2
+        Cor = 2,
+
+        /// <summary>
+        /// TAF report corrected modifier
+        /// </summary>
+        [Description("AMD")]
+        Amd = 3,
     }
 }

@@ -1,23 +1,20 @@
-﻿using MetarParserCore.Enums;
+﻿using System.Linq;
+using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
 using MetarParserCore.Interfaces;
 using MetarParserCore.Objects;
 using MetarParserCore.TokenLogic;
-using System.Linq;
 
 namespace MetarParserCore
 {
-    /// <summary>
-    /// General METAR parser class
-    /// </summary>
-    public class MetarParser : IWeatherReportParser<Metar>
+    public class TafParser : IWeatherReportParser<Taf>
     {
         /// <summary>
         /// Current month
         /// </summary>
         private Month _currentMonth;
 
-        public MetarParser(Month currentMonth = Month.None)
+        public TafParser(Month currentMonth = Month.None)
         {
             _currentMonth = currentMonth;
         }
@@ -27,27 +24,27 @@ namespace MetarParserCore
         /// <summary>
         /// Parse method
         /// </summary>
-        /// <param name="raw">Raw METAR string</param>
-        /// <returns>Parsed Metar object</returns>
-        public Metar Parse(string raw)
+        /// <param name="raw">Raw TAF string</param>
+        /// <returns>Parsed TAF object</returns>
+        public Taf Parse(string raw)
         {
             if (string.IsNullOrEmpty(raw))
-                return new Metar
+                return new Taf
                 {
-                    ParseErrors = new []{ "Raw METAR is not correct" }
+                    ParseErrors = new[] { "Raw TAF is not correct" }
                 };
 
             var rawTokens = raw.Clean().ToUpper().Split(" ");
             var groupedTokens = Recognizer.Instance().RecognizeAndGroupTokens(rawTokens);
-            return new Metar(groupedTokens, _currentMonth);
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
-        /// Multiple parse METARs method
+        /// Multiple parse TAFs method
         /// </summary>
-        /// <param name="raws">Array of raw METAR strings</param>
-        /// <returns>Array of parsed Metar objects</returns>
-        public Metar[] Parse(string[] raws) =>
+        /// <param name="raws">Array of raw TAF strings</param>
+        /// <returns>Array of parsed TAF objects</returns>
+        public Taf[] Parse(string[] raws) =>
             raws.Select(Parse).ToArray();
 
         #endregion

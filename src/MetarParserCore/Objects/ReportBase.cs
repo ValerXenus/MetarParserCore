@@ -36,7 +36,7 @@ namespace MetarParserCore.Objects
         /// METAR modifier
         /// </summary>
         [DataMember(Name = "modifier", EmitDefaultValue = false)]
-        public MetarModifier Modifier { get; init; }
+        public ReportModifier Modifier { get; init; }
 
         /// <summary>
         /// Info about surface wind
@@ -69,7 +69,7 @@ namespace MetarParserCore.Objects
         public string[] ParseErrors { get; set; }
 
         /// <summary>
-        /// Unrecognized tokens by METAR TokenRecognizer
+        /// Unrecognized tokens by TokenRecognizer
         /// </summary>
         [DataMember(Name = "unrecognized", EmitDefaultValue = false)]
         public string[] Unrecognized { get; set; }
@@ -95,7 +95,7 @@ namespace MetarParserCore.Objects
             var errors = new List<string>();
 
             Month = currentMonth;
-            Modifier = GetMetarModifier(groupedTokens);
+            Modifier = GetReportModifier(groupedTokens);
             SurfaceWind = GetDataObjectOrNull<SurfaceWind>(groupedTokens.GetTokenGroupOrDefault(TokenType.SurfaceWind), errors);
             PrevailingVisibility = GetDataObjectOrNull<PrevailingVisibility>(groupedTokens.GetTokenGroupOrDefault(TokenType.PrevailingVisibility), errors);
             PresentWeather = GetParsedDataArray<WeatherPhenomena>(groupedTokens.GetTokenGroupOrDefault(TokenType.PresentWeather), errors);
@@ -176,15 +176,19 @@ namespace MetarParserCore.Objects
         /// </summary>
         /// <param name="groupedTokens">Dictionary of grouped tokens</param>
         /// <returns></returns>
-        private MetarModifier GetMetarModifier(Dictionary<TokenType, string[]> groupedTokens)
+        private ReportModifier GetReportModifier(Dictionary<TokenType, string[]> groupedTokens)
         {
             var modifierValue = groupedTokens.GetTokenGroupOrDefault(TokenType.Modifier);
             if (modifierValue.Length == 0)
-                return MetarModifier.None;
+                return ReportModifier.None;
 
-            return modifierValue[0].Equals("AUTO")
-                ? MetarModifier.Auto
-                : MetarModifier.Cor;
+            return modifierValue[0] switch
+            {
+                "AUTO" => ReportModifier.Auto,
+                "COR" => ReportModifier.Cor,
+                "AMD" => ReportModifier.Amd,
+                _ => ReportModifier.None
+            };
         }
 
         /// <summary>
