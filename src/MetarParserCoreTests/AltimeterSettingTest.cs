@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void AltimeterSetting_Successful()
         {
+            const int validParsedSettingsCount = 2;
+
             var tokens = new[]
             {
                 "A3012",
@@ -23,8 +25,8 @@ namespace MetarParserCoreTests
             var altimeterSettings = tokens.Select(token => new AltimeterSetting(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(altimeterSettings.Count, 2);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validParsedSettingsCount, altimeterSettings.Count);
 
             #region Valid object
 
@@ -46,17 +48,20 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(altimeterSettings);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void CloudLayerParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var altimeterSetting = new AltimeterSetting(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorMessage = "Array with altimeter token is empty";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Array with altimeter token is empty", errors[0]);
+            var errors = new List<string>();
+            var _ = new AltimeterSetting(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorMessage, errors[0]);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void ParseWindShear_Successful()
         {
+            const int validResultsCount = 6;
+
             var tokensArray = new []
             {
                 new [] { "WS", "ALL", "RWY" },
@@ -27,8 +29,8 @@ namespace MetarParserCoreTests
             var windShears = tokensArray.Select(wsTokens => new WindShear(wsTokens, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(windShears.Count, 6);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, windShears.Count);
 
             #region Valid object
 
@@ -73,11 +75,14 @@ namespace MetarParserCoreTests
         [Fact]
         public void WindShearParser_Unsuccessful()
         {
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Array with wind shear tokens is incorrect";
+
             var errors = new List<string>();
             var windShear = new WindShear(Array.Empty<string>(), errors);
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Array with wind shear tokens is incorrect", errors[0]);
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
     }
 }

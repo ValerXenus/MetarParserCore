@@ -14,6 +14,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void SurfaceWindParser_Successful()
         {
+            const int validResultsCount = 11;
+
             var unparsedWinds = new[]
             {
                 new string[] {"27005MPS"},
@@ -24,15 +26,17 @@ namespace MetarParserCoreTests
                 new string[] {"27005KT"},
                 new string[] {"30015G25KT"},
                 new string[] {"VRB02KT"},
-                new string[] {"27005KT", "060V130"}
+                new string[] {"27005KT", "060V130"},
+                new string[] {"240P49KT"},
+                new string[] {"030P99MPS"}
             };
 
             var errors = new List<string>();
             var surfaceWinds = unparsedWinds.Select(x => new SurfaceWind(x, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(surfaceWinds.Count, 9);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, surfaceWinds.Count);
 
             #region Valid object
 
@@ -109,6 +113,20 @@ namespace MetarParserCoreTests
                         FirstExtremeDirection = 60,
                         LastExtremeWindDirection = 130
                     }
+                },
+                new SurfaceWind
+                {
+                    GreaterThanSign = true,
+                    Direction = 240,
+                    Speed = 49,
+                    WindUnit = WindUnit.Knots
+                },
+                new SurfaceWind
+                {
+                    GreaterThanSign = true,
+                    Direction = 30,
+                    Speed = 99,
+                    WindUnit = WindUnit.MetersPerSecond
                 }
             };
 
@@ -116,17 +134,20 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(surfaceWinds);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void SurfaceWindParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var surfaceWind = new SurfaceWind(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Wind tokens were not found";
 
-            Assert.Equal(errors.Count, 1);
-            Assert.Equal(errors[0], "Wind tokens were not found");
+            var errors = new List<string>();
+            var _ = new SurfaceWind(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
     }
 }

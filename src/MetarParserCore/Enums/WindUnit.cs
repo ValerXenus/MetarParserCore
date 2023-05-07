@@ -12,7 +12,7 @@ namespace MetarParserCore.Enums
         [Description("MPS")]
         MetersPerSecond = 1,
 
-        [Description("KMT")]
+        [Description("KMH")]
         KilometersPerHour = 2,
 
         [Description("KT")]

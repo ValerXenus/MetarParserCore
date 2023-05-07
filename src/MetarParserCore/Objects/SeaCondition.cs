@@ -50,11 +50,11 @@ namespace MetarParserCore.Objects
             }
 
             var firstToken = tokens.First();
-            var splittedToken = firstToken.Split("/");
+            var tokenParts = firstToken.Split("/");
 
-            SeaTemperature = GetSeaTemperature(splittedToken[0]);
+            SeaTemperature = GetSeaTemperature(tokenParts[0]);
 
-            var stateToken = splittedToken[1];
+            var stateToken = tokenParts[1];
             if (stateToken.Contains("H"))
             {
                 WaveHeight = int.Parse(stateToken[1..]);

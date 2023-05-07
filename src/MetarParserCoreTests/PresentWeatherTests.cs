@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void PresentWeather_Successful()
         {
+            const int validResultsCount = 5;
+
             var tokens = new[]
             {
                 "TSRAGR",
@@ -26,8 +28,8 @@ namespace MetarParserCoreTests
             var presentWeathers = tokens.Select(token => new WeatherPhenomena(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(presentWeathers.Count, 5);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, presentWeathers.Count);
 
             #region Valid object
 
@@ -82,27 +84,33 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(presentWeathers);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void PresentWeatherParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var weather = new WeatherPhenomena(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorMessage = "Array of present weather tokens is empty";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Array of present weather tokens is empty", errors[0]);
+            var errors = new List<string>();
+            var _ = new WeatherPhenomena(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorMessage, errors[0]);
         }
 
         [Fact]
         public void UnexpectedToken_Unsuccessful()
         {
-            var errors = new List<string>();
-            var weather = new WeatherPhenomena(new []{ "+" }, errors);
+            const int validErrorsCount = 1;
+            const string validErrorMessage = "Cannot parse weather token: \"+\"";
 
-            Assert.Equal(errors.Count, 1);
-            Assert.Equal("Cannot parse weather token: \"+\"", errors[0]);
+            var errors = new List<string>();
+            var _ = new WeatherPhenomena(new []{ "+" }, errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorMessage, errors[0]);
         }
     }
 }

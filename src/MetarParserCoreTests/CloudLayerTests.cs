@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void CloudLayer_Successful()
         {
+            const int validResultCount = 7;
+
             var tokens = new[]
             {
                 "BKN008",
@@ -28,8 +30,8 @@ namespace MetarParserCoreTests
             var cloudLayers = tokens.Select(token => new CloudLayer(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(cloudLayers.Count, 7);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultCount, cloudLayers.Count);
 
             #region Valid object
 
@@ -83,22 +85,28 @@ namespace MetarParserCoreTests
         [Fact]
         public void CloudLayerParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var cloudLayer = new CloudLayer(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorMessage = "Array of cloud layer tokens is empty";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Array of cloud layer tokens is empty", errors[0]);
+            var errors = new List<string>();
+            var _ = new CloudLayer(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorMessage, errors[0]);
         }
 
 
         [Fact]
         public void UnexpectedToken_Unsuccessful()
         {
-            var errors = new List<string>();
-            var cloudLayer = new CloudLayer(new[] { "ERROR1" }, errors);
+            const int validErrorsCount = 1;
+            const string validErrorMessage = "Cannot parse altitude from token OR1";
 
-            Assert.Equal(errors.Count, 1);
-            Assert.Equal("Cannot parse altitude from token OR1", errors[0]);
+            var errors = new List<string>();
+            var _ = new CloudLayer(new[] { "ERROR1" }, errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorMessage, errors[0]);
         }
     }
 }

@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void MilitaryColorCodesParse_Successful()
         {
+            const int validOutcomeCount = 3;
+
             var codesCollection = new []
             {
                 new [] { "GRN", "AMB" },
@@ -25,8 +27,8 @@ namespace MetarParserCoreTests
                 .Select(codes => new MilitaryWeather(codes, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(outcome.Count, 3);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validOutcomeCount, outcome.Count);
 
             #region Valid object
 
@@ -62,17 +64,20 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(outcome);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void CloudLayerParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var militaryWeather = new MilitaryWeather(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorMessage = "Array of military codes is empty";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Array of military codes is empty", errors[0]);
+            var errors = new List<string>();
+            var _ = new MilitaryWeather(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorMessage, errors[0]);
         }
     }
 }

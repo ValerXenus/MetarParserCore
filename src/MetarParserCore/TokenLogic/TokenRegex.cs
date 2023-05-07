@@ -11,9 +11,9 @@
 
         public static string Modifier => @"^(COR|AUTO|AMD)$";
 
-        public static string SurfaceWind => @"^(([0-3]{1}\d{2}|VRB)\d{2}(G\d{2})?(MPS|KMT|KT){1}|[0-3]{1}\d{2}V[0-3]{1}\d{2})$";
+        public static string SurfaceWind => @"^(([0-3]{1}\d{2}P?|VRB)\d{2}(G\d{2})?(MPS|KMH|KT){1}|[0-3]{1}\d{2}V[0-3]{1}\d{2})$";
 
-        public static string PrevailingVisibility => @"^(\d{4}(N|S)?(E|W)?|[1-2]{1}|M?(\d{1}\/\d{1,2}|\d{1,2})SM|CAVOK)$";
+        public static string PrevailingVisibility => @"^(\d{4}(N|S)?(E|W)?|[1-2]{1}|(M|P)?(\d{1}\/\d{1,2}|\d{1,2})SM|CAVOK)$";
 
         public static string RunwayVisualRange => @"^R[0-3]{1}\d{1}(L|C|R|LL|RR)?\/(M|P)?\d{4}(V\d{4})?(FT)?(\/(U|D|N)|(U|D|N))?$";
 

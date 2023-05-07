@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void SeaConditionParser_Successful()
         {
+            const int validResultsCount = 7;
+
             var tokens = new[]
             {
                 "W24/S8",
@@ -28,8 +30,8 @@ namespace MetarParserCoreTests
             var seaConditions = tokens.Select(token => new SeaCondition(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(seaConditions.Count, 7);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, seaConditions.Count);
 
             #region Valid object
 
@@ -78,17 +80,20 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(seaConditions);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void SeaConditionParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var seaCondition = new SeaCondition(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Array of sea condition tokens is empty";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Array of sea condition tokens is empty", errors[0]);
+            var errors = new List<string>();
+            var _ = new SeaCondition(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
     }
 }

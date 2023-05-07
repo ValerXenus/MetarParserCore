@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void ParseMotne_Successful()
         {
+            const int validResultCount = 21;
+
             var tokens = new[]
             {
                 "R/SNOCLO",
@@ -42,8 +44,8 @@ namespace MetarParserCoreTests
             var motnes = tokens.Select(token => new Motne(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(motnes.Count, 21);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultCount, motnes.Count);
 
             #region Valid object
 
@@ -203,37 +205,46 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(motnes);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void MotneParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var motne = new Motne(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validStringMessage = "Motne token is not found in incoming array";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Motne token is not found in incoming array", errors[0]);
+            var errors = new List<string>();
+            var _ = new Motne(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validStringMessage, errors[0]);
         }
 
         [Fact]
         public void MotneParserEmptyToken_Unsuccessful()
         {
-            var errors = new List<string>();
-            var motne = new Motne(new []{ "" }, errors);
+            const int validErrorsCount = 1;
+            const string validStringMessage = "Motne token was not found";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Motne token was not found", errors[0]);
+            var errors = new List<string>();
+            var _ = new Motne(new []{ "" }, errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validStringMessage, errors[0]);
         }
 
         [Fact]
         public void MotneParserWrongRunway_Unsuccessful()
         {
-            var errors = new List<string>();
-            var motne = new Motne(new[] { "908/4219" }, errors);
+            const int validErrorsCount = 1;
+            const string validStringMessage = "Incorrect runway number in MOTNE 908/4219 token";
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Incorrect runway number in MOTNE 908/4219 token", errors[0]);
+            var errors = new List<string>();
+            var _ = new Motne(new[] { "908/4219" }, errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validStringMessage, errors[0]);
         }
     }
 }

@@ -9,7 +9,7 @@
 
         public static string VisibilityWholeNumber => @"^[1-2]{1}$";
 
-        public static string StatuteMilesVisibility => @"^M?(\d{1}\/\d{1,2}|\d{1,2})SM$";
+        public static string StatuteMilesVisibility => @"^(M|P)?(\d{1}\/\d{1,2}|\d{1,2})SM$";
 
         public static string MetersVisibility => @"^\d{4}(N|S)?(E|W)?$";
 

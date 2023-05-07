@@ -14,6 +14,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void TrendParser_Successful()
         {
+            const int validResultsCount = 10;
+
             var trends = new[]
             {
                 "BECMG AT1330 02020MPS TEMPO VRB15MPS -TSRA BKN020CB OVC110",
@@ -31,8 +33,8 @@ namespace MetarParserCoreTests
 
             foreach (var trend in trends)
             {
-                var splitted = trend.ToUpper().Split(" ");
-                var reports = Recognizer.Instance().RecognizeAndGroupTokensTrend(splitted);
+                var parts = trend.ToUpper().Split(" ");
+                var reports = Recognizer.Instance().RecognizeAndGroupTokensTrend(parts);
 
                 foreach (var report in reports)
                 {
@@ -47,8 +49,8 @@ namespace MetarParserCoreTests
                 }
             }
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(parsedTrends.Count, 10);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, parsedTrends.Count);
 
             #region Valid object
 
@@ -278,7 +280,7 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(parsedTrends);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
     }
 }

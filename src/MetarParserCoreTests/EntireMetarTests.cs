@@ -172,19 +172,21 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(airportMetar);
             var validResults = JsonConvert.SerializeObject(validMetar);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void ParseMetarExampleNil_Successful()
         {
+            const string validAirport = "UWKD";
+
             var rawString = "UWKD 020500Z NIL=";
             var metarParser = new MetarParser();
             var airportMetar = metarParser.Parse(rawString);
 
             Assert.Null(airportMetar.ParseErrors);
-            Assert.Equal(airportMetar.Airport, "UWKD");
-            Assert.Equal(airportMetar.IsNil, true);
+            Assert.Equal(validAirport, airportMetar.Airport);
+            Assert.Equal(true, airportMetar.IsNil);
         }
 
         [Fact]
@@ -261,7 +263,7 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(airportMetar);
             var validResults = JsonConvert.SerializeObject(validMetar);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
@@ -356,7 +358,7 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(airportMetar);
             var validResults = JsonConvert.SerializeObject(validMetar);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
@@ -428,18 +430,20 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(airportMetar);
             var validResults = JsonConvert.SerializeObject(validMetar);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void ParseMetarExampleKsme_Successful()
         {
+            const string validUnrecognizedToken = "ERROR";
+
             var rawString = "KSME 171053Z AUTO 01107KT 1 3/4SM ERROR BR VV007";
             var metarParser = new MetarParser();
             var airportMetar = metarParser.Parse(rawString);
 
             Assert.Null(airportMetar.ParseErrors);
-            Assert.Equal(airportMetar.Unrecognized[0], "ERROR");
+            Assert.Equal(validUnrecognizedToken, airportMetar.Unrecognized[0]);
 
             #region Valid object
 
@@ -500,7 +504,7 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(airportMetar);
             var validResults = JsonConvert.SerializeObject(validMetar);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
     }
 }

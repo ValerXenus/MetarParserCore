@@ -12,6 +12,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void RecentWeather_Successful()
         {
+            const int validResultsCount = 4;
+
             var tokens = new[]
             {
                 "REFZRA",
@@ -24,8 +26,8 @@ namespace MetarParserCoreTests
             var recentWeathers = tokens.Select(token => new WeatherPhenomena(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(recentWeathers.Count, 4);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, recentWeathers.Count);
 
             #region Valid object
 
@@ -68,7 +70,7 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(recentWeathers);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
     }
 }

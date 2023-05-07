@@ -12,6 +12,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void TemperatureInfo_Successful()
         {
+            const int validResultsCount = 4;
+
             var tokens = new[]
             {
                 "M05/M08",
@@ -24,8 +26,8 @@ namespace MetarParserCoreTests
             var temperatureInfos = tokens.Select(token => new TemperatureInfo(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(temperatureInfos.Count, 4);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, temperatureInfos.Count);
 
             #region Valid object
 
@@ -57,7 +59,7 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(temperatureInfos);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
@@ -79,27 +81,33 @@ namespace MetarParserCoreTests
             var parseResult = JsonConvert.SerializeObject(temperatureInfo);
             var validResult = JsonConvert.SerializeObject(validResultObject);
 
-            Assert.Equal(parseResult, validResult);
+            Assert.Equal(validResult, parseResult);
         }
 
         [Fact]
         public void TemperatureInfoEmptyTokensArray_Unsuccessful()
         {
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Array with temperature token is empty";
+
             var errors = new List<string>();
             var _ = new TemperatureInfo(Array.Empty<string>(), errors);
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Array with temperature token is empty", errors[0]);
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
 
         [Fact]
         public void TemperatureInfoEmptyToken_Unsuccessful()
         {
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Cannot parse empty temperature token";
+
             var errors = new List<string>();
             var _ = new TemperatureInfo(new []{ "" }, errors);
 
-            Assert.Equal(1, errors.Count);
-            Assert.Equal("Cannot parse empty temperature token", errors[0]);
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
     }
 }

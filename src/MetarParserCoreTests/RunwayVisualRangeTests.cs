@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void ParseRvr_Successful()
         {
+            const int validResultsCount = 6;
+
             var tokens = new []
             {
                 "R26/M8000FT",
@@ -27,8 +29,8 @@ namespace MetarParserCoreTests
             var rvrs = tokens.Select(token => new RunwayVisualRange(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(rvrs.Count, 6);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, rvrs.Count);
 
             #region Valid object
 
@@ -92,11 +94,14 @@ namespace MetarParserCoreTests
         [Fact]
         public void PrevailingVisibilityParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var rvr = new RunwayVisualRange(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Array of runway visual range tokens is empty";
 
-            Assert.Equal(errors.Count, 1);
-            Assert.Equal(errors[0], "Array of runway visual range tokens is empty");
+            var errors = new List<string>();
+            var _ = new RunwayVisualRange(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
     }
 }

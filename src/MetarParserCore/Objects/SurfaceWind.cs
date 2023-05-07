@@ -24,6 +24,12 @@ namespace MetarParserCore.Objects
         public bool IsVariable { get; init; }
 
         /// <summary>
+        /// (P sign) - denotes greater than represented value
+        /// </summary>
+        [DataMember(Name = "greaterThanSign", EmitDefaultValue = false)]
+        public bool GreaterThanSign { get; set; }
+
+        /// <summary>
         /// Speed of the wind
         /// </summary>
         [DataMember(Name = "speed", EmitDefaultValue = false)]
@@ -61,6 +67,10 @@ namespace MetarParserCore.Objects
         /// <param name="errors">List of parse errors</param>
         internal SurfaceWind(string[] tokens, List<string> errors)
         {
+            const string variableToken = "VRB";
+            const string plusToken = "P";
+            const string gustToken = "G";
+
             if (tokens.Length == 0)
             {
                 errors.Add("Wind tokens were not found");
@@ -68,7 +78,7 @@ namespace MetarParserCore.Objects
             }
 
             var windValue = tokens[0].Substring(0, 3);
-            if (windValue.Equals("VRB"))
+            if (windValue.Equals(variableToken))
                 IsVariable = true;
             else
             {
@@ -76,9 +86,13 @@ namespace MetarParserCore.Objects
                 Direction = int.Parse(windValue);
             }
 
+            GreaterThanSign = tokens[0].Substring(3, 1).Equals(plusToken);
+            if (GreaterThanSign)
+                tokens[0] = string.Concat(tokens[0][..3], tokens[0][4..]);
+
             Speed = int.Parse(tokens[0].Substring(3, 2));
 
-            if (tokens[0].Substring(5, 1).Equals("G"))
+            if (tokens[0].Substring(5, 1).Equals(gustToken))
                 GustSpeed = int.Parse(tokens[0].Substring(6, 2));
 
             WindUnit = GetWindUnit(tokens[0]);
@@ -98,7 +112,7 @@ namespace MetarParserCore.Objects
         /// <returns></returns>
         private WindUnit GetWindUnit(string unitString)
         {
-            if (unitString.EndsWith("KMT"))
+            if (unitString.EndsWith("KMH"))
                 return WindUnit.KilometersPerHour;
             if (unitString.EndsWith("KT"))
                 return WindUnit.Knots;

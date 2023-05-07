@@ -113,8 +113,8 @@ namespace MetarParserCore.Objects
         {
             if (motneToken.StartsWith("R"))
             {
-                var splittedMotne = motneToken.Split("/");
-                return (splittedMotne[0][1..], motneToken[(splittedMotne[0].Length + 1)..]);
+                var motneParts = motneToken.Split("/");
+                return (motneParts[0][1..], motneToken[(motneParts[0].Length + 1)..]);
             }
 
             var stringNumber = motneToken[..2];

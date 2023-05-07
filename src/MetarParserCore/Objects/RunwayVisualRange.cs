@@ -82,11 +82,11 @@ namespace MetarParserCore.Objects
                 rvrRaw = rvrRaw[..^1];
             }
 
-            var splittedRvr = rvrRaw.Split('/');
+            var rvrParts = rvrRaw.Split('/');
 
-            RunwayNumber = splittedRvr[0][1..];
+            RunwayNumber = rvrParts[0][1..];
 
-            var values = splittedRvr[1];
+            var values = rvrParts[1];
             values = values.Replace("FT", "");
             if (Regex.IsMatch(values[..1], @"^(M|P)$"))
             {
@@ -96,15 +96,15 @@ namespace MetarParserCore.Objects
 
             if (values.Contains("V"))
             {
-                var splittedValues = values.Split('V');
-                if (splittedValues.Length < 2)
+                var parts = values.Split('V');
+                if (parts.Length < 2)
                 {
                     errors.Add($"Unexpected token {values} in {rvrRaw}");
                     return;
                 }
 
-                VisibilityValue = int.Parse(splittedValues[0]);
-                VisibilityValueMax = int.Parse(splittedValues[1]);
+                VisibilityValue = int.Parse(parts[0]);
+                VisibilityValueMax = int.Parse(parts[1]);
             }
             else
                 VisibilityValue = int.Parse(values);

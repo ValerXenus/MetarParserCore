@@ -174,7 +174,7 @@ namespace MetarParserCoreTests.Taf
 
             var parseResults = JsonConvert.SerializeObject(airportTaf);
             var validResults = JsonConvert.SerializeObject(validTaf);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
     }
 }

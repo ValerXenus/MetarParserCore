@@ -17,6 +17,12 @@ namespace MetarParserCore.Objects.Supplements
         public bool LessThanSign { get; init; }
 
         /// <summary>
+        /// (P sign) - denotes greater than represented value
+        /// </summary>
+        [DataMember(Name = "greaterThanSign", EmitDefaultValue = false)]
+        public bool GreaterThanSign { get; set; }
+
+        /// <summary>
         /// Whole number miles of visibility/whole number of mixed fraction 
         /// </summary>
         [DataMember(Name = "wholeNumber", EmitDefaultValue = false)]
@@ -47,6 +53,10 @@ namespace MetarParserCore.Objects.Supplements
         /// <param name="tokens">Array of tokens</param>
         internal VisibilityInStatuteMiles(string[] tokens)
         {
+            const string statuteMilesToken = "SM";
+            const string lessThanToken = "M";
+            const string greaterThanToken = "P";
+
             foreach (var token in tokens)
             {
                 var current = token;
@@ -56,11 +66,17 @@ namespace MetarParserCore.Objects.Supplements
                     continue;
                 }
 
-                current = token.Replace("SM", "");
-                if (current.StartsWith("M"))
+                current = token.Replace(statuteMilesToken, "");
+                if (current.StartsWith(lessThanToken))
                 {
                     LessThanSign = true;
-                    current = current.Replace("M", "");
+                    current = current.Replace(lessThanToken, "");
+                }
+
+                if (current.StartsWith(greaterThanToken))
+                {
+                    GreaterThanSign = true;
+                    current = current.Replace(greaterThanToken, "");
                 }
 
                 var fraction = current.Split("/");

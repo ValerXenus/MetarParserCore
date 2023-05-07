@@ -13,6 +13,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void ObservationDayTimeParser_Successful()
         {
+            const int validResultsCount = 4;
+
             var tokens = new[]
             {
                 "291030Z",
@@ -25,8 +27,8 @@ namespace MetarParserCoreTests
             var dayTimes = tokens.Select(token => new ObservationDayTime(new[] { token }, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(dayTimes.Count, 4);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, dayTimes.Count);
 
             #region Valid object
 
@@ -74,17 +76,20 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(dayTimes);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void ObservationDayTimeParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var dayTime = new ObservationDayTime(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorMessage = "Array of observation day time tokens is empty";
 
-            Assert.Equal(errors.Count, 1);
-            Assert.Equal(errors[0], "Array of observation day time tokens is empty");
+            var errors = new List<string>();
+            var _ = new ObservationDayTime(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorMessage, errors[0]);
         }
     }
 }

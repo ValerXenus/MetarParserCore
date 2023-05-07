@@ -14,6 +14,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void PrevailingVisibilityParser_Successful()
         {
+            const int validResultsCount = 8;
+
             var visibilities = new[]
             {
                 new string[] {"1", "3/4SM"},
@@ -22,15 +24,16 @@ namespace MetarParserCoreTests
                 new string[] {"5000", "1500SE"},
                 new string[] {"1200NW"},
                 new string[] {"CAVOK"},
-                new string[] {"P6SM"}
+                new string[] {"P6SM"},
+                new string[] {"M1/2SM"}
             };
 
             var errors = new List<string>();
             var prevailingVisibilities = visibilities.Select(x => new PrevailingVisibility(x, errors))
                 .ToList();
 
-            Assert.Equal(errors.Count, 0);
-            Assert.Equal(prevailingVisibilities.Count, 6);
+            Assert.Equal(0, errors.Count);
+            Assert.Equal(validResultsCount, prevailingVisibilities.Count);
 
             #region Valid object
 
@@ -80,6 +83,23 @@ namespace MetarParserCoreTests
                 new PrevailingVisibility
                 {
                     IsCavok = true
+                },
+                new PrevailingVisibility
+                {
+                    VisibilityInStatuteMiles = new VisibilityInStatuteMiles
+                    {
+                        GreaterThanSign = true,
+                        WholeNumber = 6
+                    }
+                },
+                new PrevailingVisibility
+                {
+                    VisibilityInStatuteMiles = new VisibilityInStatuteMiles
+                    {
+                        LessThanSign = true,
+                        Numerator = 1,
+                        Denominator = 2
+                    }
                 }
             };
 
@@ -87,27 +107,33 @@ namespace MetarParserCoreTests
 
             var parseResults = JsonConvert.SerializeObject(prevailingVisibilities);
             var validResults = JsonConvert.SerializeObject(validResultsObject);
-            Assert.Equal(parseResults, validResults);
+            Assert.Equal(validResults, parseResults);
         }
 
         [Fact]
         public void PrevailingVisibilityParser_Unsuccessful()
         {
-            var errors = new List<string>();
-            var prevailingVisibility = new PrevailingVisibility(Array.Empty<string>(), errors);
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Array of prevailing visibility tokens is empty";
 
-            Assert.Equal(errors.Count, 1);
-            Assert.Equal(errors[0], "Array of prevailing visibility tokens is empty");
+            var errors = new List<string>();
+            var _ = new PrevailingVisibility(Array.Empty<string>(), errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
 
         [Fact]
         public void UnexpectedToken_Unsuccessful()
         {
-            var errors = new List<string>();
-            var prevailingVisibility = new PrevailingVisibility(new []{ "ERROR" }, errors);
+            const int validErrorsCount = 1;
+            const string validErrorsMessage = "Unexpected token: ERROR";
 
-            Assert.Equal(errors.Count, 1);
-            Assert.Equal(errors[0], "Unexpected token: ERROR");
+            var errors = new List<string>();
+            var _ = new PrevailingVisibility(new []{ "ERROR" }, errors);
+
+            Assert.Equal(validErrorsCount, errors.Count);
+            Assert.Equal(validErrorsMessage, errors[0]);
         }
     }
 }
