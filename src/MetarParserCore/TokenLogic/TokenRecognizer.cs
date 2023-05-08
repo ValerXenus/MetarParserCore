@@ -98,6 +98,8 @@ namespace MetarParserCore.TokenLogic
                     return new Token(TokenType.Trend, rawToken);
                 case "NIL":
                     return new Token(TokenType.Nil, rawToken);
+                case "CNL":
+                    return new Token(TokenType.Cnl, rawToken);
                 case "RMK":
                     return new Token(TokenType.Remarks, rawToken);
             }

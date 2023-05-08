@@ -25,8 +25,17 @@ namespace MetarParserCore.Objects
         [DataMember(Name = "observationDayTime", EmitDefaultValue = false)]
         public ObservationDayTime ObservationDayTime { get; init; }
 
+        /// <summary>
+        /// Represented forecast period for TAF reports
+        /// </summary>
         [DataMember(Name = "tafForecastPeriod", EmitDefaultValue = false)]
         public TafForecastPeriod TafForecastPeriod { get; init; }
+
+        /// <summary>
+        /// Sign "CNL" which means report with that specified forecast period was cancelled
+        /// </summary>
+        [DataMember(Name = "isReportCancelled", EmitDefaultValue = false)]
+        public bool IsReportCancelled { get; set; } 
 
         #region Constructors
 
@@ -48,6 +57,7 @@ namespace MetarParserCore.Objects
             Airport = GroupExtractor.GetAirportIcao(groupedTokens, errors);
             ObservationDayTime = GetDataObjectOrNull<ObservationDayTime>(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime), errors);
             TafForecastPeriod = GetDataObjectOrNull<TafForecastPeriod>(groupedTokens.GetTokenGroupOrDefault(TokenType.TafForecastPeriod), errors);
+            IsReportCancelled = groupedTokens.ContainsKey(TokenType.Cnl);
 
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
         }

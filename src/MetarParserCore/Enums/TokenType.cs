@@ -49,6 +49,8 @@
 
         TafForecastPeriod = 21,
 
+        Cnl = 22,
+
         ReportType = 99
     }
 }

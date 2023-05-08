@@ -176,5 +176,57 @@ namespace MetarParserCoreTests.Taf
             var validResults = JsonConvert.SerializeObject(validTaf);
             Assert.Equal(validResults, parseResults);
         }
+
+        [Fact]
+        public void ParseTafExampleNil_Successful()
+        {
+            const string validAirport = "UWKD";
+
+            var rawString = "TAF UWKD 020500Z NIL=";
+            var tafParser = new TafParser();
+            var airportTaf = tafParser.Parse(rawString);
+
+            Assert.Null(airportTaf.ParseErrors);
+            Assert.Equal(validAirport, airportTaf.Airport);
+            Assert.Equal(true, airportTaf.IsNil);
+        }
+
+        [Fact]
+        public void ParseTafExampleNCnl_Successful()
+        {
+            var rawString = "TAF UWKD 011100Z 0312/0418 CNL";
+            var tafParser = new TafParser();
+            var airportTaf = tafParser.Parse(rawString);
+
+            #region Valid object
+
+            var validTaf = new MetarParserCore.Objects.Taf
+            {
+                ReportType = ReportType.Taf,
+                Airport = "UWKD",
+                ObservationDayTime = new ObservationDayTime
+                {
+                    Day = 1,
+                    Time = new Time
+                    {
+                        Hours = 11,
+                        Minutes = 0
+                    }
+                },
+                TafForecastPeriod = new TafForecastPeriod
+                {
+                    Start = new TafDayTime { Day = 3, Hours = 12 },
+                    End = new TafDayTime { Day = 4, Hours = 18 }
+                },
+                IsReportCancelled = true
+            };
+
+            #endregion
+
+            var parseResults = JsonConvert.SerializeObject(airportTaf);
+            var validResults = JsonConvert.SerializeObject(validTaf);
+            Assert.Null(airportTaf.ParseErrors);
+            Assert.Equal(validResults, parseResults);
+        }
     }
 }
