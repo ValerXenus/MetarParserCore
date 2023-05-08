@@ -13,6 +13,7 @@
 
         public static string MetersVisibility => @"^\d{4}(N|S)?(E|W)?$";
 
+
         public static string MetersVisibilityContainsDirections = @"^\d{4}(N|S|E|W){1,2}$";
 
         #endregion

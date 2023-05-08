@@ -51,6 +51,8 @@
 
         Cnl = 22,
 
+        TafTemperature = 23,
+
         ReportType = 99
     }
 }

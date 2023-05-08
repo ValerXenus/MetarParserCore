@@ -10,7 +10,7 @@ namespace MetarParserCore.Objects
     /// General TAF data class
     /// NOTE: Any property can be null
     /// </summary>
-    [DataContract(Name = "metar")]
+    [DataContract(Name = "taf")]
     public class Taf: ReportBase
     {
         /// <summary>
@@ -35,7 +35,13 @@ namespace MetarParserCore.Objects
         /// Sign "CNL" which means report with that specified forecast period was cancelled
         /// </summary>
         [DataMember(Name = "isReportCancelled", EmitDefaultValue = false)]
-        public bool IsReportCancelled { get; set; } 
+        public bool IsReportCancelled { get; set; }
+
+        /// <summary>
+        /// TAF forecast temperature info
+        /// </summary>
+        [DataMember(Name = "tafTemperatureInfo", EmitDefaultValue = false)]
+        public TafTemperatureInfo TafTemperatureInfo { get; init; }
 
         #region Constructors
 
@@ -58,6 +64,7 @@ namespace MetarParserCore.Objects
             ObservationDayTime = GetDataObjectOrNull<ObservationDayTime>(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime), errors);
             TafForecastPeriod = GetDataObjectOrNull<TafForecastPeriod>(groupedTokens.GetTokenGroupOrDefault(TokenType.TafForecastPeriod), errors);
             IsReportCancelled = groupedTokens.ContainsKey(TokenType.Cnl);
+            TafTemperatureInfo = GetDataObjectOrNull<TafTemperatureInfo>(groupedTokens.GetTokenGroupOrDefault(TokenType.TafTemperature), errors);
 
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
         }

@@ -78,6 +78,8 @@ namespace MetarParserCore.TokenLogic
                     return new Token(TokenType.CloudLayer, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.Temperature):
                     return new Token(TokenType.Temperature, rawToken);
+                case { } when Regex.IsMatch(rawToken, TokenRegex.TafTemperature):
+                    return new Token(TokenType.TafTemperature, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.AltimeterSetting):
                     return new Token(TokenType.AltimeterSetting, rawToken);
                 case { } when rawToken.StartsWith("RE"):
