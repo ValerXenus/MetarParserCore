@@ -36,7 +36,7 @@ namespace MetarParserCore
 
             var rawTokens = raw.Clean().ToUpper().Split(" ");
             var groupedTokens = Recognizer.Instance().RecognizeAndGroupTokens(rawTokens);
-            throw new System.NotImplementedException();
+            return new Taf(groupedTokens, _currentMonth);
         }
 
         /// <summary>

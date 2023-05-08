@@ -47,6 +47,8 @@
 
         Nil = 20,
 
+        TafForecastPeriod = 21,
+
         ReportType = 99
     }
 }

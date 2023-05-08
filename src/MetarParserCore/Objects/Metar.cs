@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
+using MetarParserCore.Common;
 using MetarParserCore.Enums;
 using MetarParserCore.Extensions;
-using MetarParserCore.TokenLogic;
 
 namespace MetarParserCore.Objects
 {
@@ -109,7 +108,7 @@ namespace MetarParserCore.Objects
             var errors = new List<string>();
 
             ReportType = ReportType.Metar;
-            Airport = GetAirportIcao(groupedTokens, errors);
+            Airport = GroupExtractor.GetAirportIcao(groupedTokens, errors);
             ObservationDayTime = GetDataObjectOrNull<ObservationDayTime>(groupedTokens.GetTokenGroupOrDefault(TokenType.ObservationDayTime), errors);
             RunwayVisualRanges = GetParsedDataArray<RunwayVisualRange>(groupedTokens.GetTokenGroupOrDefault(TokenType.RunwayVisualRange), errors);
             Temperature = GetDataObjectOrNull<TemperatureInfo>(groupedTokens.GetTokenGroupOrDefault(TokenType.Temperature), errors);
@@ -119,62 +118,16 @@ namespace MetarParserCore.Objects
             Motne = GetParsedDataArray<Motne>(groupedTokens.GetTokenGroupOrDefault(TokenType.Motne), errors);
             SeaCondition = GetDataObjectOrNull<SeaCondition>(groupedTokens.GetTokenGroupOrDefault(TokenType.SeaState), errors);
             IsDeneb = groupedTokens.ContainsKey(TokenType.Deneb);
-            Trends = GetTrends(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend), errors);
+            Trends = GroupExtractor.GetTrends(groupedTokens.GetTokenGroupOrDefault(TokenType.Trend), Month, errors);
             MilitaryWeather = GetDataObjectOrNull<MilitaryWeather>(groupedTokens.GetTokenGroupOrDefault(TokenType.MilitaryColorCode), errors);
             Remarks = GetRemarks(groupedTokens.GetTokenGroupOrDefault(TokenType.Remarks));
 
-            // Parser errors
             ParseErrors = errors.Count == 0 ? null : errors.ToArray();
         }
 
         #endregion
 
         #region Private methods
-
-        /// <summary>
-        /// Get airport ICAO code
-        /// </summary>
-        /// <param name="groupedTokens">Dictionary of grouped tokens</param>
-        /// <param name="errors">List of parse errors</param>
-        /// <returns></returns>
-        private string GetAirportIcao(Dictionary<TokenType, string[]> groupedTokens, List<string> errors)
-        {
-            var airportValue = groupedTokens.GetTokenGroupOrDefault(TokenType.Airport);
-            if (airportValue.Length > 0)
-                return airportValue[0];
-
-            errors.Add("Airport ICAO code not found");
-            return null;
-        }
-
-        /// <summary>
-        /// Get TREND weather infos
-        /// </summary>
-        /// <param name="trendTokens">TREND tokens</param>
-        /// <param name="errors">List of parse errors</param>
-        /// <returns></returns>
-        private Trend[] GetTrends(string[] trendTokens, List<string> errors)
-        {
-            if (trendTokens is null or { Length: 0 })
-                return null;
-
-            var trendReports = Recognizer.Instance().RecognizeAndGroupTokensTrend(trendTokens);
-            var outcome = new List<Trend>();
-
-            foreach (var report in trendReports)
-            {
-                var current = new Trend(report, Month);
-                if (current.ParseErrors is { Length: > 0 })
-                {
-                    errors = errors.Concat(current.ParseErrors).ToList();
-                    continue;
-                }
-
-                outcome.Add(current);
-            }
-
-            return outcome.ToArray();
-        }
 
         /// <summary>
         /// Get remarks as string

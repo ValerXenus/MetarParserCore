@@ -9,6 +9,8 @@
 
         public static string ObservationDayTime => @"^[0-3]{1}\d{1}[0-2]{1}\d{1}[0-5]{1}\d{1}Z$";
 
+        public static string TafForecastPeriod => @"^[0-3]{1}\d{1}[0-2]{1}\d{1}\/[0-3]{1}\d{1}[0-2]{1}\d{1}$";
+
         public static string Modifier => @"^(COR|AUTO|AMD)$";
 
         public static string SurfaceWind => @"^(([0-3]{1}\d{2}P?|VRB)\d{2}(G\d{2})?(MPS|KMH|KT){1}|[0-3]{1}\d{2}V[0-3]{1}\d{2})$";

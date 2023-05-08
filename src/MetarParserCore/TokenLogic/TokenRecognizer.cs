@@ -59,6 +59,8 @@ namespace MetarParserCore.TokenLogic
                     return new Token(TokenType.Airport, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.ObservationDayTime):
                     return new Token(TokenType.ObservationDayTime, rawToken);
+                case { } when Regex.IsMatch(rawToken, TokenRegex.TafForecastPeriod):
+                    return new Token(TokenType.TafForecastPeriod, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.TrendTime):
                     return new Token(TokenType.TrendTime, rawToken);
                 case { } when Regex.IsMatch(rawToken, TokenRegex.Modifier):
