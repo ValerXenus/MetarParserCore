@@ -19,7 +19,8 @@ namespace MetarParserCoreTests
                 "+BLSN",
                 "VCSHRA",
                 "-RADZ",
-                "NSW"
+                "NSW",
+                "VCTS"
             };
 
             var errors = new List<string>();
@@ -27,7 +28,7 @@ namespace MetarParserCoreTests
                 .ToList();
 
             Assert.Equal(errors.Count, 0);
-            Assert.Equal(presentWeathers.Count, 5);
+            Assert.Equal(presentWeathers.Count, 6);
 
             #region Valid object
 
@@ -74,6 +75,14 @@ namespace MetarParserCoreTests
                     WeatherConditions = new []
                     {
                         WeatherCondition.NoSignificantWeather
+                    }
+                },
+                new WeatherPhenomena
+                {
+                    WeatherConditions = new []
+                    {
+                        WeatherCondition.Vicinity,
+                        WeatherCondition.Thunderstorm
                     }
                 }
             };

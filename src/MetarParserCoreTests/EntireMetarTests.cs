@@ -190,7 +190,8 @@ namespace MetarParserCoreTests
         [Fact]
         public void ParseMetarExampleKlax_Successful()
         {
-            var rawString = "KLAX 071753Z 27006KT 2 1/2SM HZ OVC012 16/12 A3007 RMK AO2 SLP181 VIS SW-NW 1 3/4 T01560117 10156 20133 52006";
+            //var rawString = "KLAX 071753Z 27006KT 2 1/2SM HZ OVC012 16/12 A3007 RMK AO2 SLP181 VIS SW-NW 1 3/4 T01560117 10156 20133 52006";
+            var rawString = "KLAX 071753Z 27006KT 2 1/2SM VCTS OVC012 16/12 A3007 RMK AO2 SLP181 VIS SW-NW 1 3/4 T01560117 10156 20133 52006";
             var metarParser = new MetarParser();
             var airportMetar = metarParser.Parse(rawString);
 
@@ -232,7 +233,9 @@ namespace MetarParserCoreTests
                     {
                         WeatherConditions = new WeatherCondition[]
                         {
-                            WeatherCondition.Haze
+                            //WeatherCondition.Haze
+                            WeatherCondition.Vicinity,
+                            WeatherCondition.Thunderstorm
                         }
                     }
                 },

@@ -17,7 +17,7 @@
 
         public static string RunwayVisualRange => @"^R[0-3]{1}\d{1}(L|C|R|LL|RR)?\/(M|P)?\d{4}(V\d{4})?(FT)?(\/(U|D|N)|(U|D|N))?$";
 
-        public static string PresentWeather => @"^(-|\+|VC)?(BC|BL|DR|FZ|MI|PR|SH|TS)?(DZ|GR|GS|IC|PL|RA|SG|SN|UP|BR|DU|FG|FU|HZ|PY|SA|VA|DS|FC|PO|SQ|SS){1,3}$";
+        public static string PresentWeather => @"^(-|\+|VC)?(BC|BL|DR|FZ|MI|PR|SH|TS)?(DZ|GR|GS|IC|PL|RA|SG|SN|UP|BR|DU|FG|FU|HZ|PY|SA|VA|DS|FC|PO|SQ|SS|TS){1,3}$";
 
         public static string CloudLayer => @"^((FEW|SCT|BKN|OVC|VV)\d{3}(CB|TCU)?|SKC|NSC|CLR|NCD)$";
 
