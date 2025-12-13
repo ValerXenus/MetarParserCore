@@ -16,7 +16,8 @@ namespace MetarParserCoreTests
             var tokens = new[]
             {
                 "A3012",
-                "Q1019"
+                "Q1019",
+                "Q////"
             };
 
             var errors = new List<string>();
@@ -24,7 +25,7 @@ namespace MetarParserCoreTests
                 .ToList();
 
             Assert.Equal(errors.Count, 0);
-            Assert.Equal(altimeterSettings.Count, 2);
+            Assert.Equal(altimeterSettings.Count, tokens.Length);
 
             #region Valid object
 
@@ -38,6 +39,11 @@ namespace MetarParserCoreTests
                 new AltimeterSetting
                 {
                     Value = 1019,
+                    UnitType = AltimeterUnitType.Hectopascal
+                },
+                new AltimeterSetting
+                {
+                    Value = 0,
                     UnitType = AltimeterUnitType.Hectopascal
                 }
             };

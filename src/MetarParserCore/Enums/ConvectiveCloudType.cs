@@ -17,5 +17,12 @@ namespace MetarParserCore.Enums
 
         [Description("TCU")]
         ToweringCumulus = 2,
+        
+        /// <summary>
+        /// METAR station was unable to determine.
+        /// Example: FEW020///
+        /// </summary>
+        [Description("///")]
+        Unknown = 3
     }
 }

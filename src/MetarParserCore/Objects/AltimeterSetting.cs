@@ -23,6 +23,12 @@ namespace MetarParserCore.Objects
         /// </summary>
         [DataMember(Name = "value", EmitDefaultValue = false)]
         public int Value { get; init; }
+        
+        /// <summary>
+        /// Is true when source metar has unknown pressure value.
+        /// Example: Q////
+        /// </summary>
+        public bool IsUnknown { get; set; }
 
         #region Constructors
 
@@ -42,7 +48,16 @@ namespace MetarParserCore.Objects
             var altimeterToken = tokens.First();
 
             UnitType = EnumTranslator.GetValueByDescription<AltimeterUnitType>(altimeterToken[..1]);
-            Value = int.Parse(altimeterToken[1..]);
+            
+            if (altimeterToken[1..].StartsWith("////"))
+            {
+                IsUnknown = true;
+            }
+            else
+            {
+                Value = int.Parse(altimeterToken[1..]);
+                IsUnknown = false;
+            }
         }
 
         #endregion

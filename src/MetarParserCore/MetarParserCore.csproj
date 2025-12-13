@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Valery Borisov</Authors>
     <Owners>Valery Borisov</Owners>
@@ -14,7 +14,7 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <Version>1.1.0</Version>
-    <PackageTags>METAR, Parser, METAR Parser, Aviation Weather, .NET 6.0, .NET Core</PackageTags>
+    <PackageTags>METAR, Parser, METAR Parser, Aviation Weather, .NET 9.0, .NET Core</PackageTags>
     <PackageReleaseNotes>METAR parser</PackageReleaseNotes>
     <IsPublishable>False</IsPublishable>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>

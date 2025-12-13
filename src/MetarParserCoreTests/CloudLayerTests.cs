@@ -21,6 +21,7 @@ namespace MetarParserCoreTests
                 "SCT025TCU",
                 "BKN100CB",
                 "OVC///",
+                "FEW020///",
                 "NSC"
             };
 
@@ -29,7 +30,7 @@ namespace MetarParserCoreTests
                 .ToList();
 
             Assert.Equal(errors.Count, 0);
-            Assert.Equal(cloudLayers.Count, 7);
+            Assert.Equal(cloudLayers.Count, tokens.Length);
 
             #region Valid object
 
@@ -66,6 +67,12 @@ namespace MetarParserCoreTests
                 {
                     CloudType = CloudType.Overcast,
                     IsCloudBelow = true
+                },
+                new CloudLayer
+                {
+                    CloudType = CloudType.Few,
+                    Altitude = 20,
+                    ConvectiveCloudType = ConvectiveCloudType.Unknown
                 },
                 new CloudLayer
                 {

@@ -1,4 +1,5 @@
-﻿using MetarParserCore;
+﻿using System;
+using MetarParserCore;
 using MetarParserCore.Enums;
 using MetarParserCore.Objects;
 using MetarParserCore.Objects.Supplements;
@@ -49,8 +50,8 @@ namespace MetarParserCoreTests
                         MaxVisibilityDirection = VisibilityDirection.SouthEast
                     }
                 },
-                RunwayVisualRanges = new RunwayVisualRange[]
-                {
+                RunwayVisualRanges =
+                [
                     new RunwayVisualRange
                     {
                         RunwayNumber = "29",
@@ -58,27 +59,27 @@ namespace MetarParserCoreTests
                         UnitType = RvrUnitType.Meters,
                         RvrTrend = RvrTrend.Downward
                     }
-                },
-                PresentWeather = new WeatherPhenomena[]
-                {
+                ],
+                PresentWeather =
+                [
                     new WeatherPhenomena
                     {
-                        WeatherConditions = new WeatherCondition[]
-                        {
+                        WeatherConditions =
+                        [
                             WeatherCondition.Shower,
                             WeatherCondition.Rain
-                        }
+                        ]
                     }
-                },
-                CloudLayers = new CloudLayer[]
-                {
-                    new CloudLayer()
+                ],
+                CloudLayers =
+                [
+                    new CloudLayer
                     {
                         CloudType = CloudType.Broken,
                         Altitude = 15,
                         ConvectiveCloudType = ConvectiveCloudType.Cumulonimbus
                     }
-                },
+                ],
                 Temperature = new TemperatureInfo
                 {
                     Value = 17,
@@ -94,8 +95,8 @@ namespace MetarParserCoreTests
                     Runway = "29",
                     Type = WindShearType.TakeOff
                 },
-                Motne = new Motne[]
-                {
+                Motne =
+                [
                     new Motne
                     {
                         RunwayNumber = "29",
@@ -105,9 +106,9 @@ namespace MetarParserCoreTests
                         Specials = MotneSpecials.Default,
                         TypeOfDeposit = MotneTypeOfDeposit.Wet
                     }
-                },
-                Trends = new Trend[]
-                {
+                ],
+                Trends =
+                [
                     new Trend
                     {
                         ReportType = ReportType.Trend,
@@ -137,20 +138,20 @@ namespace MetarParserCoreTests
                             Speed = 15,
                             WindUnit = WindUnit.MetersPerSecond
                         },
-                        PresentWeather = new WeatherPhenomena[]
-                        {
+                        PresentWeather =
+                        [
                             new WeatherPhenomena
                             {
-                                WeatherConditions = new WeatherCondition[]
-                                {
+                                WeatherConditions =
+                                [
                                     WeatherCondition.Light,
                                     WeatherCondition.Thunderstorm,
                                     WeatherCondition.Rain
-                                }
+                                ]
                             }
-                        },
-                        CloudLayers = new CloudLayer[]
-                        {
+                        ],
+                        CloudLayers =
+                        [
                             new CloudLayer
                             {
                                 CloudType = CloudType.Broken,
@@ -162,9 +163,9 @@ namespace MetarParserCoreTests
                                 CloudType = CloudType.Overcast,
                                 Altitude = 110
                             }
-                        }
+                        ]
                     }
-                },
+                ],
                 Remarks = "QFE740/0987"
             };
 
@@ -226,24 +227,24 @@ namespace MetarParserCoreTests
                         Denominator = 2
                     }
                 },
-                PresentWeather = new WeatherPhenomena[]
-                {
+                PresentWeather =
+                [
                     new WeatherPhenomena
                     {
-                        WeatherConditions = new WeatherCondition[]
-                        {
+                        WeatherConditions =
+                        [
                             WeatherCondition.Haze
-                        }
+                        ]
                     }
-                },
-                CloudLayers = new CloudLayer[]
-                {
-                    new CloudLayer()
+                ],
+                CloudLayers =
+                [
+                    new CloudLayer
                     {
                         CloudType = CloudType.Overcast,
                         Altitude = 12
                     }
-                },
+                ],
                 Temperature = new TemperatureInfo
                 {
                     Value = 16,
@@ -255,6 +256,84 @@ namespace MetarParserCoreTests
                     UnitType = AltimeterUnitType.InchesOfMercury
                 },
                 Remarks = "AO2 SLP181 VIS SW-NW 1 3/4 T01560117 10156 20133 52006"
+            };
+
+            #endregion
+
+            var parseResults = JsonConvert.SerializeObject(airportMetar);
+            var validResults = JsonConvert.SerializeObject(validMetar);
+            Assert.Equal(parseResults, validResults);
+        }
+        
+        [Fact]
+        public void ParseMetarExampleEhmg_Successful()
+        {
+            var rawString = "METAR EHMG 111425Z AUTO 20027KT 9999 FEW005/// SCT009/// BKN010/// 12/11 Q////=";
+            var metarParser = new MetarParser();
+            var airportMetar = metarParser.Parse(rawString);
+
+            Assert.Null(airportMetar.ParseErrors);
+
+            #region Valid object
+
+            var validMetar = new Metar
+            {
+                ReportType = ReportType.Metar,
+                Modifier = MetarModifier.Auto,
+                Airport = "EHMG",
+                ObservationDayTime = new ObservationDayTime
+                {
+                    Day = 11,
+                    Time = new Time
+                    {
+                        Hours = 14,
+                        Minutes = 25
+                    }
+                },
+                SurfaceWind = new SurfaceWind
+                {
+                    Direction = 200,
+                    Speed = 27,
+                    WindUnit = WindUnit.Knots
+                },
+                PrevailingVisibility = new PrevailingVisibility
+                {
+                    VisibilityInMeters = new VisibilityInMeters
+                    {
+                        VisibilityValue = 9999
+                    }
+                },
+                CloudLayers =
+                [
+                    new CloudLayer
+                    {
+                        CloudType = CloudType.Few,
+                        Altitude = 5,
+                        ConvectiveCloudType = ConvectiveCloudType.Unknown
+                    },
+                    new CloudLayer
+                    {
+                        CloudType = CloudType.Scattered,
+                        Altitude = 9,
+                        ConvectiveCloudType = ConvectiveCloudType.Unknown
+                    },
+                    new CloudLayer
+                    {
+                        CloudType = CloudType.Broken,
+                        Altitude = 10,
+                        ConvectiveCloudType = ConvectiveCloudType.Unknown
+                    }
+                ],
+                Temperature = new TemperatureInfo
+                {
+                    Value = 12,
+                    DewPoint =11
+                },
+                AltimeterSetting = new AltimeterSetting
+                {
+                    UnitType = AltimeterUnitType.Hectopascal,
+                    IsUnknown = true
+                }
             };
 
             #endregion
@@ -302,13 +381,13 @@ namespace MetarParserCoreTests
                         VisibilityValue = 9999
                     }
                 },
-                CloudLayers = new CloudLayer[]
-                {
-                    new CloudLayer()
+                CloudLayers =
+                [
+                    new CloudLayer
                     {
                         CloudType = CloudType.NoCloudDetected
                     }
-                },
+                ],
                 Temperature = new TemperatureInfo
                 {
                     Value = 9,
@@ -319,14 +398,14 @@ namespace MetarParserCoreTests
                     Value = 1022,
                     UnitType = AltimeterUnitType.Hectopascal
                 },
-                Trends = new Trend[]
-                {
+                Trends =
+                [
                     new Trend
                     {
                         ReportType = ReportType.Trend,
                         TrendType = TrendType.NoSignificantChanges
                     }
-                }
+                ]
             };
 
             #endregion
@@ -377,28 +456,28 @@ namespace MetarParserCoreTests
                         Denominator = 4
                     }
                 },
-                PresentWeather = new WeatherPhenomena[]
-                {
+                PresentWeather =
+                [
                     new WeatherPhenomena
                     {
-                        WeatherConditions = new WeatherCondition[]
-                        {
+                        WeatherConditions =
+                        [
                             WeatherCondition.Mist
-                        }
+                        ]
                     }
-                },
-                CloudLayers = new CloudLayer[]
-                {
-                    new CloudLayer()
+                ],
+                CloudLayers =
+                [
+                    new CloudLayer
                     {
                         CloudType = CloudType.VerticalVisibility,
                         Altitude = 7
                     }
-                },
-                Unrecognized = new []
-                {
+                ],
+                Unrecognized =
+                [
                     "ERROR"
-                }
+                ]
             };
 
             #endregion

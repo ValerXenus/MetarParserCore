@@ -110,7 +110,7 @@ namespace MetarParserCore.Objects
             if (token.StartsWith("///"))
             {
                 isCloudBelow = true;
-                return (0, token);
+                return (0, "");
             }
 
             if (!int.TryParse(token[..3], out var altitude))
