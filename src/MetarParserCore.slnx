@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="MetarParserCore/MetarParserCore.csproj" />
+  <Project Path="MetarParserCoreTests/MetarParserCoreTests.csproj" />
+</Solution>
